@@ -1,0 +1,54 @@
+library(ggplot2)
+library(plyr)
+library(maps)
+library(scales)
+library(xtable)
+
+unclean.2010 <- read.csv("http://streaming.stat.iastate.edu/dataexpo/2013/data/sotc10.csv", na.strings = c("NA", "<NA>", "(DK)", "(Refused)"))
+
+clean.all <- read.csv("sotc.csv")
+clean.dictionary.all <- read.csv("sotc_dictionary.csv")
+
+## Housing situation by Education level
+qplot(QD8, data = clean.all, fill = QD7, geom = "bar", position = "dodge") +
+    coord_flip() +
+    xlab("") +
+    ylab("") +
+    scale_x_discrete(labels = c("Other", "Own", "Rent", "NA")) +
+    guides(fill = guide_legend(nrow = 2)) +
+    theme(legend.position = "bottom")
+
+## Thriving - Struggling
+clean.all$THRIVEIND <- clean.all$THRIVING - clean.all$STRUGGLI
+
+clean.all.city <- ddply(clean.all, .(QSB), summarise, THRIVEIND = mean(THRIVEIND, na.rm = TRUE), TOTALRESP = length(GENDER))
+
+## Which communities are most thriving?
+clean.all.city[with(clean.all.city, order(-THRIVEIND)),]
+
+
+states.data <- map_data("state")
+
+lats <- c(33.080143, 41.593370, 42.331427, 27.498928, 25.788969, 32.840695, 46.786672, 38.040584, 30.396032, 35.227087, 26.705621, 40.793395, 44.953703, 39.952335, 37.688889, 33.768321, 41.079273, 34.000710, 41.081445, 47.925257, 37.339386, 45.464698, 40.014986, 33.689060, 30.438256, 32.460976)
+lons <- c(-83.232099, -87.346427, -83.045754, -82.574819, -80.226439, -83.632402, -92.100485, -84.503716, -88.885308, -80.843127, -80.03643, -77.860001, -93.089958, -75.163789, -97.336111, -118.195617, -85.139351, -81.034814, -81.519005, -97.032855, -121.894955, -98.486483, -105.270546, -78.886694, -84.280733, -84.987709)
+unclean.city$lats <- rev(lats)
+unclean.city$lons <- rev(lons) 
+
+qplot(long, lat, data = states.data, group = group, geom = "polygon", fill = I("white")) +
+    geom_path() +
+    geom_point(data = unclean.city, aes(lons, lats, colour = THRIVEIND, size = TOTALRESP), inherit.aes = FALSE) +
+    scale_size(range = c(3, 8)) +
+    geom_text(data = unclean.city, aes(lons, lats, label = QSB), inherit.aes = FALSE, size = 3, vjust = -0.8) +
+    scale_colour_gradient2(low = "red", high = "darkgreen", mid = "yellow", midpoint = median(unclean.city$THRIVEIND)) +
+    theme_bw() +
+    theme(aspect.ratio=1/1.5, legend.position = "bottom") +
+    theme(axis.ticks = element_blank(),
+          axis.line=element_blank(),
+          axis.text.x=element_blank(),
+          axis.text.y=element_blank(),
+          axis.ticks=element_blank(),
+          axis.title.x=element_blank(),
+          axis.title.y=element_blank(),
+          panel.border=element_blank(),
+          panel.grid.major=element_blank(),
+          panel.grid.minor=element_blank())
