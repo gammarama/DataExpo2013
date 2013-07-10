@@ -89,7 +89,7 @@ function do_stuff(el, data) {
     mx_button.filter(function(d,i) { return(i == 0); }).selectAll("input")
         .attr("checked","")
         
-    var selectedMetric = mx_button.filter(':checked').val();
+    var selectedMetric = mx_button.filter(':checked').input;
     
     var width = $(d3io).width(),
             height = width*0.520833,
