@@ -65,9 +65,7 @@ Shiny.inputBindings.register(inputBinding);
 function do_stuff(el, data) {
     
     var metric = [{"var_name":"THRIVEIND", "disp_name": "Thrive Index"},
-                  {"var_name":"AESTHETI", "disp_name": "Aesthetics"},
-                  {"var_name":"ECONOMY", "disp_name": "Economy"},
-                  {"var_name":"INVOLVEM", "disp_name": "Involvement"}]
+                  {"var_name":"TEST", "disp_name": "Test Metric"}]
     
     $('<div id="buttons"></div>').insertBefore('.checkbox');
     $('<br /><br />').insertBefore('.checkbox');
@@ -88,8 +86,6 @@ function do_stuff(el, data) {
     
     mx_button.filter(function(d,i) { return(i == 0); }).selectAll("input")
         .attr("checked","")
-        
-    var selectedMetric = mx_button.filter(':checked').input;
     
     var width = $(d3io).width(),
             height = width*0.520833,
@@ -138,7 +134,7 @@ function do_stuff(el, data) {
             .range([4,16])
             
         scale_color = d3.scale.linear()
-            .domain(d3.extent(root, function(d){return d.$selectedMetric}))
+            .domain(d3.extent(root, function(d){return d.THRIVEIND}))
             .range(['red', 'green']);
         
         var comms = g.selectAll('circle')
@@ -149,7 +145,7 @@ function do_stuff(el, data) {
                 return "translate(" + projection([d.lons, d.lats]) + ")"; 
             })
             .attr('r', function(d){ return(scale_resp(d.TOTALRESP)); })
-            .style('fill', function(d){ return(scale_color(d.$selectedMetric)); })
+            .style('fill', function(d){ return(scale_color(d.THRIVEIND)); })
             .on("click", clicked)
             .append("title")
                 .text(function(d){ return(d.QSB); });
