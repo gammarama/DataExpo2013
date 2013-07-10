@@ -88,6 +88,8 @@ function do_stuff(el, data) {
     
     mx_button.filter(function(d,i) { return(i == 0); }).selectAll("input")
         .attr("checked","")
+        
+    var selectedMetric = mx_button.filter(':checked').val();
     
     var width = $(d3io).width(),
             height = width*0.520833,
@@ -136,7 +138,7 @@ function do_stuff(el, data) {
             .range([4,16])
             
         scale_color = d3.scale.linear()
-            .domain(d3.extent(root, function(d){return d.THRIVEIND}))
+            .domain(d3.extent(root, function(d){return d.$selectedMetric}))
             .range(['red', 'green']);
         
         var comms = g.selectAll('circle')
@@ -147,7 +149,7 @@ function do_stuff(el, data) {
                 return "translate(" + projection([d.lons, d.lats]) + ")"; 
             })
             .attr('r', function(d){ return(scale_resp(d.TOTALRESP)); })
-            .style('fill', function(d){ return(scale_color(d.THRIVEIND)); })
+            .style('fill', function(d){ return(scale_color(d.$selectedMetric)); })
             .on("click", clicked)
             .append("title")
                 .text(function(d){ return(d.QSB); });
