@@ -65,7 +65,9 @@ Shiny.inputBindings.register(inputBinding);
 function do_stuff(el, data) {
     
     var metric = [{"var_name":"THRIVEIND", "disp_name": "Thrive Index"},
-                  {"var_name":"TEST", "disp_name": "Test Metric"}]
+                  {"var_name":"AESTHETI", "disp_name": "Aesthetics"},
+                  {"var_name":"ECONOMY", "disp_name": "Economy"},
+                  {"var_name":"INVOLVEM", "disp_name": "Involvement"}]
     
     $('<div id="buttons"></div>').insertBefore('.checkbox');
     $('<br /><br />').insertBefore('.checkbox');
