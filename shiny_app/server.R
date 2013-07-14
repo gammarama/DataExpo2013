@@ -63,8 +63,8 @@ generatePlot3 <- function(data, city, metric) {
         theme(axis.text.x = element_text(angle=90))
 }
 
-generatePlot4 <- function(data, city, metric) {
-    sorted.data <- data
+generatePlot4 <- function(full.data, city, metric) {
+    sorted.data <- full.data
     QSB.strs <- as.character(sorted.data$QSB)
     sorted.data$sortedQSB <- factor(sorted.data$QSB, levels = QSB.strs)
     
@@ -75,6 +75,25 @@ generatePlot4 <- function(data, city, metric) {
         geom_boxplot(data = subset(sorted.data, sameUrbanicity), aes(fill = isCity)) +
         scale_fill_manual(values = c(I("darkred"), I("gold"))) +
         coord_flip()
+}
+
+generatePlot5 <- function(data, full.data, city, metric) {
+    metricMax <- sapply(metrics, getMax, data = full.data)    
+    
+    scaledInd <- sapply(metrics, function(x){data[,x] / metricMax[names(metricMax) == x]})
+    new.data <- data.frame(data$QSB, scaledInd)
+    
+    data.interest <- subset(new.data, data.QSB == city)
+    data.interest <- data.interest[-1]
+    data.interest <- sort(data.interest, decreasing = TRUE)
+
+    
+    x <- factor(names(data.interest), levels = names(data.interest))
+    y <- as.numeric(data.interest)
+    z <- x == metric
+        
+    qplot(x = x, y = y, geom = "bar", stat = "identity", fill = x) +
+        theme(legend.position = "off")
 }
 
 generateTable <- function(data, city, metric) {
@@ -97,6 +116,8 @@ addResourcePath('css', '~/ShinyApps/DataExpo2013/css')
 clean.all <- read.csv("data/sotc.csv")
 
 metrics <- c("PASSION", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "COMMUNIT", "INVOLVEM", "OPENNESS", "SOCIAL_C")
+
+getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
 
 shinyServer(function(input, output) {
     data <- function() {
