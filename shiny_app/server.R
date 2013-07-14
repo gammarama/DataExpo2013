@@ -21,7 +21,7 @@ generatePlot <- function(data, city, metric) {
     x <- factor(c(city, as.character(getUrbanity(data, city)), "All Cities"), levels = c(city, as.character(getUrbanity(data, city)), "All Cities"))
     y <- c(city_avg, urban_avg, overall_avg)
     
-    qplot(x, y, geom = "bar", stat = "identity", alpha = c(I(1), I(0.4), I(0.2)), fill = c(I("darkred"), I("darkred"), I("darkred"))) +
+    qplot(x, y, geom = "bar", stat = "identity", alpha = c(I(1), I(0.8), I(0.2)), fill = c(I("gold"), I("darkred"), I("black"))) +
         xlab("Community/Region") +
         ylab(metric)
 }
@@ -47,6 +47,34 @@ generatePlot2 <- function(data, city, metric) {
         coord_flip() +
         xlab("Community") +
         ylab(metric)    
+}
+
+generatePlot3 <- function(data, city, metric) {
+    sorted.data <- data[order(-data[,metric]), ]
+    QSB.strs <- as.character(sorted.data$QSB)
+    sorted.data$sortedQSB <- factor(sorted.data$QSB, levels = QSB.strs)
+    
+    sorted.data$isCity <- sorted.data$QSB == city
+    sorted.data$sameUrbanicity <- (sorted.data$URBAN_GR == getUrbanity(data, city))
+    
+    ggplot(data = subset(sorted.data, sameUrbanicity), aes_string(x = "sortedQSB", y = metric)) +
+        geom_bar(data = subset(sorted.data, sameUrbanicity), stat = "identity", aes(fill = isCity)) +
+        scale_fill_manual(values = c(I("darkred"), I("gold"))) +
+        theme(axis.text.x = element_text(angle=90))
+}
+
+generatePlot4 <- function(data, city, metric) {
+    sorted.data <- data
+    QSB.strs <- as.character(sorted.data$QSB)
+    sorted.data$sortedQSB <- factor(sorted.data$QSB, levels = QSB.strs)
+    
+    sorted.data$isCity <- sorted.data$QSB == city
+    sorted.data$sameUrbanicity <- (sorted.data$URBAN_GR == getUrbanity(data, city))
+    
+    ggplot(data = subset(sorted.data, sameUrbanicity), aes_string(x = "sortedQSB", y = metric)) +
+        geom_boxplot(data = subset(sorted.data, sameUrbanicity), aes(fill = isCity)) +
+        scale_fill_manual(values = c(I("darkred"), I("gold"))) +
+        coord_flip()
 }
 
 generateTable <- function(data, city, metric) {
