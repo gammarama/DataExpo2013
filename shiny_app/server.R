@@ -26,6 +26,29 @@ generatePlot <- function(data, city, metric) {
         ylab(metric)
 }
 
+generatePlot2 <- function(data, city, metric) {
+    require(ggplot2)
+    
+    sorted.data <- data[order(data[,metric]), ]
+    QSB.strs <- as.character(sorted.data$QSB)
+    sorted.data$sameUrbanicity <- (sorted.data$URBAN_GR == getUrbanity(data, city))
+    sorted.data$sortedQSB <- factor(sorted.data$QSB, levels = QSB.strs)
+    sorted.data$urbanFac <- "Other"
+    sorted.data$urbanFac[sorted.data$sameUrbanicity] <- "Same"
+    sorted.data$urbanFac[sorted.data$QSB == city] <- "City"
+    sorted.data$urbanFac <- factor(sorted.data$urbanFac, levels = c("Other", "Same", "City"))
+    sorted.data$isCity <- sorted.data$QSB == city
+    
+    ggplot(data = sorted.data, aes_string(x = "sortedQSB", y = metric)) +
+        geom_point(data = sorted.data, aes(size = sameUrbanicity, alpha = urbanFac, colour = isCity)) +
+        scale_colour_manual(values = c(I("darkred"), I("gold"))) +
+        scale_size_discrete(range = c(3, 5)) +
+        scale_alpha_discrete(range = c(0.2, 1)) +
+        coord_flip() +
+        xlab("Community") +
+        ylab(metric)    
+}
+
 generateTable <- function(data, city, metric) {
     city_avg <- subset(clean.all.city, QSB == city)[,metric]
     urban_avg <- mean(subset(clean.all.city, URBAN_GR == getUrbanity(data, city))[,metric])
