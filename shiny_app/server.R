@@ -81,19 +81,28 @@ generatePlot5 <- function(data, full.data, city, metric) {
     metricMax <- sapply(metrics, getMax, data = full.data)    
     
     scaledInd <- sapply(metrics, function(x){data[,x] / metricMax[names(metricMax) == x]})
-    new.data <- data.frame(data$QSB, scaledInd)
+    new.data <- data.frame(data$QSB, data$URBAN_GR, scaledInd)
     
     data.interest <- subset(new.data, data.QSB == city)
-    data.interest <- data.interest[-1]
+    data.interest <- data.interest[-c(1, 2)]
     data.interest <- sort(data.interest, decreasing = TRUE)
 
+    data.urbanicity <- subset(new.data, data.URBAN_GR == getUrbanity(data, city))
+    data.all <- colMeans(data.urbanicity[-c(1, 2)])
     
     x <- factor(names(data.interest), levels = names(data.interest))
     y <- as.numeric(data.interest)
     z <- x == metric
+    
+    data.all.sorted <-data.frame(Value = data.all, Var = names(data.all))
+    data.all.sorted <- data.all.sorted[match(data.all.sorted$Var, x), ]
+    yy <- as.numeric(data.all)
+    zz <- xx == metric
         
-    qplot(x = x, y = y, geom = "bar", stat = "identity", fill = x) +
-        theme(legend.position = "off")
+    qplot(x = x, y = y, label = x, geom = "text", colour = z) +
+        theme(legend.position = "off") +
+        scale_colour_manual(values = c(I("darkred"), I("gold"))) +
+        geom_text(data = data.all.sorted, alpha = I(0.3), aes(x = xx, y = yy, label = xx, colour = zz))
 }
 
 generateTable <- function(data, city, metric) {
