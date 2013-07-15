@@ -21,7 +21,7 @@ generatePlot <- function(data, city, metric) {
     x <- factor(c(city, as.character(getUrbanity(data, city)), "All Cities"), levels = c(city, as.character(getUrbanity(data, city)), "All Cities"))
     y <- c(city_avg, urban_avg, overall_avg)
     
-    qplot(x, y, geom = "bar", stat = "identity", alpha = c(I(1), I(0.8), I(0.2)), fill = c(I("gold"), I("darkred"), I("black"))) +
+    qplot(x, y, geom = "bar", stat = "identity", alpha = c(I(1), I(0.8), I(0.2)), fill = c(I("gold"), I("darkred"), I("darkred"))) +
         xlab("Community/Region") +
         ylab(metric)
 }
@@ -102,7 +102,9 @@ generatePlot5 <- function(data, full.data, city, metric) {
     qplot(x = x, y = y, label = x, geom = "text", colour = z) +
         theme(legend.position = "off") +
         scale_colour_manual(values = c(I("darkred"), I("gold"))) +
-        geom_text(data = data.all.sorted, alpha = I(0.3), aes(x = xx, y = yy, label = xx, colour = zz))
+        geom_text(data = data.all.sorted, alpha = I(0.3), aes(x = xx, y = yy, label = xx, colour = zz)) +
+        xlab("") +
+        ylab("Value")
 }
 
 generateTable <- function(data, city, metric) {
