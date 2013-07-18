@@ -25,7 +25,6 @@ shinyUI(pageWithSidebar(
     ),
     
     mainPanel(
-    #    includeHTML("scripts/graph.js"),
         dynMap(inputoutputId = 'd3io')
     )
 ))

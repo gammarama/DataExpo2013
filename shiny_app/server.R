@@ -148,8 +148,18 @@ shinyServer(function(input, output) {
         
         clean.all.city$lats <- rev(lats)
         clean.all.city$lons <- rev(lons)
+        clean.2008.city$lats <- rev(lats)
+        clean.2008.city$lons <- rev(lons)
+        clean.2009.city$lats <- rev(lats)
+        clean.2009.city$lons <- rev(lons)
+        clean.2010.city$lats <- rev(lats)
+        clean.2010.city$lons <- rev(lons)
         
-        return(list(data_json = toJSON(unname(split(clean.all.city, 1:nrow(clean.all.city))))))
+        
+        return(list(data_json = toJSON(unname(split(clean.all.city, 1:nrow(clean.all.city)))), 
+                    data_json_2008 = toJSON(unname(split(clean.2008.city, 1:nrow(clean.2008.city)))),
+                    data_json_2009 = toJSON(unname(split(clean.2009.city, 1:nrow(clean.2009.city)))),
+                    data_json_2010 = toJSON(unname(split(clean.2010.city, 1:nrow(clean.2010.city))))))
     }
     
     output$d3io <- reactive({ data() })
