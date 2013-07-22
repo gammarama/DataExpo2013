@@ -1,31 +1,3 @@
-<style type="text/css"> 
-
-.background {
-  fill: none;
-  pointer-events: all;
-}
-
-#states {
-  fill: #aaa;
-}
-
-#states .active {
-  fill: orange;
-}
-
-#state-borders {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1.5px;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  pointer-events: none;
-}
-
-circle {
-    cursor:pointer    
-}
-</style>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -64,7 +36,8 @@ Shiny.inputBindings.register(inputBinding);
 
 function do_stuff(el, data) {
     //controls
-    var metric = [{"var_name":"PASSION", "disp_name": "Passion"},
+    var metric = [{"var_name":"CCE", "disp_name": "Community Attachment"},
+                  {"var_name":"PASSION", "disp_name": "Passion"},
                   {"var_name":"LEADERSH", "disp_name": "Leadership"},
                   {"var_name":"AESTHETI", "disp_name": "Aesthetics"},
                   {"var_name":"ECONOMY", "disp_name": "Economy"},
@@ -97,20 +70,19 @@ function do_stuff(el, data) {
     
     
     //slider 
-    $('.jslider-pointer').mouseleave(function(){setTimeout(function() { slide_year(); }, 1000);});
-    $('#aggregate').mouseup(function(){slide_year();});
+    $('.jslider-pointer').mouseleave(function(){ setTimeout(function() { update_map(); update_graphs();}, 1000); });
+    $('#aggregate').mouseup(function(){ setTimeout(function(){ update_map(); update_graphs();}, 1000); });
     
     //map
     var width = $(d3io).width(),
             height = width*0.520833,
-            root, root_2008, root_2009, root_2010,
-            title_qsb,
-            graphs_qsb,
-            scale_resp,
-            scale_color,
-            year_select,
-            comms,
-            g,
+            root, root_2008, root_2009, root_2010, subset,
+            title_qsb, graphs_qsb,
+            scale_resp, scale_color,
+            year_select, circ_selected,
+            comms, comms_select,
+            g, g_1, g_2, g_3,
+            svg_1, svg_2, svg_3,
             metric_select = metric[0].var_name,
             year_select = 2008;   
         
@@ -151,56 +123,46 @@ function do_stuff(el, data) {
             root_2008 = JSON.parse(data.data_json_2008);
             root_2009 = JSON.parse(data.data_json_2009);
             root_2010 = JSON.parse(data.data_json_2010);
-            
-            scale_resp = d3.scale.linear()
-                .domain(d3.extent(root, function(d){return d.TOTALRESP}))
-                .range([4,16])
-           
-            scale_color = d3.scale.linear()
-                    .domain(d3.extent(root, function(d){return d[metric_select]}))
-                    .range(['red', 'green']);
-            
-            comms = g.selectAll('circle')
-                .data(root)
-            
-            comms.enter()
-                .append('circle')
-                .attr("transform", function(d) { 
-                    return "translate(" + projection([d.lons, d.lats]) + ")"; 
-                })
-                .attr('r', function(d){ return(scale_resp(d.TOTALRESP)); })
-                .style('fill', function(d){ return(scale_color(d[metric_select])); })
-                .on("click", clicked)
-                .append("title")
-                .text(function(d){ return(d.QSB); });                
-        }
-    
-        title_qsb = d3.select('.span4').append('div')
-            .attr("width", $('.span4').width())
-            .attr("height", 30)
-            .attr("class", "title_qsb")
-        
-        graphs_qsb = d3.select('.container-fluid').append('div')
-            .attr("width", width)
-            .attr("height", width/3)
-            .attr("class", "graphs_qsb")
-          
-    
+                         
+            update_map();             
+        }       
     });
+    
+    //add spots for extra graphs
+    title_qsb = d3.select('.span4').append('div')
+        .attr("width", $('.span4').width())
+        .attr("height", 30)
+        .attr("class", "title_qsb");
+    
+    graphs_qsb = d3.select('.container-fluid').append('div')
+        .attr("width", $('.container-fluid').width())
+        .attr("height", $('.container-fluid').width()/3)
+        .attr("class", "graphs_qsb");
+      
+    svg_1 = graphs_qsb.append("svg")
+        .attr("width", $('.container-fluid').width()/3)
+        .attr("height", $('.container-fluid').width()/3);
+    
+    g_1 = svg_1.append("g");
+    
+    svg_2 = graphs_qsb.append("svg")
+        .attr("width", $('.container-fluid').width()/3)
+        .attr("height", $('.container-fluid').width()/3);
+    
+    g_2 = svg_2.append("g");
+    
+    svg_3 = graphs_qsb.append("svg")
+        .attr("width", $('.container-fluid').width()/3)
+        .attr("height", $('.container-fluid').width()/3);
 
     
     function click_metric(d) {
-        metric_select = d.var_name;
-        
-        scale_color = d3.scale.linear()
-                    .domain(d3.extent(root, function(e){return e[metric_select]}))
-                    .range(['red', 'green']);
-        
-        comms.transition().duration(750)
-            .style('fill', function(e){ return(scale_color(e[metric_select])); });
+        metric_select = d.var_name;            
+        update_map();
+        update_graphs();
     }
     
-    function slide_year() {
+    function update_map() {
         if(root) {
             if($('#aggregate').is(':checked')) {
                 subset = root;
@@ -217,8 +179,11 @@ function do_stuff(el, data) {
                         .domain(d3.extent(subset, function(e){return e[metric_select]}))
                         .range(['red', 'green']);
             
-            comms.data(subset).enter()
+            comms = g.selectAll('circle.community').data(subset);   
+            
+            comms.enter()
                 .append('circle')
+                .attr("class", "community")
                 .attr("transform", function(d) { 
                     return "translate(" + projection([d.lons, d.lats]) + ")"; 
                 })
@@ -231,18 +196,20 @@ function do_stuff(el, data) {
                 .style('fill', function(e){ return(scale_color(e[metric_select])); })
                 .attr('r', function(e){ return(scale_resp(e.TOTALRESP)); });
             
+			comms.exit().remove(); 
             
-            comms_select.transition().duration(750) 
-                .attr('r', function(e){ return(scale_resp(e.TOTALRESP)); });
-                
-            comms.exit().remove();
-                
-                
+            circ_selected = d3.selectAll("circle.selected").data()[0];
+            if(circ_selected) {
+                comms_select.transition().duration(750) 
+                  .attr('r', scale_resp(circ_selected.TOTALRESP));
+            }
         }        
-    }
+    }    
     
-    
-    function clicked(d) {        
+    function clicked(d) {         
+        comms.classed("selected", false);
+        comms.classed("selected", function(e) {return e.QSB == d.QSB; });
+        
         title_qsb.selectAll("h2").remove();
         title_qsb.append("h2").text(d.QSB);
 
@@ -261,6 +228,136 @@ function do_stuff(el, data) {
             .duration(750)
             .attr("r", scale_resp(d.TOTALRESP))
             .style("stroke-opacity", 1);
+            
+        circ_selected = d3.selectAll("circle.selected").data()[0];
+        update_graphs();        
+    }
+    
+    function update_graphs() {
+        if(circ_selected) {
+            
+            //graph 1
+            var margin_1 = {top: 20, right: 20, bottom: 130, left: 40},
+            g_width_1 =  $('.container-fluid').width()/3 - margin_1.left - margin_1.right,
+            g_height_1 = $('.container-fluid').width()/3 - margin_1.top - margin_1.bottom;
+            
+            var x_1 = d3.scale.ordinal()
+                .rangeRoundBands([0, g_width_1], .1, .5);
+            
+            var y_1 = d3.scale.linear()
+                .range([g_height_1, 0]);
+            
+            var xAxis_1 = d3.svg.axis()
+                .scale(x_1)
+                .orient("bottom");
+            
+            var yAxis_1 = d3.svg.axis()
+                .scale(y_1)
+                .orient("left");
+                
+            var dataset_1 = [{ "x": circ_selected.QSB, "y": subset.filter(function(e){return e.QSB == circ_selected.QSB})[0][metric_select]},       
+                { "x": circ_selected.URBAN_GR, "y": d3.mean(subset.filter(function(e){return e.URBAN_GR == circ_selected.URBAN_GR}), function(k) {return k[metric_select]})},
+                { "x": "All Cities", "y": d3.mean(subset, function(k) {return k[metric_select]})}]
+                
+            g_1.attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");          
+            x_1.domain(dataset_1.map(function(d) { return d.x; }));
+            y_1.domain([0, d3.max(dataset_1, function(d) { return d.y; })]);           
+            
+            g_1.selectAll(".axis").remove();
+            
+            g_1.append("g")
+              .attr("class", "x axis g1")
+              .attr("transform", "translate(0," + g_height_1 + ")")
+              .call(xAxis_1);
+              
+            g_1.selectAll(".x.axis").selectAll("text")
+                .style("text-anchor", "start")
+                .attr("transform", function(d) {
+                    return "rotate(45)" 
+                });
+      
+            g_1.append("g")
+              .attr("class", "y axis")
+              .call(yAxis_1)
+            .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text(metric.filter(function(e) {return e.var_name == metric_select;})[0].disp_name);
+            
+            var bar = g_1.selectAll(".bar")
+              .data(dataset_1);
+              
+            bar.enter().append("rect")
+              .attr("class", "bar");
+              
+            bar.transition().duration(750)
+                .attr("x", function(d) { return x_1(d.x); })
+                .attr("width", x_1.rangeBand())
+                .attr("y", function(d) { return y_1(d.y); })              
+                .attr("height", function(d) { return g_height_1 - y_1(d.y); });
+            
+    		bar.exit().remove(); 
+    		
+    		
+    		//graph 2
+            var margin_2 = {top: 20, right: 20, bottom: 40, left: 100},
+            g_width_2 =  $('.container-fluid').width()/3 - margin_2.left - margin_2.right,
+            g_height_2 = $('.container-fluid').width()/3 - margin_2.top - margin_2.bottom;
+            
+            var x_2 = d3.scale.linear()
+				.range([0, g_width_2]);
+            
+            var y_2 = d3.scale.ordinal()
+                .rangeRoundBands([g_height_2, 0], .1);
+            
+            var xAxis_2 = d3.svg.axis()
+                .scale(x_2)
+                .orient("bottom");
+            
+            var yAxis_2 = d3.svg.axis()
+                .scale(y_2)
+                .orient("left");
+                
+            var dataset_2 = subset.slice(0)
+            dataset_2.sort(function(a, b){return a[metric_select] - b[metric_select]; });
+                
+            g_2.attr("transform", "translate(" + margin_2.left + "," + margin_2.top + ")");          
+            x_2.domain([d3.min(dataset_2, function(d){return d[metric_select];}) - .5, d3.max(dataset_2, function(d){return d[metric_select];}) + .5]);
+            y_2.domain(dataset_2.map(function(d) { return d.QSB; }));           
+            
+            g_2.selectAll(".axis").remove();
+            
+            g_2.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + g_height_2 + ")")
+              .call(xAxis_2)
+            .append("text")
+                .attr("transform", "translate(" + (g_width_2 / 2) + " , " + 2*margin_2.bottom/3 + ")")
+                .style("text-anchor", "middle")
+                .text(metric.filter(function(e) {return e.var_name == metric_select;})[0].disp_name);
+            
+            g_2.append("g")
+              .attr("class", "y axis")
+              .call(yAxis_2);            
+            
+            var dot = g_2.selectAll("circle.dot")
+              .data(dataset_2);
+              
+            dot.enter().append("circle")
+              .attr("class", "dot")
+              .attr("r", 2)
+              .attr("fill", "grey");
+              
+            dot.transition().duration(750)
+                .attr("cx", function(d) { return x_2(d[metric_select]); })
+                .attr("cy", function(d) { return y_2(d.QSB) + 5; });
+            
+    		dot.exit().remove();
+        }
+        
+        
         
     }
     

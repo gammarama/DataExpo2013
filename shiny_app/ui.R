@@ -14,6 +14,8 @@ shinyUI(pageWithSidebar(
     
     sidebarPanel(
         includeHTML("scripts/graph.js"),
+        includeHTML("css/map_style.css"),
+        includeHTML("css/graphs_style.css"),
         includeHTML("css/button_style.css"),
         checkboxInput("aggregate", "Aggregate all years", TRUE),
         conditionalPanel(

@@ -1,0 +1,20 @@
+<style type="text/css"> 
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+        shape-rendering: crispEdges;
+}
+
+.axis {
+    font-size: 10px !important;    
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.x.axis.g1 path {
+    display: none;
+}
+</style>

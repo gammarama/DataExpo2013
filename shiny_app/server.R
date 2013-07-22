@@ -126,7 +126,7 @@ addResourcePath('css', '~/ShinyApps/DataExpo2013/css')
 
 clean.all <- read.csv("data/sotc.csv")
 
-metrics <- c("PASSION", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "COMMUNIT", "INVOLVEM", "OPENNESS", "SOCIAL_C")
+metrics <- c("CCE", "PASSION", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "COMMUNIT", "INVOLVEM", "OPENNESS", "SOCIAL_C")
 
 getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
 
