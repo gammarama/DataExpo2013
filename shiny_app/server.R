@@ -14,9 +14,9 @@ getUrbanity <- function(data, city) {
 generatePlot <- function(data, city, metric) {
     require(ggplot2)
     
-    city_avg <- subset(clean.all.city, QSB == city)[,metric]
-    urban_avg <- mean(subset(clean.all.city, URBAN_GR == getUrbanity(data, city))[,metric])
-    overall_avg <- mean(clean.all.city[,metric])
+    city_avg <- subset(data, QSB == city)[,metric]
+    urban_avg <- mean(subset(data, URBAN_GR == getUrbanity(data, city))[,metric])
+    overall_avg <- mean(data[,metric])
     
     x <- factor(c(city, as.character(getUrbanity(data, city)), "All Cities"), levels = c(city, as.character(getUrbanity(data, city)), "All Cities"))
     y <- c(city_avg, urban_avg, overall_avg)
@@ -108,9 +108,9 @@ generatePlot5 <- function(data, full.data, city, metric) {
 }
 
 generateTable <- function(data, city, metric) {
-    city_avg <- subset(clean.all.city, QSB == city)[,metric]
-    urban_avg <- mean(subset(clean.all.city, URBAN_GR == getUrbanity(data, city))[,metric])
-    overall_avg <- mean(clean.all.city[,metric])
+    city_avg <- subset(data, QSB == city)[,metric]
+    urban_avg <- mean(subset(data, URBAN_GR == getUrbanity(data, city))[,metric])
+    overall_avg <- mean(data[,metric])
     
     x <- factor(c(city, as.character(getUrbanity(data, city)), "All Cities"), levels = c(city, as.character(getUrbanity(data, city)), "All Cities"))
     y <- c(city_avg, urban_avg, overall_avg)
@@ -121,14 +121,47 @@ generateTable <- function(data, city, metric) {
     return(df)
 }
 
-addResourcePath('data', '~/ShinyApps/DataExpo2013/data')
-addResourcePath('css', '~/ShinyApps/DataExpo2013/css')
+getCityCor <- function(full.data, city, metric) {
+    city_avg <- subset(full.data, QSB == city)[,c(metric, "CCE")]
+    cor1 <- cor(city_avg, use = "complete.obs")[1,2]
+    
+    return(cor1)
+}
+
+getUrbanCor <- function(full.data, urbanicity, metric) {
+    urban_avg <- subset(full.data, URBAN_GR == urbanicity)[,c(metric, "CCE")]
+    cor2 <- cor(urban_avg, use = "complete.obs")[1,2]
+                            
+    return(cor2)
+}
+
+getOverallCor <- function(full.data, metric) {
+    return(cor(full.data[,c(metric, "CCE")], use = "complete.obs")[1,2])
+}
+
+getCorMat <- function(full.data, year) {
+    test <- data.frame(Year = year, City = clean.all.city[,1], sapply(metrics[-1], function(met){sapply(clean.all.city[,1], function(cty){getCityCor(clean.all, cty, met)})}))
+    test2 <- data.frame(Year = year, City = unique(clean.all$URBAN_GR), sapply(metrics[-1], function(met){sapply(unique(clean.all$URBAN_GR), function(urb){getUrbanCor(clean.all, urb, met)})}))
+    test3 <- data.frame(Year = year, City = "All Cities", t(sapply(metrics[-1], function(met){getOverallCor(clean.all, met)})))
+    
+    rbind(test, test2, test3)
+}
 
 clean.all <- read.csv("data/sotc.csv")
 
 metrics <- c("CCE", "PASSION", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "COMMUNIT", "INVOLVEM", "OPENNESS", "SOCIAL_C")
 
 getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
+
+cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
+cor.2009 <- getCorMat(subset(clean.all, source == "sotc09"), "2009")
+cor.2010 <- getCorMat(subset(clean.all, source == "sotc10"), "2010")
+cor.agg <- getCorMat(clean.all, "Aggregate")
+
+cor.all <- rbind(cor.2008, cor.2009, cor.2010, cor.agg)
+
+addResourcePath('data', '~/ShinyApps/DataExpo2013/data')
+addResourcePath('css', '~/ShinyApps/DataExpo2013/css')
 
 shinyServer(function(input, output) {
     data <- function() {
