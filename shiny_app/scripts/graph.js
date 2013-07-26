@@ -71,12 +71,12 @@ function do_stuff(el, data) {
     
     //slider 
     $('.jslider-pointer').mouseleave(function(){ setTimeout(function() { update_map(); update_graphs();}, 1000); });
-    $('#aggregate').mouseup(function(){ setTimeout(function(){ update_map(); update_graphs();}, 1000); });
+    $('#aggregate').mouseup(function(){ setTimeout(function(){update_map(); update_graphs(); }, 1000); });
     
     //map
     var width = $(d3io).width(),
             height = width*0.520833,
-            root, root_2008, root_2009, root_2010, subset,
+            root, root_2008, root_2009, root_2010, subset, corr_dat,
             title_qsb, graphs_qsb,
             scale_resp, scale_color,
             year_select, circ_selected,
@@ -123,8 +123,9 @@ function do_stuff(el, data) {
             root_2008 = JSON.parse(data.data_json_2008);
             root_2009 = JSON.parse(data.data_json_2009);
             root_2010 = JSON.parse(data.data_json_2010);
+            corr_dat = JSON.parse(data.data_json_corr);
                          
-            update_map();             
+            update_map();
         }       
     });
     
@@ -136,25 +137,26 @@ function do_stuff(el, data) {
     
     graphs_qsb = d3.select('.container-fluid').append('div')
         .attr("width", $('.container-fluid').width())
-        .attr("height", $('.container-fluid').width()/3)
+        .attr("height", $('.container-fluid').width()/3 + 60)
         .attr("class", "graphs_qsb");
       
     svg_1 = graphs_qsb.append("svg")
         .attr("width", $('.container-fluid').width()/3)
-        .attr("height", $('.container-fluid').width()/3);
+        .attr("height", $('.container-fluid').width()/3 + 60);
     
     g_1 = svg_1.append("g");
     
     svg_2 = graphs_qsb.append("svg")
         .attr("width", $('.container-fluid').width()/3)
-        .attr("height", $('.container-fluid').width()/3);
+        .attr("height", $('.container-fluid').width()/3 + 60);
     
     g_2 = svg_2.append("g");
     
     svg_3 = graphs_qsb.append("svg")
         .attr("width", $('.container-fluid').width()/3)
-        .attr("height", $('.container-fluid').width()/3);
-
+        .attr("height", $('.container-fluid').width()/3 + 60);
+    
+    g_3 = svg_3.append("g");
     
     function click_metric(d) {
         metric_select = d.var_name;            
@@ -197,7 +199,6 @@ function do_stuff(el, data) {
                 .attr('r', function(e){ return(scale_resp(e.TOTALRESP)); });
             
 			comms.exit().remove(); 
-            
             circ_selected = d3.selectAll("circle.selected").data()[0];
             if(circ_selected) {
                 comms_select.transition().duration(750) 
@@ -230,7 +231,8 @@ function do_stuff(el, data) {
             .style("stroke-opacity", 1);
             
         circ_selected = d3.selectAll("circle.selected").data()[0];
-        update_graphs();        
+        update_graphs(); 
+        update_table();
     }
     
     function update_graphs() {
@@ -239,7 +241,7 @@ function do_stuff(el, data) {
             //graph 1
             var margin_1 = {top: 20, right: 20, bottom: 130, left: 40},
             g_width_1 =  $('.container-fluid').width()/3 - margin_1.left - margin_1.right,
-            g_height_1 = $('.container-fluid').width()/3 - margin_1.top - margin_1.bottom;
+            g_height_1 = $('.container-fluid').width()/3 + 60 - margin_1.top - margin_1.bottom;
             
             var x_1 = d3.scale.ordinal()
                 .rangeRoundBands([0, g_width_1], .1, .5);
@@ -257,6 +259,7 @@ function do_stuff(el, data) {
                 
             var dataset_1 = [{ "x": circ_selected.QSB, "y": subset.filter(function(e){return e.QSB == circ_selected.QSB})[0][metric_select]},       
                 { "x": circ_selected.URBAN_GR, "y": d3.mean(subset.filter(function(e){return e.URBAN_GR == circ_selected.URBAN_GR}), function(k) {return k[metric_select]})},
+                { "x": circ_selected.Region, "y": d3.mean(subset.filter(function(e){return e.Region == circ_selected.Region}), function(k) {return k[metric_select]})},
                 { "x": "All Cities", "y": d3.mean(subset, function(k) {return k[metric_select]})}]
                 
             g_1.attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");          
@@ -302,15 +305,15 @@ function do_stuff(el, data) {
     		
     		
     		//graph 2
-            var margin_2 = {top: 20, right: 20, bottom: 40, left: 100},
+            var margin_2 = {top: 20, right: 20, bottom: 130, left: 100},
             g_width_2 =  $('.container-fluid').width()/3 - margin_2.left - margin_2.right,
-            g_height_2 = $('.container-fluid').width()/3 - margin_2.top - margin_2.bottom;
+            g_height_2 = $('.container-fluid').width()/3 + 60 - margin_2.top - margin_2.bottom;
             
             var x_2 = d3.scale.linear()
 				.range([0, g_width_2]);
             
             var y_2 = d3.scale.ordinal()
-                .rangeRoundBands([g_height_2, 0], .1);
+                .rangePoints([g_height_2, 0], .5);
             
             var xAxis_2 = d3.svg.axis()
                 .scale(x_2)
@@ -352,13 +355,136 @@ function do_stuff(el, data) {
               
             dot.transition().duration(750)
                 .attr("cx", function(d) { return x_2(d[metric_select]); })
-                .attr("cy", function(d) { return y_2(d.QSB) + 5; });
+                .attr("cy", function(d) { return y_2(d.QSB); });
             
     		dot.exit().remove();
+            
+            
+            //graph 3
+            var margin_3 = {top: 20, right: 20, bottom: 130, left: 40},
+            g_width_3 =  $('.container-fluid').width()/3 - margin_3.left - margin_3.right,
+            g_height_3 = $('.container-fluid').width()/3 + 60 - margin_3.top - margin_3.bottom;
+            
+            var x_3 = d3.scale.ordinal()
+    			.rangePoints([0, g_width_3], 1);
+            
+            var y_3 = d3.scale.linear()
+                .range([g_height_3, 0]);
+            
+            var xAxis_3 = d3.svg.axis()
+                .scale(x_3)
+                .orient("bottom");
+            
+            var yAxis_3 = d3.svg.axis()
+                .scale(y_3)
+                .orient("left");
+
+            var year_val = $('#aggregate').is(':checked') ? "Aggregate" : year_select;
+            var dataset_3 = corr_dat.filter(function(e) {return (e.Year == year_val) && (e.City == circ_selected.QSB); });
+            
+            //update with interactivity from bar chart click.
+            var loc_var = "City";
+            
+            var dataset_3_array = [];
+            metric.forEach(function(d){
+                if (d.var_name != "CCE") {
+                    dataset_3_array.push({"x": d.disp_name, "y": dataset_3[0][d.var_name]});
+                }
+            });
+            
+            g_3.attr("transform", "translate(" + margin_3.left + "," + margin_3.top + ")");          
+            
+            
+            x_3.domain(dataset_3_array.map(function(d){ return d.x; }));
+            y_3.domain([-1, 1]);
+
+            g_3.selectAll(".axis").remove();
+            
+            g_3.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + g_height_3 + ")")
+              .call(xAxis_3)
+            .append("text")
+                .attr("transform", "translate(" + (g_width_3 / 2) + " , " + 2*margin_3.bottom/3 + ")")
+                .style("text-anchor", "middle")
+                .text(dataset_3[0][loc_var] + " - " + year_val);
+            
+            g_3.selectAll(".tick.major").selectAll("text")
+                .style("text-anchor", "start")
+                .attr("transform", function(d) {
+                    return "rotate(45)" 
+                });
+            
+            g_3.append("g")
+              .attr("class", "y axis")
+              .call(yAxis_3)
+             .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Correlation to Community Attachment");
+
+            
+            var dot_3 = g_3.selectAll("circle.dot")
+              .data(dataset_3_array);
+            
+            var color_scale = d3.scale.category10();
+            
+            dot_3.enter().append("circle")
+              .attr("class", "dot")
+              .attr("r", 6)
+              .attr("fill", function(d,i){ return color_scale(i); })
+              .append("title")
+                .text(function(d){ return(d.x); }); 
+              
+            dot_3.transition().duration(750)
+                .attr("cx", function(d) { return x_3(d.x); })
+                .attr("cy", function(d) { return y_3(d.y); });
+            
+    		dot_3.exit().remove();
+
+            
         }
-        
-        
-        
+    }
+    
+    function update_table() {
+        if(circ_selected) {
+            
+            
+            title_qsb.selectAll("table").remove();
+            var table = title_qsb.append("table"),
+                thead = table.append("thead"),
+                tbody = table.append("tbody");
+            
+            var columns = ["Region", "Urbanicity", "Incorporated", "Population", "Unemployment"];
+            
+            var dataset = root.filter(function(e){ return e.QSB == circ_selected.QSB; })
+            var dataset_array = [];
+            
+            columns.forEach(function(d){
+                    dataset_array.push({"x": d, "y": dataset[0][d]});
+            }); 
+            var cols = ["x", "y"];
+            
+            // create a row for each object in the data
+            var rows = tbody.selectAll("tr")
+                .data(dataset_array)
+                .enter()
+                .append("tr");
+    
+            // create a cell in each row for each column
+            var cells = rows.selectAll("td")
+                .data(function(row) {
+                    return cols.map(function(column) {
+                        return {column: column, value: row[column]};
+                    });
+                })
+                .enter()
+                .append("td")
+                    .text(function(d) { return d.value; })
+                    .attr("class", function(d) { return d.column; });
+        }
     }
     
 }

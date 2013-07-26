@@ -5,7 +5,6 @@ dynMap <- function(inputoutputId)
     div(id = inputoutputId, class="d3map")
 }
 
-
 # Define UI for application that plots random distributions 
 shinyUI(pageWithSidebar(
     
@@ -17,6 +16,7 @@ shinyUI(pageWithSidebar(
         includeHTML("css/map_style.css"),
         includeHTML("css/graphs_style.css"),
         includeHTML("css/button_style.css"),
+        includeHTML("css/table_style.css"),
         checkboxInput("aggregate", "Aggregate all years", TRUE),
         conditionalPanel(
             condition = "input.aggregate == false",

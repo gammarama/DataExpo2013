@@ -148,17 +148,19 @@ getCorMat <- function(full.data, year) {
 }
 
 clean.all <- read.csv("data/sotc.csv")
+corr.dat <- read.csv("data/CEcor.csv")
+comm.facts <- read.csv("data/CommunityFacts.csv")
 
 metrics <- c("CCE", "PASSION", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "COMMUNIT", "INVOLVEM", "OPENNESS", "SOCIAL_C")
 
 getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
 
-cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
-cor.2009 <- getCorMat(subset(clean.all, source == "sotc09"), "2009")
-cor.2010 <- getCorMat(subset(clean.all, source == "sotc10"), "2010")
-cor.agg <- getCorMat(clean.all, "Aggregate")
+#cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
+#cor.2009 <- getCorMat(subset(clean.all, source == "sotc09"), "2009")
+#cor.2010 <- getCorMat(subset(clean.all, source == "sotc10"), "2010")
+#cor.agg <- getCorMat(clean.all, "Aggregate")
 
-cor.all <- rbind(cor.2008, cor.2009, cor.2010, cor.agg)
+#cor.all <- rbind(cor.2008, cor.2009, cor.2010, cor.agg)
 
 addResourcePath('data', '~/ShinyApps/DataExpo2013/data')
 addResourcePath('css', '~/ShinyApps/DataExpo2013/css')
@@ -188,11 +190,18 @@ shinyServer(function(input, output) {
         clean.2010.city$lats <- rev(lats)
         clean.2010.city$lons <- rev(lons)
         
+
+        clean.all.city.merge <- merge(clean.all.city, comm.facts, by.x = "QSB", by.y = "Community")
+        clean.2008.city.merge <- merge(clean.2008.city, comm.facts, by.x = "QSB", by.y = "Community")
+        clean.2009.city.merge <- merge(clean.2009.city, comm.facts, by.x = "QSB", by.y = "Community")
+        clean.2010.city.merge <- merge(clean.2010.city, comm.facts, by.x = "QSB", by.y = "Community")
+
         
-        return(list(data_json = toJSON(unname(split(clean.all.city, 1:nrow(clean.all.city)))), 
-                    data_json_2008 = toJSON(unname(split(clean.2008.city, 1:nrow(clean.2008.city)))),
-                    data_json_2009 = toJSON(unname(split(clean.2009.city, 1:nrow(clean.2009.city)))),
-                    data_json_2010 = toJSON(unname(split(clean.2010.city, 1:nrow(clean.2010.city))))))
+        return(list(data_json = toJSON(unname(split(clean.all.city.merge, 1:nrow(clean.all.city)))), 
+                    data_json_2008 = toJSON(unname(split(clean.2008.city.merge, 1:nrow(clean.2008.city)))),
+                    data_json_2009 = toJSON(unname(split(clean.2009.city.merge, 1:nrow(clean.2009.city)))),
+                    data_json_2010 = toJSON(unname(split(clean.2010.city.merge, 1:nrow(clean.2010.city)))),
+                    data_json_corr = toJSON(unname(split(corr.dat, 1:nrow(corr.dat))))))
     }
     
     output$d3io <- reactive({ data() })
