@@ -140,9 +140,9 @@ getOverallCor <- function(full.data, metric) {
 }
 
 getCorMat <- function(full.data, year) {
-    test <- data.frame(Year = year, City = clean.all.city[,1], sapply(metrics[-1], function(met){sapply(clean.all.city[,1], function(cty){getCityCor(clean.all, cty, met)})}))
-    test2 <- data.frame(Year = year, City = unique(clean.all$URBAN_GR), sapply(metrics[-1], function(met){sapply(unique(clean.all$URBAN_GR), function(urb){getUrbanCor(clean.all, urb, met)})}))
-    test3 <- data.frame(Year = year, City = "All Cities", t(sapply(metrics[-1], function(met){getOverallCor(clean.all, met)})))
+    test <- data.frame(Year = year, City = clean.all.city[,1], sapply(metrics[-1], function(met){sapply(clean.all.city[,1], function(cty){getCityCor(full.data, cty, met)})}))
+    test2 <- data.frame(Year = year, City = unique(clean.all$URBAN_GR), sapply(metrics[-1], function(met){sapply(unique(clean.all$URBAN_GR), function(urb){getUrbanCor(full.data, urb, met)})}))
+    test3 <- data.frame(Year = year, City = "All Cities", t(sapply(metrics[-1], function(met){getOverallCor(full.data, met)})))
     
     rbind(test, test2, test3)
 }
@@ -155,12 +155,12 @@ metrics <- c("CCE", "PASSION", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "C
 
 getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
 
-#cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
-#cor.2009 <- getCorMat(subset(clean.all, source == "sotc09"), "2009")
-#cor.2010 <- getCorMat(subset(clean.all, source == "sotc10"), "2010")
-#cor.agg <- getCorMat(clean.all, "Aggregate")
-
-#cor.all <- rbind(cor.2008, cor.2009, cor.2010, cor.agg)
+# cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
+# cor.2009 <- getCorMat(subset(clean.all, source == "sotc09"), "2009")
+# cor.2010 <- getCorMat(subset(clean.all, source == "sotc10"), "2010")
+# cor.agg <- getCorMat(clean.all, "Aggregate")
+# 
+# cor.all <- rbind(cor.2008, cor.2009, cor.2010, cor.agg)
 
 addResourcePath('data', '~/ShinyApps/DataExpo2013/data')
 addResourcePath('css', '~/ShinyApps/DataExpo2013/css')
