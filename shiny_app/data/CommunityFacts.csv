@@ -1,5 +1,5 @@
 Community,Region,Urbanicity,Incorporated, Population ,Unemployment
-"Aberdeen, SD",Upper Midwest,Medium/low urbanicity-low population,1882," 26,297 ",3.6%
+"Aberdeen, SD",Great Plains,Medium/low urbanicity-low population,1882," 26,297 ",3.6%
 "Akron, OH",Rust Belt,Very high urbanicity-medium population,1825," 198,402 ",7.1%
 "Biloxi, MS",Deep South,Medium/low urbanicity-low population,1838," 44,940 ",9%
 "Boulder, CO",West,Very high urbanicity-medium population,1871," 98,889 ",4.9%
@@ -8,10 +8,10 @@ Community,Region,Urbanicity,Incorporated, Population ,Unemployment
 "Columbia, SC",Southeast,High urbanicity-medium population,1805," 130,591 ",7.7%
 "Columbus, GA",Deep South,High urbanicity-medium population,1828," 194,107 ",8.4%
 "Detroit, MI",Rust Belt,Very high urbanicity-very large population,1701," 706,585 ",16%
-"Duluth, MN",Upper Midwest,Medium/low urbanicity-low population,1857," 86,277 ",6%
+"Duluth, MN",Great Plains,Medium/low urbanicity-low population,1857," 86,277 ",6%
 "Fort Wayne, IN",Rust Belt,Medium/low urbanicity-low population,1840," 255,824 ",8.1%
 "Gary, IN",Rust Belt,Very high urbanicity-medium population,1906," 80,221 ",14.1%
-"Grand Forks, ND",Upper Midwest,Medium/low urbanicity-low population,1881," 52,631 ",3.5%
+"Grand Forks, ND",Great Plains,Medium/low urbanicity-low population,1881," 52,631 ",3.5%
 "Lexington, KY",Rust Belt,High urbanicity-medium population,1775," 301,569 ",5.9%
 "Long Beach, CA",West,Very high urbanicity-medium population,1897," 465,576 ",10.2%
 "Macon, GA",Deep South,Medium/low urbanicity-low population,1806," 91,856 ",9.9%
@@ -21,7 +21,7 @@ Community,Region,Urbanicity,Incorporated, Population ,Unemployment
 "Palm Beach, FL",Southeast,Very high urbanicity-large population,1894," 101,043 ",6.4%
 "Philadelphia, PA",Rust Belt,Very high urbanicity-very large population,1701," 1,526,006 ",9.6%
 "San Jose, CA",West,Very high urbanicity-large population,1850," 967,487 ",7.2%
-"St. Paul, MN",Upper Midwest,Very high urbanicity-large population,1854," 288,448 ",5.2%
+"St. Paul, MN",Great Plains,Very high urbanicity-large population,1854," 288,448 ",5.2%
 "State College, PA",Rust Belt,Medium/low urbanicity-low population,1896," 42,499 ",6.3%
 "Tallahassee, FL",Deep South,High urbanicity-medium population,1821," 182,965 ",5.7%
-"Wichita, KS",West,High urbanicity-medium population,1870," 384,445 ",6.6%
+"Wichita, KS",Great Plains,High urbanicity-medium population,1870," 384,445 ",6.6%
