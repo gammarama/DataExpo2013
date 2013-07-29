@@ -36,45 +36,25 @@ Shiny.inputBindings.register(inputBinding);
 
 function do_stuff(el, data) {
     //controls
-    var metric = [{"var_name":"CCE", "disp_name": "Community Attachment"},
-                  {"var_name":"PASSION", "disp_name": "Passion"},
-                  {"var_name":"LEADERSH", "disp_name": "Leadership"},
-                  {"var_name":"AESTHETI", "disp_name": "Aesthetics"},
-                  {"var_name":"ECONOMY", "disp_name": "Economy"},
-                  {"var_name":"SOCIAL_O", "disp_name": "Social Offerings"},
-                  {"var_name":"COMMUNIT", "disp_name": "Community"},
-                  {"var_name":"INVOLVEM", "disp_name": "Involvement"},
-                  {"var_name":"OPENNESS", "disp_name": "Openness"},
-                  {"var_name":"SOCIAL_C", "disp_name": "Social Capital"}]
-    
-    $('<div id="buttons"></div>').insertBefore('#d3io');
-    
-    var mx_button = d3.select('#buttons').selectAll('div')
-        .data(metric).enter()
-        .append("div")
-        .attr("class", "mx-button")
-        
-    mx_button.append("input")
-            .attr("type", "radio")
-            .attr("name", "mx")
-            .attr("id", function(d, i) { return "button" + i; })
-            .on("click", function(d) { click_metric(d); });
-
-    mx_button.append("label")
-            .attr("for", function(d, i){ return "button" + i; })
-            .text(function(d){ return d.disp_name; })
-            .attr("unselectable", "");
-    
-    mx_button.filter(function(d,i) { return(i == 0); }).selectAll("input")
-        .attr("checked","");
+    var metric = [{"var_name":"CCE", "disp_name": "Community Attachment", "max": 5},
+                  {"var_name":"SAFETY", "disp_name": "Safety", "max": 3},
+                  {"var_name":"EDUCATIO", "disp_name": "Education", "max": 3},
+                  {"var_name":"LEADERSH", "disp_name": "Leadership", "max": 3},
+                  {"var_name":"AESTHETI", "disp_name": "Aesthetics", "max": 3},
+                  {"var_name":"ECONOMY", "disp_name": "Economy", "max": 3},
+                  {"var_name":"SOCIAL_O", "disp_name": "Social Offerings", "max": 3},
+                  {"var_name":"SOCIAL_C", "disp_name": "Social Capital", "max": 3},
+                  {"var_name":"BASIC_SE", "disp_name": "Basic Services", "max": 3},
+                  {"var_name":"INVOLVEM", "disp_name": "Civic Involvement", "max": 3},
+                  {"var_name":"OPENNESS", "disp_name": "Openness", "max": 3}];
     
     
     //slider 
     $('.jslider-pointer').mouseleave(function(){ setTimeout(function() { update_map(); update_graphs();}, 1000); });
-    $('#aggregate').mouseup(function(){ setTimeout(function(){update_map(); update_graphs(); }, 1000); });
+    $('#aggregate').mouseup(function(){ setTimeout(function() { update_map(); update_graphs();}, 1000); });
     
-    //map
-    var width = $(d3io).width(),
+    //map    
+    var width = $('#d3io').width() - 180,
             height = width*0.520833,
             root, root_2008, root_2009, root_2010, subset, corr_dat,
             title_qsb, graphs_qsb,
@@ -84,7 +64,9 @@ function do_stuff(el, data) {
             g, g_1, g_2, g_3,
             svg_1, svg_2, svg_3,
             metric_select = metric[0].var_name,
-            year_select = 2008;   
+            year_select = 2008,
+            level_select = {"level": "city", "index": 0, "value": "Aberdeen, SD"},
+            color_scale, first = true;   
         
     var projection = d3.geo.albersUsa()
         .scale(1.07858243*width)
@@ -96,7 +78,8 @@ function do_stuff(el, data) {
     var svg = d3.select(el).append("svg")
         .attr("tabindex", 1)
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .attr("class", "map");
     
     svg.append("rect")
         .attr("class", "background")
@@ -126,13 +109,36 @@ function do_stuff(el, data) {
             corr_dat = JSON.parse(data.data_json_corr);
                          
             update_map();
+            update_graphs();
+            update_table();
         }       
     });
     
-    //add spots for extra graphs
-    title_qsb = d3.select('.span4').append('div')
-        .attr("width", $('.span4').width())
-        .attr("height", 30)
+    //buttons
+    $('<div id="buttons"></div>').insertAfter('svg.map');    
+    
+    var mx_button = d3.select('#buttons').selectAll('div')
+        .data(metric).enter()
+        .append("div")
+        .attr("class", "mx-button")
+        
+    mx_button.append("input")
+            .attr("type", "radio")
+            .attr("name", "mx")
+            .attr("id", function(d, i) { return "button" + i; })
+            .on("click", function(d) { click_metric(d); });
+
+    mx_button.append("label")
+            .attr("for", function(d, i){ return "button" + i; })
+            .text(function(d){ return d.disp_name; })
+            .attr("unselectable", "");
+    
+    mx_button.filter(function(d,i) { return(i == 0); }).selectAll("input")
+        .attr("checked","");
+     
+    
+    title_qsb = d3.select('.container-fluid').append('div')
+        .attr("width", $('.container-fluid').width())
         .attr("class", "title_qsb");
     
     graphs_qsb = d3.select('.container-fluid').append('div')
@@ -193,16 +199,33 @@ function do_stuff(el, data) {
                 .append("title")
                 .text(function(d){ return(d.QSB); }); 
             
+            if(first) {
+                comms.classed("selected", function(e, i) {return i == 0; });
+            
+                circ_selected = d3.selectAll("circle.selected").data()[0];
+                        
+                comms_select = g.append("circle")
+                .attr("class", "select")
+                .attr("transform", "translate(" + projection([circ_selected.lons, circ_selected.lats]) + ")")
+                .attr("r", scale_resp(circ_selected.TOTALRESP)*4)
+                .style("fill", "none")
+                .style("stroke", "black")
+                .style("stroke-opacity", 1e-6)
+                .style("stroke-width", 3)
+            }            
+            first = false;
             
             comms.transition().duration(750)
                 .style('fill', function(e){ return(scale_color(e[metric_select])); })
                 .attr('r', function(e){ return(scale_resp(e.TOTALRESP)); });
             
 			comms.exit().remove(); 
+            
             circ_selected = d3.selectAll("circle.selected").data()[0];
             if(circ_selected) {
                 comms_select.transition().duration(750) 
-                  .attr('r', scale_resp(circ_selected.TOTALRESP));
+                  .attr('r', scale_resp(circ_selected.TOTALRESP))
+                  .style("stroke-opacity", 1);
             }
         }        
     }    
@@ -211,8 +234,7 @@ function do_stuff(el, data) {
         comms.classed("selected", false);
         comms.classed("selected", function(e) {return e.QSB == d.QSB; });
         
-        title_qsb.selectAll("h2").remove();
-        title_qsb.append("h2").text(d.QSB);
+        update_table();
 
         g.selectAll("circle.select").remove();
         
@@ -230,13 +252,17 @@ function do_stuff(el, data) {
             .attr("r", scale_resp(d.TOTALRESP))
             .style("stroke-opacity", 1);
             
-        circ_selected = d3.selectAll("circle.selected").data()[0];
+        circ_selected = d3.selectAll("circle.selected").data()[0];                
+        level_select = {"level": "city", "index": 0, "value": circ_selected.QSB };        
+        
         update_graphs(); 
         update_table();
     }
     
     function update_graphs() {
         if(circ_selected) {
+            
+            color_scale = d3.scale.category10();
             
             //graph 1
             var margin_1 = {top: 20, right: 20, bottom: 130, left: 40},
@@ -257,14 +283,14 @@ function do_stuff(el, data) {
                 .scale(y_1)
                 .orient("left");
                 
-            var dataset_1 = [{ "x": circ_selected.QSB, "y": subset.filter(function(e){return e.QSB == circ_selected.QSB})[0][metric_select]},       
-                { "x": circ_selected.URBAN_GR, "y": d3.mean(subset.filter(function(e){return e.URBAN_GR == circ_selected.URBAN_GR}), function(k) {return k[metric_select]})},
-                { "x": circ_selected.Region, "y": d3.mean(subset.filter(function(e){return e.Region == circ_selected.Region}), function(k) {return k[metric_select]})},
-                { "x": "All Cities", "y": d3.mean(subset, function(k) {return k[metric_select]})}]
+            var dataset_1 = [{ "x": circ_selected.QSB, "y": subset.filter(function(e){return e.QSB == circ_selected.QSB})[0][metric_select], "level": "city"},       
+                { "x": circ_selected.URBAN_GR, "y": d3.mean(subset.filter(function(e){return e.URBAN_GR == circ_selected.URBAN_GR}), function(k) {return k[metric_select]}), "level": "urbanicity"},
+                { "x": circ_selected.Region, "y": d3.mean(subset.filter(function(e){return e.Region == circ_selected.Region}), function(k) {return k[metric_select]}), "level": "region"},
+                { "x": "All Cities", "y": d3.mean(subset, function(k) {return k[metric_select]}), "level": "all"}]
                 
             g_1.attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");          
             x_1.domain(dataset_1.map(function(d) { return d.x; }));
-            y_1.domain([0, d3.max(dataset_1, function(d) { return d.y; })]);           
+            y_1.domain([0, metric.filter(function(e) {return e.var_name == metric_select;})[0].max]);           
             
             g_1.selectAll(".axis").remove();
             
@@ -293,13 +319,16 @@ function do_stuff(el, data) {
               .data(dataset_1);
               
             bar.enter().append("rect")
-              .attr("class", "bar");
+              .attr("class", "bar")
+              .attr("fill", function(d,i){ return color_scale(i); })
+              .on("click", click_bar);
               
             bar.transition().duration(750)
                 .attr("x", function(d) { return x_1(d.x); })
                 .attr("width", x_1.rangeBand())
                 .attr("y", function(d) { return y_1(d.y); })              
-                .attr("height", function(d) { return g_height_1 - y_1(d.y); });
+                .attr("height", function(d) { return g_height_1 - y_1(d.y); })
+                .attr("opacity", function(d,i) {return i == level_select.index ? 1 : .5; });
             
     		bar.exit().remove(); 
     		
@@ -313,7 +342,7 @@ function do_stuff(el, data) {
 				.range([0, g_width_2]);
             
             var y_2 = d3.scale.ordinal()
-                .rangePoints([g_height_2, 0], .5);
+                .rangePoints([g_height_2, 0], 1);
             
             var xAxis_2 = d3.svg.axis()
                 .scale(x_2)
@@ -347,18 +376,23 @@ function do_stuff(el, data) {
             
             var dot = g_2.selectAll("circle.dot")
               .data(dataset_2);
-              
+            
             dot.enter().append("circle")
               .attr("class", "dot")
-              .attr("r", 2)
-              .attr("fill", "grey");
-              
+              .on("click", clicked);
+                
             dot.transition().duration(750)
+                .attr("r", size_dots )
+                .attr("fill", color_dots )
                 .attr("cx", function(d) { return x_2(d[metric_select]); })
                 .attr("cy", function(d) { return y_2(d.QSB); });
             
     		dot.exit().remove();
             
+            dot.selectAll("title").remove();
+            
+            dot.append("title")
+                .text(function(d){ return(d.QSB); });
             
             //graph 3
             var margin_3 = {top: 20, right: 20, bottom: 130, left: 40},
@@ -366,7 +400,7 @@ function do_stuff(el, data) {
             g_height_3 = $('.container-fluid').width()/3 + 60 - margin_3.top - margin_3.bottom;
             
             var x_3 = d3.scale.ordinal()
-    			.rangePoints([0, g_width_3], 1);
+    			.rangePoints([0, g_width_3], 2);
             
             var y_3 = d3.scale.linear()
                 .range([g_height_3, 0]);
@@ -380,15 +414,12 @@ function do_stuff(el, data) {
                 .orient("left");
 
             var year_val = $('#aggregate').is(':checked') ? "Aggregate" : year_select;
-            var dataset_3 = corr_dat.filter(function(e) {return (e.Year == year_val) && (e.City == circ_selected.QSB); });
-            
-            //update with interactivity from bar chart click.
-            var loc_var = "City";
+            var dataset_3 = corr_dat.filter(function(e) {return (e.Year == year_val) && (e.City == level_select.value); });            
             
             var dataset_3_array = [];
             metric.forEach(function(d){
                 if (d.var_name != "CCE") {
-                    dataset_3_array.push({"x": d.disp_name, "y": dataset_3[0][d.var_name]});
+                    dataset_3_array.push({"x": d.disp_name, "y": dataset_3[0][d.var_name], "var_name": d.var_name});
                 }
             });
             
@@ -407,7 +438,7 @@ function do_stuff(el, data) {
             .append("text")
                 .attr("transform", "translate(" + (g_width_3 / 2) + " , " + 2*margin_3.bottom/3 + ")")
                 .style("text-anchor", "middle")
-                .text(dataset_3[0][loc_var] + " - " + year_val);
+                .text(dataset_3[0]["City"] + " - " + year_val);
             
             g_3.selectAll(".tick.major").selectAll("text")
                 .style("text-anchor", "start")
@@ -429,16 +460,15 @@ function do_stuff(el, data) {
             var dot_3 = g_3.selectAll("circle.dot")
               .data(dataset_3_array);
             
-            var color_scale = d3.scale.category10();
-            
             dot_3.enter().append("circle")
               .attr("class", "dot")
-              .attr("r", 6)
               .attr("fill", function(d,i){ return color_scale(i); })
+              .on("click", click_dot_3)
               .append("title")
                 .text(function(d){ return(d.x); }); 
               
-            dot_3.transition().duration(750)
+            dot_3.transition().duration(750)                
+                .attr("r", function(d) { return d.var_name == metric_select ? 8 : 5; })
                 .attr("cx", function(d) { return x_3(d.x); })
                 .attr("cy", function(d) { return y_3(d.y); });
             
@@ -448,48 +478,94 @@ function do_stuff(el, data) {
         }
     }
     
-    function update_table() {
-        if(circ_selected) {
-            
-            
-            title_qsb.selectAll("table").remove();
-            var table = title_qsb.append("table"),
-                thead = table.append("thead"),
-                tbody = table.append("tbody");
-            
-            var columns = ["Region", "Urbanicity", "Incorporated", "Population", "Unemployment"];
-            
-            var dataset = root.filter(function(e){ return e.QSB == circ_selected.QSB; })
-            var dataset_array = [];
-            
-            columns.forEach(function(d){
-                    dataset_array.push({"x": d, "y": dataset[0][d]});
-            }); 
-            var cols = ["x", "y"];
-            
-            // create a row for each object in the data
-            var rows = tbody.selectAll("tr")
-                .data(dataset_array)
-                .enter()
-                .append("tr");
-    
-            // create a cell in each row for each column
-            var cells = rows.selectAll("td")
-                .data(function(row) {
-                    return cols.map(function(column) {
-                        return {column: column, value: row[column]};
-                    });
-                })
-                .enter()
-                .append("td")
-                    .text(function(d) { return d.value; })
-                    .attr("class", function(d) { return d.column; });
-        }
+    function click_bar(d, i) {
+        level_select = {"level": d.level,"index": i, "value": d.x };  
+        update_graphs();
     }
     
+    function click_dot_3(d) {
+        mx_button.filter(function(e) { return(d.var_name == e.var_name); }).selectAll("input")
+            .attr("checked","");
+        click_metric(d);
+    }
+    
+    function color_dots(d) {
+        var color;
+ 
+        if(level_select.level == "city") {
+            if(d.QSB == circ_selected.QSB) {
+                color = "#1f77b4";
+            } else {
+                color = "grey";
+            }            
+        } else if(level_select.level == "urbanicity") {
+            if(d.QSB == circ_selected.QSB) {
+                color = "#1f77b4";
+            } else if(d.URBAN_GR == level_select.value) {
+                color = "#ff7f0e";
+            } else {
+                color = "grey";
+            }            
+        } else if(level_select.level == "region") {
+            if(d.QSB == circ_selected.QSB) {
+                color = "#1f77b4";
+            } else if(d.Region == level_select.value) {
+                color = "#2ca02c";
+            } else {
+                color = "grey";
+            }            
+        } else {
+            if(d.QSB == circ_selected.QSB) {
+                color = "#1f77b4";
+            } else {
+                color = "#d62728";
+            }            
+        }  
+        return color;    
+    }
+     
+    function size_dots(d) {
+        var size;
+ 
+        if(level_select.level == "city") {
+            if(d.QSB == circ_selected.QSB) {
+                size = 4;
+            } else {
+                size = 2;
+            }            
+        } else if(level_select.level == "urbanicity") {
+            if(d.QSB == circ_selected.QSB || d.URBAN_GR == level_select.value) {
+                size = 4;
+            } else {
+                size = 2;
+            }            
+        } else if(level_select.level == "region") {
+            if(d.QSB == circ_selected.QSB || d.Region == level_select.value) {
+                size = 4;
+            } else {
+                size = 2;
+            }            
+        } else {
+            size = 4;
+        }  
+        return size;    
+    }     
+    
+    function update_table() {
+        if(circ_selected) {
+            title_qsb.selectAll(".infocontainer").remove();
+            
+            var container = title_qsb.append("div").attr("class", "infocontainer");
+            var dataset = root.filter(function(e){ return e.QSB == circ_selected.QSB; })
+            
+            container.append("span").html("<span style='font-weight:bold; font-size:24px; margin-right: 5px'>" + dataset[0].QSB + "</span>" +
+                                          "<strong> Urbanicity: </strong>" + dataset[0].Urbanicity + " | " +
+                                          "<strong> Region: </strong>" + dataset[0].Region + " | " +
+                                          "<strong> Incorporated: </strong>" + dataset[0].Incorporated + " | " +
+                                          "<strong> Population: </strong>" + dataset[0].Population + " | " +
+                                          "<strong> Unemployment: </strong>" + dataset[0].Unemployment)            
+            
+        }
+    }   
 }
-
-
-
-
 </script>

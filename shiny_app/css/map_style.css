@@ -1,4 +1,7 @@
 <style type="text/css"> 
+svg.map {
+    float: left;    
+}
 
 .background {
   fill: none;

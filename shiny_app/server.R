@@ -151,8 +151,7 @@ clean.all <- read.csv("data/sotc.csv")
 corr.dat <- read.csv("data/CEcor.csv")
 comm.facts <- read.csv("data/CommunityFacts.csv")
 
-metrics <- c("CCE", "PASSION", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "COMMUNIT", "INVOLVEM", "OPENNESS", "SOCIAL_C")
-
+metrics <- c("CCE", "SAFETY", "EDUCATIO", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "SOCIAL_C", "BASIC_SE", "INVOLVEM", "OPENNESS")
 getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
 
 # cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
