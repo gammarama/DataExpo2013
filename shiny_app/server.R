@@ -135,6 +135,13 @@ getUrbanCor <- function(full.data, urbanicity, metric) {
     return(cor2)
 }
 
+getRegionCor <- function(full.data, region, metric) {
+    region_avg <- subset(full.data, Region == region)[,c(metric, "CCE")]
+    cor3 <- cor(region_avg, use = "complete.obs")[1,2]
+    
+    return(cor3)
+}
+
 getOverallCor <- function(full.data, metric) {
     return(cor(full.data[,c(metric, "CCE")], use = "complete.obs")[1,2])
 }
@@ -142,9 +149,10 @@ getOverallCor <- function(full.data, metric) {
 getCorMat <- function(full.data, year) {
     test <- data.frame(Year = year, City = clean.all.city[,1], sapply(metrics[-1], function(met){sapply(clean.all.city[,1], function(cty){getCityCor(full.data, cty, met)})}))
     test2 <- data.frame(Year = year, City = unique(clean.all$URBAN_GR), sapply(metrics[-1], function(met){sapply(unique(clean.all$URBAN_GR), function(urb){getUrbanCor(full.data, urb, met)})}))
-    test3 <- data.frame(Year = year, City = "All Cities", t(sapply(metrics[-1], function(met){getOverallCor(full.data, met)})))
+    test3 <- data.frame(Year = year, City = unique(comm.facts$Region), sapply(metrics[-1], function(met){sapply(unique(comm.facts$Region), function(reg){getRegionCor(full.data, reg, met)})}))
+    test4 <- data.frame(Year = year, City = "All Cities", t(sapply(metrics[-1], function(met){getOverallCor(full.data, met)})))
     
-    rbind(test, test2, test3)
+    rbind(test, test2, test3, test4)
 }
 
 clean.all <- read.csv("data/sotc.csv")
@@ -154,6 +162,13 @@ comm.facts <- read.csv("data/CommunityFacts.csv")
 metrics <- c("CCE", "SAFETY", "EDUCATIO", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "SOCIAL_C", "BASIC_SE", "INVOLVEM", "OPENNESS")
 getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
 
+getRegion <- function(city) {
+    return(subset(comm.facts, Community == city)$Region)
+}
+
+# regions <- sapply(full.data$QSB, getRegion)
+# clean.all <- data.frame(clean.all, Region = regions)
+# 
 # cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
 # cor.2009 <- getCorMat(subset(clean.all, source == "sotc09"), "2009")
 # cor.2010 <- getCorMat(subset(clean.all, source == "sotc10"), "2010")
