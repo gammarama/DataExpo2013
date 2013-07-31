@@ -356,7 +356,8 @@ function do_stuff(el, data) {
             dataset_2.sort(function(a, b){return a[metric_select] - b[metric_select]; });
                 
             g_2.attr("transform", "translate(" + margin_2.left + "," + margin_2.top + ")");          
-            x_2.domain([d3.min(dataset_2, function(d){return d[metric_select];}) - .5, d3.max(dataset_2, function(d){return d[metric_select];}) + .5]);
+            //x_2.domain([d3.min(dataset_2, function(d){return d[metric_select];}) - .5, d3.max(dataset_2, function(d){return d[metric_select];}) + .5]);
+            x_2.domain([0, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
             y_2.domain(dataset_2.map(function(d) { return d.QSB; }));           
             
             g_2.selectAll(".axis").remove();
