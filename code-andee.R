@@ -209,36 +209,36 @@ all.melt$disp_name <- factor(all.melt$disp_name, levels=unique(as.character(all.
 
 myrtle.dat <- cbind(subset(all.melt, year == "Aggregate"), Community = with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "Myrtle Beach, SC", "Myrtle Beach, SC", ifelse(Region == "Southeast", "Southeast", "Other"))))
 myrtle.dat$disp_name <- factor(myrtle.dat$disp_name, levels=unique(as.character(myrtle.dat$disp_name)))
-myrtle.dat$Community <- factor(myrtle.dat$Community, levels=c("Myrtle Beach, SC", "Southeast", "Other"))
+myrtle.dat$Community.f <- factor(myrtle.dat$Community, levels=c("Myrtle Beach, SC", "Southeast", "Other"))
 myrtle.dat$order <- with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "Myrtle Beach, SC", 2, ifelse(Region == "Southeast", 1, 0)))
 
 
 ggplot() + 
     geom_line(data = subset(myrtle.dat, Community == "Other"), 
-              aes(x = disp_name, y = as.numeric(value), group = QSB, colour = Community), 
+              aes(x = disp_name, y = as.numeric(value), group = QSB, colour = Community.f), 
                   size = I(1)) + 
     geom_point(data = subset(myrtle.dat, Community == "Other"),
                aes(x=disp_name, y=as.numeric(value), 
-               colour = Community), size = I(2), inherit.aes = FALSE) +
+               colour = Community.f), size = I(2), inherit.aes = FALSE) +
     geom_line(data = subset(myrtle.dat, Community == "Southeast"),
               aes(x=disp_name, y=as.numeric(value), group = QSB, 
-              colour = Community), inherit.aes = FALSE, size = 1) + 
+              colour = Community.f), inherit.aes = FALSE, size = 1) + 
     geom_point(data = subset(myrtle.dat, Community == "Southeast"),
               aes(x=disp_name, y=as.numeric(value), 
-               colour = Community), size = I(2), inherit.aes = FALSE) +
+               colour = Community.f), size = I(2), inherit.aes = FALSE) +
     geom_line(data = subset(myrtle.dat, Community == "Myrtle Beach, SC"),
               aes(x=disp_name, y=as.numeric(value), group = QSB, 
-              colour = Community), inherit.aes = FALSE, size = 1.5) + 
+              colour = Community.f), inherit.aes = FALSE, size = 1.5) + 
     geom_point(data = subset(myrtle.dat, Community == "Myrtle Beach, SC"),
                aes(x=disp_name, y=as.numeric(value), 
-               colour = Community), size = I(4), inherit.aes = FALSE) +
+               colour = Community.f), size = I(4), inherit.aes = FALSE) +
     xlab("") + ylab("Metric Value - Aggregated Years") +
     scale_colour_manual(name = "Community",
-                        values = c("#0cae3a","#0066cc","darkgrey"),
+                        values = c("#0cae3a","darkgrey","#0066cc"),
                         breaks = c("Myrtle Beach, SC", "Southeast", "Other"),
                         labels = c("Myrtle Beach, SC", "Southeast", "Other")) + 
     theme(axis.text.x = element_text(angle = 65, hjust = 1))
-
+ggsave("../poster/imgs/southeast.png", height=5.5, width=8.25)
 
 ggplot(data = myrtle.dat, mapping=aes(x = disp_name, y = as.numeric(value), 
                                       group = paste(order, QSB, sep=""), colour = Community), 
@@ -286,6 +286,35 @@ ggsave("../poster//imgs/west.png", width=5.7, height=8.15)
 ##Deep South
 south.dat <- cbind(subset(all.years.city, year != "Aggregate"), Community = with(subset(all.years.city, year != "Aggregate"), ifelse(QSB == "Biloxi, MS", "Biloxi, MS", ifelse(Region == "Deep South", "Deep South", "Other"))))
 south.dat$Community <- factor(south.dat$Community, levels=c("Biloxi, MS", "Deep South", "Other"))
+south.dat.melt <- melt(south.dat[, c("year", "QSB", "Community", "SAFETY", 'SOCIAL_O', "CCE")], id.vars=c("year", "QSB", "Community"))
+south.dat.melt$disp_name <- apply(south.dat.melt, 1, function(x) ifelse(x["variable"] == "CCE", "Community Attachment", ifelse(x["variable"] == "SOCIAL_O", "Social Offerings", "Safety")))
+south.dat.melt$disp_name <- factor(south.dat.melt$disp_name, levels=c("Safety", "Social Offerings", "Community Attachment"))
+ggplot() + 
+    geom_line(data = subset(south.dat.melt, Community == "Other"), 
+              aes(x = year, y = as.numeric(value), group = QSB, colour=Community), 
+              size = 1) + 
+    geom_point(data = subset(south.dat.melt, Community == "Other"),
+               aes(x=year, y=as.numeric(value), 
+                   colour = Community), size = 2, inherit.aes = FALSE) +
+    geom_line(data = subset(south.dat.melt, Community == "Deep South"),
+              aes(x=year, y=as.numeric(value), group = QSB, 
+                  colour = Community), inherit.aes = FALSE, size = 1) + 
+    geom_point(data = subset(south.dat.melt, Community == "Deep South"),
+               aes(x=year, y=as.numeric(value), 
+                   colour = Community), size = I(2), inherit.aes = FALSE) +
+    geom_line(data = subset(south.dat.melt, Community == "Biloxi, MS"),
+              aes(x=year, y=as.numeric(value), group = QSB, 
+                  colour = Community), inherit.aes = FALSE, size = 1.5) + 
+    geom_point(data = subset(south.dat.melt, Community == "Biloxi, MS"),
+               aes(x=year, y=as.numeric(value), 
+                   colour = Community), size = I(4), inherit.aes = FALSE) + facet_wrap(~disp_name) + 
+    xlab("") + ylab("") +
+    scale_colour_manual(name = "Community",
+                        values = c("#FF3300","#000066","darkgrey"),
+                        breaks = c("Biloxi, MS", "Deep South", "Other"),
+                        labels = c("Biloxi, MS", "Deep South", "Other"))
+
+ggsave("../poster/imgs/deepsouth_all.png", height=4.07, width=11.72)
 
 
 ggplot() + 
