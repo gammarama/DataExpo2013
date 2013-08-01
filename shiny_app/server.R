@@ -166,7 +166,7 @@ getRegion <- function(city) {
     return(subset(comm.facts, Community == city)$Region)
 }
 
-# regions <- sapply(full.data$QSB, getRegion)
+# regions <- sapply(clean.all$QSB, getRegion)
 # clean.all <- data.frame(clean.all, Region = regions)
 # 
 # cor.2008 <- getCorMat(subset(clean.all, source == "sotc08"), "2008")
@@ -175,6 +175,24 @@ getRegion <- function(city) {
 # cor.agg <- getCorMat(clean.all, "Aggregate")
 # 
 # cor.all <- rbind(cor.2008, cor.2009, cor.2010, cor.agg)
+
+#meangf <- mean(subset(clean.all, QSB == "Grand Forks, ND")$EDUCATIO, na.rm = TRUE)
+#meanab <- mean(subset(clean.all, QSB == "Aberdeen, SD")$EDUCATIO, na.rm = TRUE)
+#meandu <- mean(subset(clean.all, QSB == "Duluth, MN")$EDUCATIO, na.rm = TRUE)
+#meansp <- mean(subset(clean.all, QSB == "St. Paul, MN")$EDUCATIO, na.rm = TRUE)
+#meanwi <- mean(subset(clean.all, QSB == "Wichita, KS")$EDUCATIO, na.rm = TRUE)
+#meanother <- mean(subset(clean.all, Region != "Great Plains")$EDUCATIO, na.rm = TRUE)
+
+#theseCities <- c("Grand Forks, ND", "Aberdeen, SD", "St. Paul, MN", "Duluth, MN", "Wichita, KS", "Other")
+#thisdf <- data.frame(City = factor(theseCities, levels = rev(theseCities)), MeanEducation = c(meangf, meanab, meansp, meandu, meanwi, meanother))
+
+#qplot(City, MeanEducation, data = thisdf, geom = "bar", fill = City, stat = "identity") +
+#    ylim(c(0, 3)) +
+#    coord_flip() +
+#    scale_fill_manual(values = rev(c("gold", "darkgreen", "darkgreen", "darkgreen", "darkgreen", "black"))) +
+#    theme(legend.position = "bottom")
+
+#ggsave("Hmm.png")
 
 addResourcePath('data', '~/ShinyApps/DataExpo2013/data')
 addResourcePath('css', '~/ShinyApps/DataExpo2013/css')
