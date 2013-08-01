@@ -184,7 +184,8 @@ function do_stuff(el, data) {
                     .range([4,16])
             
             scale_color = d3.scale.linear()
-                        .domain(d3.extent(subset, function(e){return e[metric_select]}))
+                        //.domain(d3.extent(subset, function(e){return e[metric_select]}))
+                        .domain([0, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
                         .range(['red', 'green']);
             
             comms = g.selectAll('circle.community').data(subset);   
