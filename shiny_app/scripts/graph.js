@@ -185,7 +185,7 @@ function do_stuff(el, data) {
             
             scale_color = d3.scale.linear()
                         //.domain(d3.extent(subset, function(e){return e[metric_select]}))
-                        .domain([0, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
+                        .domain([1, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
                         .range(['red', 'green']);
             
             comms = g.selectAll('circle.community').data(subset);   
@@ -291,7 +291,7 @@ function do_stuff(el, data) {
                 
             g_1.attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");          
             x_1.domain(dataset_1.map(function(d) { return d.x; }));
-            y_1.domain([0, metric.filter(function(e) {return e.var_name == metric_select;})[0].max]);           
+            y_1.domain([1, metric.filter(function(e) {return e.var_name == metric_select;})[0].max]);           
             
             g_1.selectAll(".axis").remove();
             
@@ -358,7 +358,7 @@ function do_stuff(el, data) {
                 
             g_2.attr("transform", "translate(" + margin_2.left + "," + margin_2.top + ")");          
             //x_2.domain([d3.min(dataset_2, function(d){return d[metric_select];}) - .5, d3.max(dataset_2, function(d){return d[metric_select];}) + .5]);
-            x_2.domain([0, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
+            x_2.domain([1, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
             y_2.domain(dataset_2.map(function(d) { return d.QSB; }));           
             
             g_2.selectAll(".axis").remove();
