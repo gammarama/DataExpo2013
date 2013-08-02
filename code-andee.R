@@ -275,6 +275,39 @@ clean.all.merge$plainsQSB <- factor(clean.all.merge$plainsQSB, levels=c("Aberdee
 ggplot(data=clean.all.merge) + 
     geom_density(aes(x=EDUCATIO, y=..density.., fill=plainsQSB), position="identity", alpha=.5)
 
+subset(all.years.city, year=="Aggregate") 
+all.years.city$plainsQSB <- with(all.years.city, ifelse(as.character(Region) == "Great Plains", as.character(QSB), "Other"))
+
+melt(all.years.city[,c("year","CCE","EDUCATIO","plainsQSB")], id.vars=c("year", "plainsQSB"))
+plains.dat <- ddply(melt(all.years.city[,c("year","CCE","EDUCATIO","plainsQSB")], id.vars=c("year", "plainsQSB")), .(year, plainsQSB, variable), summarise, value=mean(as.numeric(value)))
+plains.dat$disp_name <- with(plains.dat, ifelse(variable == "CCE", "Community Attachment", "Education"))
+plains.dat$disp_name <- factor(plains.dat$disp_name, levels=c("Education", "Community Attachment"))
+plains.dat$plainsQSB <- factor(plains.dat$plainsQSB, levels=c("Aberdeen, SD", "Duluth, MN", "Grand Forks, ND", "St. Paul, MN", "Wichita, KS", "Other"))
+
+
+ggplot(data=plains.dat) +
+    geom_point(aes(y="metric", x=as.numeric(value), colour=year, size=year)) + 
+    facet_grid(plainsQSB~disp_name, scales="free") +
+    scale_colour_manual(name="Year",
+                        values= brewer.pal(n=4, name="YlOrRd"),
+                        labels=c("2008","2009","2010","Aggregate")) +
+    scale_size_manual(name="Year",
+                      values=c(3,3,3,5),
+                      labels=c("2008","2009","2010","Aggregate")) +
+    ylab("") + xlab("") +
+    theme(axis.text.y = element_blank())
+ggsave("../poster/imgs/plains1.png", width=8.86, height=6.94)
+           
+ggplot(data=clean.all.merge) +
+    geom_bar(aes(x=EDUCATIO, y=..density..), binwidth=.5) +
+    facet_wrap(~plainsQSB) + 
+    ylab("") + xlab("Education")
+ggsave("../poster/imgs/plains2.png", width=4.43, height=3.47)
+
+ggplot(data=clean.all.merge) +
+    geom_jitter(aes(x=CCE, y=EDUCATIO, colour=plainsQSB)) +
+    facet_wrap(~plainsQSB)
+
 ##West
 west.dat <- subset(clean.all.merge, Urbanicity == "Very high urbanicity-medium population")
 west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Long Beach, CA", "Akron, OH", "Gary, IN", "Bradenton, FL"))
@@ -307,8 +340,8 @@ ggplot() +
                   colour = Community), inherit.aes = FALSE, size = 1.5) + 
     geom_point(data = subset(south.dat.melt, Community == "Biloxi, MS"),
                aes(x=year, y=as.numeric(value), 
-                   colour = Community), size = I(4), inherit.aes = FALSE) + facet_wrap(~disp_name) + 
-    xlab("") + ylab("") +
+                   colour = Community), size = I(4), inherit.aes = FALSE) + facet_wrap(~disp_name, scales="free_y") + 
+    xlab("") + ylab("") + 
     scale_colour_manual(name = "Community",
                         values = c("#FF3300","#000066","darkgrey"),
                         breaks = c("Biloxi, MS", "Deep South", "Other"),
