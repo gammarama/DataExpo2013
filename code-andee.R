@@ -299,7 +299,7 @@ ggplot(data=plains.dat) +
 ggsave("../poster/imgs/plains1.png", width=8.86, height=6.94)
            
 ggplot(data=clean.all.merge) +
-    geom_bar(aes(x=EDUCATIO, y=..density..), binwidth=.5) +
+    geom_bar(aes(x=EDUCATIO, y=..density..), binwidth=.5, alpha = 0.75) +
     facet_wrap(~plainsQSB) + 
     ylab("") + xlab("Education")
 ggsave("../poster/imgs/plains2.png", width=4.43, height=3.47)
@@ -310,11 +310,13 @@ ggplot(data=clean.all.merge) +
 
 ##West
 west.dat <- subset(clean.all.merge, Urbanicity == "Very high urbanicity-medium population")
-west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Long Beach, CA", "Akron, OH", "Gary, IN", "Bradenton, FL"))
+west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Akron, OH", "Bradenton, FL", "Long Beach, CA", "Gary, IN"))
 ggplot(data=west.dat) +
-    geom_jitter(aes(x = OPENNESS, y= CCE, colour=Region)) + facet_wrap(~QSB, nrow=3) +
+    #geom_jitter(aes(x = OPENNESS, y= CCE, colour=Region)) + facet_wrap(~QSB, nrow=3) +
+    geom_bin2d(binwidth = c(0.15, 0.15), aes(x = OPENNESS, y = CCE)) + facet_wrap(~QSB, nrow = 2) +
+    scale_fill_gradient(low = I("white"), high = I("red")) +
     ylab("Community Attachment") + xlab("Openness")
-ggsave("../poster//imgs/west.png", width=5.7, height=8.15)
+ggsave("../poster//imgs/west.png", width=8.15, height=5.7)
 
 ##Deep South
 south.dat <- cbind(subset(all.years.city, year != "Aggregate"), Community = with(subset(all.years.city, year != "Aggregate"), ifelse(QSB == "Biloxi, MS", "Biloxi, MS", ifelse(Region == "Deep South", "Deep South", "Other"))))
