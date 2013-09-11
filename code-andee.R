@@ -286,18 +286,27 @@ plains.dat$disp_name <- with(plains.dat, ifelse(variable == "CCE", "Community At
 plains.dat$disp_name <- factor(plains.dat$disp_name, levels=c("Education", "Community Attachment"))
 plains.dat$plainsQSB <- factor(plains.dat$plainsQSB, levels=c("Aberdeen, SD", "Duluth, MN", "Grand Forks, ND", "St. Paul, MN", "Wichita, KS", "Other"))
 
-
-ggplot(data=plains.dat) +
-    geom_point(aes(y="metric", x=as.numeric(value), colour=year, size=year)) + 
-    facet_grid(plainsQSB~disp_name, scales="free") +
-    scale_colour_manual(name="Year",
-                        values= brewer.pal(n=4, name="YlOrRd"),
-                        labels=c("2008","2009","2010","Aggregate")) +
+ugh <- cbind(subset(plains.dat, variable == "EDUCATIO"), CCE=subset(plains.dat, variable == "CCE")[,4])
+names(ugh)[2] <- "Community"
+ggplot(data = ugh) +
+    geom_smooth(aes(x = as.numeric(value), y = as.numeric(CCE)), method = "lm", alpha = 0.25) +
+    geom_point(aes(x = as.numeric(value), y = as.numeric(CCE), colour=Community, size=year)) +
     scale_size_manual(name="Year",
-                      values=c(3,3,3,5),
+                      values=c(1,2,3,6),
                       labels=c("2008","2009","2010","Aggregate")) +
-    ylab("") + xlab("") +
+    ylab("Community Attachment") + xlab("Education") +
     theme(axis.text.y = element_blank())
+# ggplot(data=plains.dat) +
+#     geom_point(aes(y="metric", x=as.numeric(value), colour=year, size=year)) + 
+#     facet_grid(plainsQSB~disp_name, scales="free") +
+#     scale_colour_manual(name="Year",
+#                         values= brewer.pal(n=4, name="YlOrRd"),
+#                         labels=c("2008","2009","2010","Aggregate")) +
+#     scale_size_manual(name="Year",
+#                       values=c(3,3,3,5),
+#                       labels=c("2008","2009","2010","Aggregate")) +
+#     ylab("") + xlab("") +
+#     theme(axis.text.y = element_blank())
 ggsave("../poster/imgs/plains1.png", width=8.86, height=6.94)
            
 ggplot(data=clean.all.merge) +
