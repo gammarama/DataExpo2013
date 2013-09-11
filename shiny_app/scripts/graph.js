@@ -50,21 +50,22 @@ Shiny.inputBindings.register(inputBinding);
 function do_stuff(el, data) {
     //controls
     var metric = [{"var_name":"CCE", "disp_name": "Community Attachment", "max": 5},
-                  {"var_name":"SAFETY", "disp_name": "Safety", "max": 3},
-                  {"var_name":"EDUCATIO", "disp_name": "Education", "max": 3},
-                  {"var_name":"LEADERSH", "disp_name": "Leadership", "max": 3},
-                  {"var_name":"AESTHETI", "disp_name": "Aesthetics", "max": 3},
-                  {"var_name":"ECONOMY", "disp_name": "Economy", "max": 3},
                   {"var_name":"SOCIAL_O", "disp_name": "Social Offerings", "max": 3},
+				  {"var_name":"OPENNESS", "disp_name": "Openness", "max": 3},
+				  {"var_name":"AESTHETI", "disp_name": "Aesthetics", "max": 3},
+				  {"var_name":"EDUCATIO", "disp_name": "Education", "max": 3},
+				  {"var_name":"BASIC_SE", "disp_name": "Basic Services", "max": 3},
+				  {"var_name":"LEADERSH", "disp_name": "Leadership", "max": 3},
+				  {"var_name":"ECONOMY", "disp_name": "Economy", "max": 3},
+				  {"var_name":"SAFETY", "disp_name": "Safety", "max": 3},
                   {"var_name":"SOCIAL_C", "disp_name": "Social Capital", "max": 3},
-                  {"var_name":"BASIC_SE", "disp_name": "Basic Services", "max": 3},
-                  {"var_name":"INVOLVEM", "disp_name": "Civic Involvement", "max": 3},
-                  {"var_name":"OPENNESS", "disp_name": "Openness", "max": 3}];
+                  {"var_name":"INVOLVEM", "disp_name": "Civic Involvement", "max": 3}];
     
     
     //slider 
     $('.jslider-pointer').mouseleave(function(){ setTimeout(function() { update_map(); update_graphs();}, 1000); });
     $('#aggregate').mouseup(function(){ setTimeout(function() { update_map(); update_graphs();}, 1000); });
+    $('#colorblind').mouseup(function(){ setTimeout(function() { update_map(); update_graphs();}, 1000); });
     
     //map    
     var width = $('#d3io').width() - 180,
@@ -79,7 +80,9 @@ function do_stuff(el, data) {
             metric_select = metric[0].var_name,
             year_select = 2008,
             level_select = {"level": "city", "index": 0, "value": "Aberdeen, SD"},
-            color_scale, first = true;   
+            color_scale, first = true,
+            colors = ['red', 'white', 'green'],
+			key;
         
     var projection = d3.geo.albersUsa()
         .scale(1.07858243*width)
@@ -126,7 +129,7 @@ function do_stuff(el, data) {
             update_table();
         }       
     });
-    
+	
     //buttons
     $('<div id="buttons"></div>').insertAfter('svg.map');    
     
@@ -178,7 +181,7 @@ function do_stuff(el, data) {
     g_3 = svg_3.append("g");
     
     function click_metric(d) {
-        metric_select = d.var_name;            
+		metric_select = d.var_name;            
         update_map();
         update_graphs();
     }
@@ -192,15 +195,46 @@ function do_stuff(el, data) {
                 subset = eval("root_" + year_select);
             }
             
+            colors = $('#colorblind').is(':checked')? ['red', 'white', 'blue'] : ['red', 'white', 'green'];
+
             scale_resp = d3.scale.linear()
                     .domain(d3.extent(subset, function(d){return d.TOTALRESP}))
                     .range([4,16])
             
             scale_color = d3.scale.linear()
                         //.domain(d3.extent(subset, function(e){return e[metric_select]}))
-                        .domain([1, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
-                        .range(['red', 'green']);
-            
+                        .domain([1, 1 + 0.5*(metric.filter(function(e) {return e.var_name == metric_select;})[0].max - 1), metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
+                        .range(colors);
+
+			key_x = d3.scale.linear()
+				.domain([1, metric.filter(function(e) {return e.var_name == metric_select;})[0].max])
+				.range([0, 60]);
+
+			key_xAxis = d3.svg.axis()
+				.scale(key_x)
+				.orient("bottom")
+				.tickSize(13)
+				.tickFormat(d3.format("d"));
+			
+			if(key) key.remove();
+			
+			key = svg.append("g")
+				.attr("class", "key")
+				.attr("transform", "translate(0,15)");
+
+			key.selectAll("rect")
+				.data(pair(key_x.ticks(8)))
+			  .enter().append("rect")
+				.attr("height", 8)
+				.attr("x", function(d) { return key_x(d[0]); })
+				.attr("width", function(d) { return key_x(d[1]) - key_x(d[0]); })
+				.style("fill", function(d) { return scale_color(d[0]); });
+
+			key.call(key_xAxis).append("text")
+				.attr("class", "caption")
+				.attr("y", -6)
+				.text(metric.filter(function(e) {return e.var_name == metric_select;})[0].disp_name);
+			
             comms = g.selectAll('circle.community').data(subset);   
             
             comms.enter()
@@ -231,7 +265,9 @@ function do_stuff(el, data) {
             
             comms.transition().duration(750)
                 .style('fill', function(e){ return(scale_color(e[metric_select])); })
-                .attr('r', function(e){ return(scale_resp(e.TOTALRESP)); });
+                .attr('r', function(e){ return(scale_resp(e.TOTALRESP)); })
+                .style('stroke', '#7f7f7f')
+                .style("stroke-width", .5);
             
 			comms.exit().remove(); 
             
@@ -430,11 +466,14 @@ function do_stuff(el, data) {
 
             var year_val = $('#aggregate').is(':checked') ? "Aggregate" : year_select;
             var dataset_3 = corr_dat.filter(function(e) {return (e.Year == year_val) && (e.City == level_select.value); });            
+			var dataset_3_agg = corr_dat.filter(function(e) {return(e.Year == "Aggregate") && (e.City == "All Cities"); });
             
             var dataset_3_array = [];
+			var dataset_3_agg_array = [];
             metric.forEach(function(d){
                 if (d.var_name != "CCE") {
                     dataset_3_array.push({"x": d.disp_name, "y": dataset_3[0][d.var_name], "var_name": d.var_name});
+					dataset_3_agg_array.push({"x": d.disp_name, "y": dataset_3_agg[0][d.var_name], "var_name": d.var_name});
                 }
             });
             
@@ -455,11 +494,12 @@ function do_stuff(el, data) {
                 .style("text-anchor", "middle")
                 .text(dataset_3[0]["City"] + " - " + year_val);
             
-            g_3.selectAll(".tick.major").selectAll("text")
+            g_3.selectAll(".tick").selectAll("text")
                 .style("text-anchor", "start")
                 .attr("transform", function(d) {
                     return "rotate(45)" 
                 });
+                
             
             g_3.append("g")
               .attr("class", "y axis")
@@ -470,8 +510,20 @@ function do_stuff(el, data) {
               .attr("dy", ".71em")
               .style("text-anchor", "end")
               .text("Correlation to Community Attachment");
-
-            
+			
+			
+            if(g_3.selectAll("circle.agg").length > 0) {
+				g_3.selectAll("circle.agg")
+					.data(dataset_3_agg_array)
+					.enter().append("circle")
+					.attr("class", "agg")
+					.attr("fill", "grey")
+					.attr("r", 3)
+					.attr("cx", function(d) { return x_3(d.x); })
+					.attr("cy", function(d) { return y_3(d.y); })
+					.attr("opacity", .5);
+			}
+			
             var dot_3 = g_3.selectAll("circle.dot")
               .data(dataset_3_array);
             
@@ -499,8 +551,10 @@ function do_stuff(el, data) {
     }
     
     function click_dot_3(d) {
-        mx_button.filter(function(e) { return(d.var_name == e.var_name); }).selectAll("input")
-            .attr("checked","");
+		//$('input[name=mx]').removeAttr("checked");
+		mx_button.filter(function(e) { return(d.var_name == e.var_name); }).selectAll("input")
+            .attr("checked", "");
+	
         click_metric(d);
     }
     
@@ -581,6 +635,12 @@ function do_stuff(el, data) {
                                           "<strong> Unemployment: </strong>" + dataset[0].Unemployment)            
             
         }
-    }   
+    }
+
+	function pair(array) {
+	  return array.slice(1).map(function(b, i) {
+		return [array[i], b];
+	  });
+	}
 }
 </script>

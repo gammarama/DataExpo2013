@@ -30,7 +30,8 @@ shinyUI(pageWithSidebar(
                 sliderInput("year", "Choose year:", 
                             min = 2008, max = 2010, value = 2008, step = 1,
                             format="####")
-            )
+            ),
+            checkboxInput("colorblind", "Colorblind safe", FALSE)
         )
     ),
     
