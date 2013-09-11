@@ -162,8 +162,8 @@ getCorMat <- function(full.data, year) {
 clean.all <- read.csv("data/sotc.csv")
 corr.dat <- read.csv("data/CEcor.csv")
 comm.facts <- read.csv("data/CommunityFacts.csv")
-metrics <- data.frame(var_name = c("CCE", "SAFETY", "EDUCATIO", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "SOCIAL_C", "BASIC_SE", "INVOLVEM", "OPENNESS"),
-                      disp_name = c("Community Attachment", "Safety", "Education", "Leadership", "Aesthetics", "Economy", "Social Offerings", "Social Capital", "Basic Services", "Civic Involvement", "Openness"))
+metrics <- data.frame(var_name = c("CCE", "AESTHETI", "SOCIAL_C", "INVOLVEM", "EDUCATIO", "SOCIAL_O", "OPENNESS", "SAFETY", "BASIC_SE", "ECONOMY", "LEADERSH"),
+                      disp_name = c("Community Attachment", "Aesthetics", "Social Capital", "Civic Involvement", "Education", "Social Offerings", "Openness", "Safety", "Basic Services", "Economy", "Leadership"))
 
 expr.all <- paste(as.expression(paste("ddply(clean.all, .(QSB, URBAN_GR), summarise, ")), enumerateMetrics(as.character(metrics$var_name)), ", TOTALRESP = length(GENDER))", sep = "")
 expr.2008 <- paste(as.expression(paste("ddply(subset(clean.all, source == \"sotc08\"), .(QSB, URBAN_GR), summarise, ")), enumerateMetrics(as.character(metrics$var_name)), ", TOTALRESP = length(GENDER))", sep = "")
@@ -212,6 +212,8 @@ myrtle.dat$disp_name <- factor(myrtle.dat$disp_name, levels=unique(as.character(
 myrtle.dat$Community.f <- factor(myrtle.dat$Community, levels=c("Myrtle Beach, SC", "Southeast", "Other"))
 myrtle.dat$order <- with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "Myrtle Beach, SC", 2, ifelse(Region == "Southeast", 1, 0)))
 
+#ugh <- ddply(subset(myrtle.dat, Community == "Southeast"), .(variable), summarize, mean = mean(as.numeric(value)))
+#ordurr <- ugh[order(-ugh$mean), ]
 
 ggplot() + 
     geom_line(data = subset(myrtle.dat, Community == "Other"), 
