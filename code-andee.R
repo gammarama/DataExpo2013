@@ -322,11 +322,16 @@ ggplot(data=clean.all.merge) +
 ##West
 west.dat <- subset(clean.all.merge, Urbanicity == "Very high urbanicity-medium population")
 west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Akron, OH", "Bradenton, FL", "Long Beach, CA", "Gary, IN"))
-ggplot(data=west.dat) +
+
+numsamp <- min(ddply(west.dat, .(QSB), summarise, num = length(plainsQSB))$num)
+new.df <- ldply(c("Boulder, CO", "Akron, OH", "Bradenton, FL", "Long Beach, CA", "Gary, IN"), function(x){subset(west.dat, QSB == x)[sample(1:nrow(subset(west.dat, QSB == x)), size = numsamp), ]})
+
+
+ggplot(data=new.df) +
     #geom_jitter(aes(x = OPENNESS, y= CCE, colour=Region)) + facet_wrap(~QSB, nrow=3) +
     geom_bin2d(binwidth = c(0.15, 0.15), aes(x = OPENNESS, y = CCE)) + facet_wrap(~QSB, nrow = 2) +
     scale_fill_gradient(low = I("white"), high = I("red")) +
-    ylab("Community Attachment") + xlab("Openness")
+    ylab("Community Attachment") + xlab("Openness") + ggtitle("Very high urbanicity-medium population Communities")
 ggsave("../poster//imgs/west.png", width=8.15, height=5.7)
 
 ##Deep South
