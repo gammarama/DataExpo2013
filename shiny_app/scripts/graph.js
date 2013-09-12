@@ -197,7 +197,7 @@ function do_stuff(el, data) {
             
             colors = $('#colorblind').is(':checked')? ['red', 'white', 'blue'] : ['red', 'white', 'green'];
 
-            scale_resp = d3.scale.linear()
+            scale_resp = d3.scale.pow().exponent(0.6)
                     .domain(d3.extent(subset, function(d){return d.TOTALRESP}))
                     .range([4,16])
             
