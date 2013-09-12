@@ -265,9 +265,9 @@ rust.dat <- subset(clean.all.merge, Region == "Rust Belt")
 rust.dat$detroit_f <- rust.dat$QSB == "Detroit, MI"
 rust.dat$year <- with(rust.dat, ifelse(source == "sotc08", 2008, ifelse(source == "sotc09", 2009, 2010)))
 ggplot() +
-    geom_density(data=rust.dat, aes(x=ECONOMY, group=factor(year), fill=factor(year), colour=factor(year)), position="dodge", alpha=I(0.4)) +
-    facet_wrap(~QSB) + 
-    xlab("Economy") + ylab("Density of Responses") + scale_colour_discrete(name="year") + scale_fill_discrete(name="year") + theme_bw()
+    geom_density(data=rust.dat, aes(x=ECONOMY, fill = factor(year)), position="dodge", alpha=I(0.4)) +
+    facet_grid(QSB~year) +
+    xlab("Economy") + ylab("Density of Responses") + theme_bw() + theme(legend.position = "off")
 ggsave("../poster/imgs/rustbelt.png", width = 5.23, height = 3.6)
 
 plains.dat <- subset(clean.all.merge, Region == "Great Plains")
