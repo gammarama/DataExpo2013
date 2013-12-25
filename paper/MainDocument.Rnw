@@ -1,0 +1,48 @@
+\documentclass[11pt]{article}
+
+%AMS-TeX packages
+\usepackage{amssymb,amsmath,amsthm} 
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx, ctable, booktabs}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{ltablex, calc, enumerate, multirow, float, soul}
+\usepackage{hyperref}
+\usepackage{longtable, pdflscape, textcase}
+\usepackage[backend=bibtex, natbib=true, sorting=nyt, style=authoryear]{biblatex}
+\addbibresource{References.bib}
+
+\begin{document}
+<<concordance, echo=FALSE>>=
+opts_chunk$set(concordance=TRUE)
+opts_knit$set(self.contained=FALSE)
+@
+
+\setlength{\parskip}{3ex}
+\setlength{\parindent}{0pt}
+
+\title{Putting Down Roots: A Graphical Exploration of Community Attachment}
+\author{Andee Kaplan, Eric Hare}
+\date{Dec. 26, 2013}
+
+\maketitle
+
+\setcounter{page}{1}
+\section*{Introduction}
+<<introduction, child='Introduction.Rnw'>>=
+@
+
+\section*{Technology}
+<<technology, child='Technology.Rnw'>>=
+@
+
+\section*{Stories}
+<<stories, child='Stories.Rnw'>>=
+@
+
+\section*{Conclusion}
+<<conclusion, child='Conclusion.Rnw'>>=
+@
+
+\end{document}
