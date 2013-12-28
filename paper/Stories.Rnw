@@ -1,1 +1,11 @@
-This is the stories section.
+We elected to divide our analysis using two primary factors. The first is the geographic region the community is located in, and the second is the urbanicity of the particular community. Urbanicity is a census designation which was provided in the dataset, while regions were determined by us. The regions are a rough guideline and do not correspond to any commonly used or accepted regional boundaries. They were merely a method we used to cluster communities into more-alike regions in terms of geography and culture. The interactive tool was then used to help us discover a story in the data for each of the five regions.
+
+\subsection*{Great Plains}
+
+\subsection*{West}
+
+\subsection*{Deep South}
+
+\subsection*{Southeast}
+
+\subsection*{Rust Belt}
