@@ -7,11 +7,11 @@
 \usepackage{graphicx, ctable, booktabs}
 \usepackage{color}
 \usepackage{listings}
-\usepackage{ltablex, calc, enumerate, multirow, float, soul}
+\usepackage{ltablex, calc, enumerate, multirow, float, soul, paralist}
 \usepackage{hyperref}
 \usepackage{longtable, pdflscape, textcase}
-\usepackage[backend=bibtex, natbib=true, sorting=nyt, style=authoryear]{biblatex}
-\addbibresource{References.bib}
+\usepackage[backend=bibtex, natbib=true]{biblatex}
+\addbibresource{references/refs.bib}
 
 \begin{document}
 <<concordance, echo=FALSE>>=
@@ -85,7 +85,6 @@ all.melt$disp_name <- factor(all.melt$disp_name, levels=unique(as.character(all.
 
 \title{Putting Down Roots: A Graphical Exploration of Community Attachment}
 \author{Andee Kaplan, Eric Hare}
-\date{Dec. 26, 2013}
 
 \maketitle
 
@@ -106,4 +105,5 @@ all.melt$disp_name <- factor(all.melt$disp_name, levels=unique(as.character(all.
 <<conclusion, child='Conclusion.Rnw'>>=
 @
 
+\printbibliography
 \end{document}

@@ -1,1 +1,31 @@
-This is the technology section.
+In order to explore the dataset we first created an interactive tool to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
+
+\subsection*{Description and Design}
+The interactive tool is comprised of three pieces, \begin{inparaenum}[\itshape 1\upshape)]
+\item Control panel, 
+\item Map Panel, and
+\item Plot panel.
+\end{inparaenum}
+As the user interacts with each piece, the remaining portions of the interface update to reflect the interaction. In this way we have built an interactive graphic, rather than an animation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/tool.png}
+\caption{\label{fig:tool} The components that make up the interactive web interface, (1) Control panel, (2) Map panel, and (3) Plot panel.}
+\end{figure}
+
+
+
+\subsection*{The Shoulders of Giants}
+
+\subsection*{Why?}
+During the creation of our interactive tool, we found it useful to stop and ask, ``Why?'' This process enabled the type of introspection necessary to help ensure usability and relevance in a project of this type.
+
+\subsubsection*{Interactive}
+Why interactive? In order to discover what the data has to tell the world. In the words of John Tukey, "Exploratory data analysis is detective work - numerical detective work - or counting detective work - or \emph{graphical detective work}." \cite{tukey77} Dynamic, interactive visualizations can empower people to explore the data for themselves as well as encourage engagement with the data in a way that static visualizations cannot.
+
+\subsubsection*{Linked Plots}
+Why linked plots? Linking multiple visualizations shows different aspects of a complex data set and helps highlight relationships. By allowing actions in one plot to affect elements in other plots, comparisons are made easy for the user without requiring much memorization. This aids in pattern finding by avoiding taxation of the user's brain through memorization.
+
+\subsubsection*{Web-based}
+Why web-based? A web-based application is platform-independent and allows the user to employ the tool without any software to download. Additionally, by building an application that works on all modern browsers and operating systems, there are no limitations on who can use the tool. Finally, automatic feature additions and bug fixes can be completed transparently to the user.

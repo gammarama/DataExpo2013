@@ -1,0 +1,41 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{tukey77}{book}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Tukey}{T.}%
+     {John~W.}{J.~W.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {Addison-Wesley}%
+  }
+  \keyw{eda statistics}
+  \strng{namehash}{TJW1}
+  \strng{fullhash}{TJW1}
+  \field{sortinit}{T}
+  \field{title}{Exploratory Data Analysis}
+  \field{year}{1977}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput
