@@ -78,9 +78,47 @@ Why web-based? A web-based application is platform-independent and allows the us
 
 \section*{Stories}
 
-We elected to divide our analysis using two primary factors. The first is the geographic region the community is located in, and the second is the urbanicity of the particular community. Urbanicity is a census designation which was provided in the dataset, while regions were determined by us. The regions are a rough guideline and do not correspond to any commonly used or accepted regional boundaries. They were merely a method we used to cluster communities into more-alike regions in terms of geography and culture. The interactive tool was then used to help us discover a story in the data for each of the five regions.
+We elected to divide our analysis using two primary factors. The first is the geographic region the community is located in, and the second is the urbanicity of the particular community. Urbanicity is a census designation which was provided in the dataset, while regions were determined by us. The regions are a rough guideline and do not correspond to any commonly used or accepted regional boundaries. They were merely a method we used to cluster communities into more-alike regions in terms of geography and culture. The interactive tool was then used to help us discover a story in the data for each of the five regions. A map of the regions is displayed in Figure \ref{fig:region_map}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[H]
+
+\includegraphics[width=\maxwidth]{figure/region_map} \caption[Map of the five regions to which we assigned the communities]{Map of the five regions to which we assigned the communities.\label{fig:region_map}}
+\end{figure}
+
+
+\end{knitrout}
+
 
 \subsection*{Great Plains}
+The five communities comprosing the Great Plains are Grand Forks, ND, Duluth, MN, Aberdeen, SD, Saint Paul, MN, and Wichita, KS. Through use of the interactive tool, we quickly discovered that the individuals in this region tended to rate the quality of education in the community more highly. In Table \ref{tbl:edu_table}, the top eight communities by the Education Metric are displayed. It can be seen that the Great Plains region includes three of the top four, and four of the top eight communities in terms of Education. Grand Forks, ND in particular has the highest average response for this metric amongst all communities. This is perhaps not too surprising given the presence of the University of North Dakota in this community.
+
+% latex table generated in R 3.0.2 by xtable 1.7-1 package
+% Wed Jan  1 08:08:34 2014
+\begin{table}[ht]
+\centering
+\begin{tabular}{lll}
+  \hline
+Region & Community & Education \\ 
+  \hline
+Great Plains & Grand Forks, ND & 2.40008396305626 \\ 
+  Rust Belt & State College, PA & 2.36484245439469 \\ 
+  Great Plains & Aberdeen, SD & 2.25540765391015 \\ 
+  Great Plains & St. Paul, MN & 2.13178082191781 \\ 
+  West & Boulder, CO & 2.12939698492462 \\ 
+  Rust Belt & Philadelphia, PA & 2.10063523905048 \\ 
+  Deep South & Tallahassee, FL & 2.09482038429407 \\ 
+  Great Plains & Duluth, MN & 2.09265442404007 \\ 
+   \hline
+\end{tabular}
+\caption{Top Six Communities by the Education Metric.} 
+\label{tbl:edu_table}
+\end{table}
+
+
+
+We can visualize the distribution of the Education metric values for each of the Great Plains communities compared to all other communities. Histograms of these values are displayed in Figure \ref{fig:gp_one}. With the exception of Wichita, KS, the Great Plains communities have more responses in the higher values when compared with communities in other regions. This is most visible in both Grand Forks, ND and Aberdeen, SD.
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[H]
 
@@ -91,10 +129,33 @@ We elected to divide our analysis using two primary factors. The first is the ge
 \end{knitrout}
 
 
+What might be more surprising is illustrated in Table \ref{tbl:cce_table}; the Great Plains region itself has the largest overall Community Attachment among the five regions. As it turns out, the correlation of the Education metric to the Community Attachment metric in the Great Plains is 0.49. This compares to a correlation of 0.46 in the communities outside the Great Plains. This correlation is illustrated in Figure \ref{fig:gp_two}. The mean response for Community Attachment is plotted versus the mean response for Education in each of the Great Plains communities, and all other communities aggregated. The big dots represent the data aggregated over all years, while the smaller dots represent 2008, 2009, and 2010. A pretty strong relationship between Education and Community Attachment can be observed, but with one notable exception: Saint Paul, MN. Saint Paul has a much higher Community Attachment given its value for Education than what would be expected by observing the other communities. This is likely due Saint Paul's size and cultural presence, which may contribute to other factors which lead to a high sense of Community Attachment.
+
+% latex table generated in R 3.0.2 by xtable 1.7-1 package
+% Wed Jan  1 08:08:40 2014
+\begin{table}[ht]
+\centering
+\begin{tabular}{lr}
+  \hline
+Region & Community Attachment \\ 
+  \hline
+Deep South & 3.736 \\ 
+  Great Plains & 3.916 \\ 
+  Rust Belt & 3.568 \\ 
+  Southeast & 3.809 \\ 
+  West & 3.915 \\ 
+   \hline
+\end{tabular}
+\caption{The average value for the Community Attachment metric in each of the five regions.} 
+\label{tbl:cce_table}
+\end{table}
+
+
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[H]
 
-\includegraphics[width=\maxwidth]{figure/gp_two} \caption[Caption]{Caption...\label{fig:gp_two}}
+\includegraphics[width=\maxwidth]{figure/gp_two} \caption[Mean Community Attachment value versus mean Education value]{Mean Community Attachment value versus mean Education value. The size of the dots represent the year, while the color represents the community.\label{fig:gp_two}}
 \end{figure}
 
 

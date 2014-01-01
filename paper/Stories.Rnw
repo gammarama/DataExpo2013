@@ -1,6 +1,34 @@
-We elected to divide our analysis using two primary factors. The first is the geographic region the community is located in, and the second is the urbanicity of the particular community. Urbanicity is a census designation which was provided in the dataset, while regions were determined by us. The regions are a rough guideline and do not correspond to any commonly used or accepted regional boundaries. They were merely a method we used to cluster communities into more-alike regions in terms of geography and culture. The interactive tool was then used to help us discover a story in the data for each of the five regions.
+We elected to divide our analysis using two primary factors. The first is the geographic region the community is located in, and the second is the urbanicity of the particular community. Urbanicity is a census designation which was provided in the dataset, while regions were determined by us. The regions are a rough guideline and do not correspond to any commonly used or accepted regional boundaries. They were merely a method we used to cluster communities into more-alike regions in terms of geography and culture. The interactive tool was then used to help us discover a story in the data for each of the five regions. A map of the regions is displayed in Figure \ref{fig:region_map}.
+
+<<region_map, echo=FALSE, fig.cap='Map of the five regions to which we assigned the communities.', fig.pos='H'>>=
+lats <- c(37.688889, 30.440608, 44.953703, 40.793395, 37.338978, 39.952335, 26.705621, 33.689060, 33.080143, 25.788969, 32.840695, 33.768321, 38.040584, 47.925257, 41.593370, 41.079273, 46.786672, 42.331427, 32.460976, 34.000710, 35.227087, 27.498928, 40.014986, 30.396032, 41.081445, 45.464698)   
+lons <- c(-97.336111, -84.286079, -93.089958, -77.860001, -121.894955, -75.163789, -80.036430, -78.886694, -83.232099, -80.226439, -83.632402, -118.195617, -84.503716, -97.032855, -87.346427, -85.139351, -92.100485, -83.045754, -84.987709, -81.034814, -80.843127, -82.574819, -105.270546, -88.885308, -81.519005, -98.486483)
+regions <- c("Great Plains", "Deep South", "Great Plains", "Rust Belt", "West", "Rust Belt", "Southeast", "Southeast", "Deep South",
+             "Southeast", "Deep South", "West", "Rust Belt", "Great Plains", "Rust Belt", "Rust Belt", "Great Plains",
+             "Rust Belt", "Deep South", "Southeast", "Southeast", "Southeast", "West", "Deep South", "Rust Belt", "Great Plains")
+
+states <- map_data("state")
+
+qplot(long, lat, data = states, group = group, geom = "polygon", fill = I("grey")) + 
+    geom_path(colour = I("black")) +
+    geom_point(data = data.frame(lats, lons, regions), inherit.aes = FALSE, size = I(5), aes(x = lons, y = lats, colour = regions)) +
+    theme(legend.position = "bottom")
+@
 
 \subsection*{Great Plains}
+The five communities comprosing the Great Plains are Grand Forks, ND, Duluth, MN, Aberdeen, SD, Saint Paul, MN, and Wichita, KS. Through use of the interactive tool, we quickly discovered that the individuals in this region tended to rate the quality of education in the community more highly. In Table \ref{tbl:edu_table}, the top eight communities by the Education Metric are displayed. It can be seen that the Great Plains region includes three of the top four, and four of the top eight communities in terms of Education. Grand Forks, ND in particular has the highest average response for this metric amongst all communities. This is perhaps not too surprising given the presence of the University of North Dakota in this community.
+
+<<edu_table, echo=FALSE, results='asis'>>=
+sub.df <- subset(all.melt, year == "Aggregate" & variable == "EDUCATIO")[,-c(1, 4, 6)]
+names(sub.df) <- c("Region", "Community", "Education")
+
+sub.df <- sub.df[with(sub.df, rev(order(Education))), ]
+
+print(xtable(sub.df[1:8, ], digits = c(4, 0, 0, 4), label = "tbl:edu_table", caption = "Top Six Communities by the Education Metric."), table.position = "H", include.rownames = FALSE)
+@
+
+We can visualize the distribution of the Education metric values for each of the Great Plains communities compared to all other communities. Histograms of these values are displayed in Figure \ref{fig:gp_one}. With the exception of Wichita, KS, the Great Plains communities have more responses in the higher values when compared with communities in other regions. This is most visible in both Grand Forks, ND and Aberdeen, SD.
+
 <<gp_one, echo=FALSE, fig.cap='Caption...', fig.pos='H'>>=
 clean.all.merge <- merge(clean.all, comm.facts, by.x = "QSB", by.y = "Community")
 plains.dat <- subset(clean.all.merge, Region == "Great Plains")
@@ -24,7 +52,18 @@ ggplot(data=clean.all.merge) +
     ylab("") + xlab("Education")
 @
 
-<<gp_two, echo=FALSE, fig.cap='Caption...', fig.pos='H'>>=
+What might be more surprising is illustrated in Table \ref{tbl:cce_table}; the Great Plains region itself has the largest overall Community Attachment among the five regions. As it turns out, the correlation of the Education metric to the Community Attachment metric in the Great Plains is 0.49. This compares to a correlation of 0.46 in the communities outside the Great Plains. This correlation is illustrated in Figure \ref{fig:gp_two}. The mean response for Community Attachment is plotted versus the mean response for Education in each of the Great Plains communities, and all other communities aggregated. The big dots represent the data aggregated over all years, while the smaller dots represent 2008, 2009, and 2010. A pretty strong relationship between Education and Community Attachment can be observed, but with one notable exception: Saint Paul, MN. Saint Paul has a much higher Community Attachment given its value for Education than what would be expected by observing the other communities. This is likely due Saint Paul's size and cultural presence, which may contribute to other factors which lead to a high sense of Community Attachment.
+
+<<cce_table, echo=FALSE, results='asis'>>=
+sub.df <- subset(all.melt, year == "Aggregate" & variable == "CCE")[,-c(1, 4, 6)]
+names(sub.df) <- c("Region", "Community", "CommunityAttachment")
+
+sub.ddply <- ddply(sub.df, .(Region), summarise, "Community Attachment" = mean(as.numeric(CommunityAttachment)))
+
+print(xtable(sub.ddply, digits = c(4, 0, 3), label = "tbl:cce_table", caption = "The average value for the Community Attachment metric in each of the five regions."), table.position = "H", include.rownames = FALSE)
+@
+
+<<gp_two, echo=FALSE, fig.cap='Mean Community Attachment value versus mean Education value. The size of the dots represent the year, while the color represents the community.', fig.pos='H'>>=
 ggplot(data = ugh) +
     geom_smooth(aes(x = as.numeric(value), y = as.numeric(CCE)), method = "lm", alpha = 0.25) +
     geom_point(aes(x = as.numeric(value), y = as.numeric(CCE), colour=Community, size=year)) +

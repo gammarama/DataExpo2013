@@ -24,6 +24,8 @@ library(plyr)
 library(ggplot2)
 library(RColorBrewer)
 library(reshape2)
+library(xtable)
+library(maps)
 @
 
 <<readdata, echo=FALSE, cache=TRUE>>=
