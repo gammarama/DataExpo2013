@@ -146,6 +146,8 @@ ggplot() +
 @
 
 \subsection*{Southeast}
+In the Deep South, we saw some evidence suggesting Biloxi's high rating for Social Offerings may be contributing to a strong sense of attachment in that community. Nowhere is this phenomenon more prominent than in the Southeast region, where Myrtle Beach, SC resides. Myrtle Beach is the 5th most attached community amongst all communities in the dataset. However, Myrtle Beach does no better than 13th in all other metrics with the exception of Social Offerings, where it is ranked 1st. In other words, residents of Myrtle Beach felt the Social Offerings in their community were very strong, while most other metrics, including Aesthetics, Openness, Safety, and Education were poor. Figure \ref{fig:southeast_one} illstruates this phenomenon with a parallel coordinate plot. The mean value for all metrics is displayed for each of the communities, with Myrtle Beach highlighted in green, and other Southeast communities highlighted in blue. The metrics are sorted from high to low by the average value for each metric amongst all the communities. Notice that Myrtle Beach fairly closely tracks the rest of the communities in all metrics except for Social Offerings, where a sizable ``jump'' can be observed.
+
 <<southeast_one, echo=FALSE, fig.cap='Mean value of metric for each community. Myrtle Beach is highlighted in green, and the other communities in the Southeast are highlighted in blue.', fig.pos='H'>>=
 myrtle.dat <- cbind(subset(all.melt, year == "Aggregate"), Community = with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "Myrtle Beach, SC", "Myrtle Beach, SC", ifelse(Region == "Southeast", "Southeast", "Other"))))
 myrtle.dat$disp_name <- factor(myrtle.dat$disp_name, levels=unique(as.character(myrtle.dat$disp_name)))
@@ -178,6 +180,8 @@ ggplot() +
                         labels = c("Myrtle Beach, SC", "Southeast", "Other")) + 
     theme(axis.text.x = element_text(angle = 65, hjust = 1))
 @
+
+The question remains of how Myrtle Beach has such highly attached citizens when only Social Offerings appears to be a positive metric for the community. The reason is that Social Offerings is the single most highly correlated metric with Community Attachment in 23 out of the 26 communities, including Myrtle Beach.
 
 \subsection*{Rust Belt}
 <<rb_one, echo=FALSE, fig.cap='Caption...', fig.pos='H', warning=FALSE>>=
