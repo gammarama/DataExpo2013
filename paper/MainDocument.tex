@@ -43,7 +43,7 @@ The goal of our work is to facilitate understanding of why people feel attachmen
 
 \section*{Technology}
 
-In order to explore the dataset we first created an interactive tool to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
+In order to explore the dataset, we first created an interactive tool to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
 
 \subsection*{Description and Design}
 The interactive tool is comprised of three pieces, \begin{inparaenum}[\itshape 1\upshape)]
@@ -73,6 +73,14 @@ As the user interacts with each piece, the remaining portions of the interface u
 \end{figure}
 
 \subsection*{The Shoulders of Giants}
+
+\paragraph{Shiny}
+Shiny \cite{rs-shiny} is an {\tt R} package created by RStudio that enables {\tt R} users to create an interactive web application that utilizes {\tt R} as the background engine. Through default methods to build user interface elements in HTML and a handle to the server side code, Shiny is a simple way to turn {\tt R} code into a website. 
+
+\paragraph{D3}
+D3 \cite{mb-d3} stands for ``Data Driven Documents" and is a JavaScript library developed and maintained by Mike Bostock with the  purpose of visualizing and interacting with data in a web-based interface. It is freely available from \url{http://www.d3js.org}. The library facilitates manipulation of HTML elements, SVG (scalable vector graphics), and CSS (cascading style sheets) with the end goal of rendering animations and providing user interactions that are tied to the underlying data. The key idea behind the library is that Document Object Model elements are completely determined by the data. The Document Object Model (DOM) is a convention for representing and interacting with objects in HTML, XHTML and XML. So, rather than adding elements to a web page to be viewed by users, D3 allows users to see and interact with graphical representations of their data in a web framework. 
+
+\paragraph{Other Packages}
 
 \subsection*{Why?}
 During the creation of our interactive tool, we found it useful to stop and ask, ``Why?'' This process enabled the type of introspection necessary to help ensure usability and relevance in a project of this type.
@@ -105,7 +113,7 @@ We elected to divide our analysis using two primary factors. The first is the ge
 The five communities comprosing the Great Plains are Grand Forks, ND, Duluth, MN, Aberdeen, SD, Saint Paul, MN, and Wichita, KS. Through use of the interactive tool, we quickly discovered that the individuals in this region tended to rate the quality of education in the community more highly. In Table \ref{tbl:edu_table}, the top eight communities by the Education Metric are displayed. It can be seen that the Great Plains region includes three of the top four, and four of the top eight communities in terms of Education. Grand Forks, ND in particular has the highest average response for this metric amongst all communities. This is perhaps not too surprising given the presence of the University of North Dakota in this community.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Thu Jan 02 17:38:38 2014
+% Fri Jan 03 14:37:50 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lll}
@@ -143,7 +151,7 @@ We can visualize the distribution of the Education metric values for each of the
 What might be more surprising is illustrated in Table \ref{tbl:cce_table}; the Great Plains region itself has the largest overall Community Attachment among the five regions. As it turns out, the correlation of the Education metric to the Community Attachment metric in the Great Plains is 0.49. This compares to a correlation of 0.46 in the communities outside the Great Plains. This correlation is illustrated in Figure \ref{fig:gp_two}. The mean response for Community Attachment is plotted versus the mean response for Education in each of the Great Plains communities, and all other communities aggregated. The big dots represent the data aggregated over all years, while the smaller dots represent 2008, 2009, and 2010. A pretty strong relationship between Education and Community Attachment can be observed, but with one notable exception: Saint Paul, MN. Saint Paul has a much higher Community Attachment given its value for Education than what would be expected by observing the other communities. This is likely due Saint Paul's size and cultural presence, which may contribute to other factors which lead to a high sense of Community Attachment.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Thu Jan 02 17:38:46 2014
+% Fri Jan 03 14:38:02 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lr}
@@ -180,7 +188,7 @@ We also focused our analysis on the Urbanicity designations of the communities. 
 Table \ref{tbl:open_table} displays the top five communities by the Openness Metric. First, it can be seen that the three communities comprising the West Region are each in the top five for Openness. Second, Boulder and Long Beach each have the urbanicity of "Very high urbanicity-medium population". These communities consist of a relatively modest population, but where most of whom live in the urban core of the city. Figure \ref{fig:west_one} displays a two-dimensional bin plot of Community Attachment versus Openness, displaying only the communities with the designation "Very high urbanicity-medium population". Areas of darker red have a higher frequency of responses than those that are white. Notice that both Boulder and Long Beach tend to have more respondents indicating a high Community Attachment and a high Openness. By comparison, Akron, OH, and Gary, IN, two communities in the Rust Belt region with the same urbanicity, have much lower ratings on both of these scales. Bradenton, FL has many citizens highly attached to the community, but somewhat lower ratings for Openness compared to Boulder and Long Beach. Ultimately, it would seem that communities in the West region with this urbanicity designation place a higher value on the Openness of their community than do other communities of similar size in the rest of the country.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Thu Jan 02 17:38:48 2014
+% Fri Jan 03 14:38:04 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lllr}

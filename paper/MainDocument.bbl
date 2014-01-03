@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex version 2.3 $
+% $ biblatex version 2.2 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -15,6 +15,55 @@
       \aftergroup\endinput}
   {}
 \endgroup
+
+\entry{mb-d3}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Bostock}{B.}%
+     {Michael}{M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Ogievetsky}{O.}%
+     {Vadim}{V.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Heer}{H.}%
+     {Jeffrey}{J.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{BMOVHJ1}
+  \strng{fullhash}{BMOVHJ1}
+  \field{sortinit}{B}
+  \field{title}{D3: Data-Driven Documents}
+  \verb{url}
+  \verb http://vis.stanford.edu/files/2011-D3-InfoVis.pdf
+  \endverb
+  \field{journaltitle}{IEEE Trans. Visualization \& Comp. Graphics (Proc.
+  InfoVis)}
+  \field{year}{2011}
+\endentry
+
+\entry{rs-shiny}{manual}{}
+  \name{author}{1}{}{%
+    {{}%
+     {{RStudio Inc.}}{R.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{R1}
+  \strng{fullhash}{R1}
+  \field{sortinit}{R}
+  \field{note}{R package version 0.4.0}
+  \field{title}{shiny: Web Application Framework for R}
+  \verb{url}
+  \verb http://CRAN.R-project.org/package=shiny
+  \endverb
+  \field{year}{2013}
+\endentry
 
 \entry{tukey77}{book}{}
   \name{author}{1}{}{%
