@@ -15,7 +15,7 @@
 
 \begin{document}
 <<concordance, echo=FALSE>>=
-opts_chunk$set(concordance=TRUE)
+opts_chunk$set(concordance=TRUE, fig.align = "center")
 opts_knit$set(self.contained=FALSE)
 @
 

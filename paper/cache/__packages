@@ -1,12 +1,8 @@
 base
-datasets
 ggplot2
-graphics
-grDevices
 knitr
-methods
+maps
 plyr
 RColorBrewer
 reshape2
-stats
-utils
+xtable
