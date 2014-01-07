@@ -28,14 +28,29 @@ As the user interacts with each piece, the remaining portions of the interface u
 \end{figure}
 
 \subsection*{The Shoulders of Giants}
+We were able to incorporate several pioneering technologies in the creation of our application that allowed us to find insights in the dataset.
 
 \paragraph{Shiny}
 Shiny \cite{rs-shiny} is an {\tt R} package created by RStudio that enables {\tt R} users to create an interactive web application that utilizes {\tt R} as the background engine. Through default methods to build user interface elements in HTML and a handle to the server side code, Shiny is a simple way to turn {\tt R} code into a website. 
 
+In our interactive tool, Shiny is used as the framework upon which the application sits. Shiny allows us to manipulate the underlying dataset using {\tt R} on the server before passing it to the client side and used in displaying the plots.
+
 \paragraph{D3}
 D3 \cite{mb-d3} stands for ``Data Driven Documents" and is a JavaScript library developed and maintained by Mike Bostock with the  purpose of visualizing and interacting with data in a web-based interface. It is freely available from \url{http://www.d3js.org}. The library facilitates manipulation of HTML elements, SVG (scalable vector graphics), and CSS (cascading style sheets) with the end goal of rendering animations and providing user interactions that are tied to the underlying data. The key idea behind the library is that Document Object Model elements are completely determined by the data. The Document Object Model (DOM) is a convention for representing and interacting with objects in HTML, XHTML and XML. So, rather than adding elements to a web page to be viewed by users, D3 allows users to see and interact with graphical representations of their data in a web framework. 
 
+We used D3 and JavaScript to create the visualizations as well as control all the user interaction with the application. The graphics and user interface are all stored entirely on the client side, allowing for seemless transitions of the graphics. See Figure~\ref{fig:D3shiny} for a diagram of the ways Shiny and D3 are used in the application.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/D3shiny.png}
+\caption{\label{fig:D3shiny} Diagram of the uses of D3 and Shiny in our interactive application, specifically focusing on client versus server utilization.}
+\end{figure}
+
 \paragraph{Other Packages}
+We also leveraged other {\tt R} packages to help with data manipulation. We used plyr \cite{plyr}, reshape2 \cite{reshape2}, and rjson \cite{rjson} to split and aggregagate metric values according to the levels selectable by the user before passing the data to the client side in the JSON format. 
+
+For subsequent analysis after using the tool we used the {\tt R} packages ggplot2 \cite{ggplot2} and maps \cite{maps} to dive deeper into the interesting findings from the application.
+
 
 \subsection*{Why?}
 During the creation of our interactive tool, we found it useful to stop and ask, ``Why?'' This process enabled the type of introspection necessary to help ensure usability and relevance in a project of this type.

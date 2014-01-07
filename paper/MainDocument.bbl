@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex version 2.2 $
+% $ biblatex version 2.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -46,6 +46,49 @@
   \field{year}{2011}
 \endentry
 
+\entry{rjson}{manual}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Couture-Beil}{C.-B.}%
+     {Alex}{A.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{CBA1}
+  \strng{fullhash}{CBA1}
+  \field{sortinit}{C}
+  \field{note}{R package version 0.2.13}
+  \field{title}{rjson: JSON for R}
+  \verb{url}
+  \verb http://CRAN.R-project.org/package=rjson
+  \endverb
+  \field{year}{2013}
+\endentry
+
+\entry{maps}{manual}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Richard A.~Becker}{R.~A.~B.}%
+     {Original~S}{O.~S.}%
+     {code~by}{c.~b.}%
+     {}{}}%
+    {{}%
+     {Thomas P Minka~<tpminka@media.mit.edu>}{T.~P. M.~t.}%
+     {Allan R. Wilks.~R}{A.~R. W.~R.}%
+     {version by Ray Brownrigg. Enhancements~by}{v.~b. R. B. E.~b.}%
+     {}{}}%
+  }
+  \strng{namehash}{RABOScbTPMtARWRvbRBEb1}
+  \strng{fullhash}{RABOScbTPMtARWRvbRBEb1}
+  \field{sortinit}{R}
+  \field{note}{R package version 2.3-6}
+  \field{title}{maps: Draw Geographical Maps}
+  \verb{url}
+  \verb http://CRAN.R-project.org/package=maps
+  \endverb
+  \field{year}{2013}
+\endentry
+
 \entry{rs-shiny}{manual}{}
   \name{author}{1}{}{%
     {{}%
@@ -82,6 +125,72 @@
   \field{sortinit}{T}
   \field{title}{Exploratory Data Analysis}
   \field{year}{1977}
+\endentry
+
+\entry{ggplot2}{book}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Wickham}{W.}%
+     {Hadley}{H.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {Springer New York}%
+  }
+  \strng{namehash}{WH1}
+  \strng{fullhash}{WH1}
+  \field{sortinit}{W}
+  \field{isbn}{978-0-387-98140-6}
+  \field{title}{ggplot2: elegant graphics for data analysis}
+  \verb{url}
+  \verb http://had.co.nz/ggplot2/book
+  \endverb
+  \field{year}{2009}
+\endentry
+
+\entry{reshape2}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Wickham}{W.}%
+     {Hadley}{H.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{WH1}
+  \strng{fullhash}{WH1}
+  \field{sortinit}{W}
+  \field{number}{12}
+  \field{pages}{1\bibrangedash 20}
+  \field{title}{Reshaping Data with the {reshape} Package}
+  \verb{url}
+  \verb http://www.jstatsoft.org/v21/i12/
+  \endverb
+  \field{volume}{21}
+  \field{journaltitle}{Journal of Statistical Software}
+  \field{year}{2007}
+\endentry
+
+\entry{plyr}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Wickham}{W.}%
+     {Hadley}{H.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{WH1}
+  \strng{fullhash}{WH1}
+  \field{sortinit}{W}
+  \field{number}{1}
+  \field{pages}{1\bibrangedash 29}
+  \field{title}{The Split-Apply-Combine Strategy for Data Analysis}
+  \verb{url}
+  \verb http://www.jstatsoft.org/v40/i01/
+  \endverb
+  \field{volume}{40}
+  \field{journaltitle}{Journal of Statistical Software}
+  \field{year}{2011}
 \endentry
 
 \lossort
