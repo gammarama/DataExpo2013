@@ -35,7 +35,27 @@
 \setcounter{page}{1}
 \section*{Introduction}
 
-This is the introduction.
+This work was part of the American Statistical Association's Data Exposition 2013 sponspored by the Knight Foundation and the Graphics/Computing Section of the ASA.
+
+\subsection*{Data}
+The dataset comes from the Knight Foundation's `Soul of the Community' project. For this project, the Knight Foundation in conjunction with Gallup collected surveys from 43,000 people over three years in 26 U.S. communities. This was not a random sample of communities across the United States, but rather they were chosen as places that the Knight Foundation was already active. The survey contains raw responses as well as derived metrics that we used to gain insight into what makes a community thrive. The metrics we used can be found in Table~\ref{tab:metrics}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l l}
+\hline
+Metrics & \\
+\hline
+Community Attachment (1-5) & Social Offerings \\
+Safety & Social Capital \\
+Education & Basic Services \\
+Leadership & Civic Involvement \\
+Aesthetics & Openness \\
+Economy &  \\
+\hline
+\end{tabular}
+\caption{\label{tab:metrics} The metrics used from the Knight Foundation Soul of the Community survey. All metrics are on a 1-3 scale except for Community Attachment, which is on a scale of 1-5.}
+\end{table}
 
 \subsection*{Philosophy}
 The goal of our work is to facilitate understanding of why people feel attachment to their communities through the use of an interactive and web-based approach. Specifically, we took the point of view of a community planner, either from one of the communities in the study or from a community in the same region or a similar urbanicity. By putting the user in the driver seat of their own experience, we allow the user to apply the conclusions of their interaction to their own situation.
@@ -46,7 +66,7 @@ The goal of our work is to facilitate understanding of why people feel attachmen
 In order to explore the dataset, we first created an interactive tool to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
 
 \subsection*{Description and Design}
-The interactive tool is comprised of three pieces, \begin{inparaenum}[\itshape 1\upshape)]
+The interactive tool is comprised of three pieces, \begin{inparaenum}[(1)]
 \item Side panel, 
 \item Map Panel, and
 \item Plot panel,
@@ -133,7 +153,7 @@ We elected to divide our analysis using two primary factors. The first is the ge
 The five communities comprising the Great Plains are Grand Forks, ND, Duluth, MN, Aberdeen, SD, Saint Paul, MN, and Wichita, KS. Through use of the interactive tool, we quickly discovered that the individuals in this region tended to rate the quality of education in the community more highly. In Table \ref{tbl:edu_table}, the top eight communities by the Education Metric are displayed. It can be seen that the Great Plains region includes three of the top four, and four of the top eight communities in terms of Education. Grand Forks, ND in particular has the highest average response for this metric amongst all communities. This is perhaps not too surprising given the presence of the University of North Dakota in this community.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Tue Jan 07 14:13:37 2014
+% Wed Jan 08 18:07:07 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{llr}
@@ -176,7 +196,7 @@ We can visualize the distribution of the Education metric values for each of the
 What might be more surprising is illustrated in Table \ref{tbl:cce_table}; the Great Plains region itself has the largest overall Community Attachment among the five regions. As it turns out, the correlation of the Education metric to the Community Attachment metric in the Great Plains is 0.49. This compares to a correlation of 0.46 in the communities outside the Great Plains. This correlation is illustrated in Figure \ref{fig:gp_two}. The mean response for Community Attachment is plotted versus the mean response for Education in each of the Great Plains communities, and all other communities aggregated. The big dots represent the data aggregated over all years, while the smaller dots represent 2008, 2009, and 2010. A pretty strong relationship between Education and Community Attachment can be observed, but with one notable exception: Saint Paul, MN. Saint Paul has a much higher Community Attachment given its value for Education than what would be expected by observing the other communities. This is likely due Saint Paul's size and cultural presence, which may contribute to other factors which lead to a high sense of Community Attachment.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Tue Jan 07 14:13:45 2014
+% Wed Jan 08 18:07:14 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lr}
@@ -218,7 +238,7 @@ We also focused our analysis on the Urbanicity designations of the communities. 
 Table \ref{tbl:open_table} displays the top five communities by the Openness Metric. First, it can be seen that the three communities comprising the West Region are each in the top five for Openness. Second, Boulder and Long Beach each have the urbanicity of "Very high urbanicity-medium population". These communities consist of a relatively modest population, but where most of whom live in the urban core of the city. Figure \ref{fig:west_one} displays a two-dimensional bin plot of Community Attachment versus Openness, displaying only the communities with the designation "Very high urbanicity-medium population". Areas of darker red have a higher frequency of responses than those that are white. Notice that both Boulder and Long Beach tend to have more respondents indicating a high Community Attachment and a high Openness. By comparison, Akron, OH, and Gary, IN, two communities in the Rust Belt region with the same urbanicity, have much lower ratings on both of these scales. Bradenton, FL has many citizens highly attached to the community, but somewhat lower ratings for Openness compared to Boulder and Long Beach. Ultimately, it would seem that communities in the West region with this urbanicity designation place a higher value on the Openness of their community than do other communities of similar size in the rest of the country.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Tue Jan 07 14:13:46 2014
+% Wed Jan 08 18:07:15 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lllr}
@@ -297,7 +317,7 @@ The question remains of how Myrtle Beach has such highly attached citizens when 
 As the data covers the period from 2008 to 2010, we hoped to find some stories relating to the economic collapse, or the Great Recession, which began in 2008. We focused on the Economy metric in the Rust Belt communities, and noted a largely negative view of economic conditions in this region, particularly in its economic center, Detroit, MI. Table \ref{tbl:econ} displays the average response on a 1-3 scale for Economy in the Rust Belt communities across each of the three years. It can be seen that although all Rust Belt communities experienced a drop in attitudes about the economy between 2008 and 2009, Detroit's was noticeably smaller. By 2010, attitudes about the economy began to improve. This can also be seen by examining Figure \ref{rb_one}, a density plot of values for Economy in each of the communities in the three years.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Tue Jan 07 14:13:54 2014
+% Wed Jan 08 18:07:23 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{llr}

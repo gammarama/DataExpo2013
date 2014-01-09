@@ -1,7 +1,7 @@
 In order to explore the dataset, we first created an interactive tool to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
 
 \subsection*{Description and Design}
-The interactive tool is comprised of three pieces, \begin{inparaenum}[\itshape 1\upshape)]
+The interactive tool is comprised of three pieces, \begin{inparaenum}[(1)]
 \item Side panel, 
 \item Map Panel, and
 \item Plot panel,
