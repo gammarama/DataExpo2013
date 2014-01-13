@@ -42,7 +42,7 @@ print(xtable(sub.df[1:8, ], digits = c(4, 0, 0, 4), label = "tbl:edu_table", cap
 
 We can visualize the distribution of the Education metric values for each of the Great Plains communities compared to all other communities. Histograms of these values are displayed in Figure \ref{fig:gp_one}. With the exception of Wichita, KS, the Great Plains communities have more responses in the higher values when compared with communities in other regions. This is most visible in both Grand Forks, ND and Aberdeen, SD.
 
-<<gp_one, echo=FALSE, fig.cap='Histograms of responses to Education for the five Great Plain communities, and all other communities aggregated.', fig.pos='H', fig.height=4, fig.width=6>>=
+<<gp_one, echo=FALSE, fig.cap='Histograms of responses to Education for the five Great Plain communities, and all other communities aggregated.', fig.pos='H', fig.height=3, fig.width=5>>=
 clean.all.merge <- merge(clean.all, comm.facts, by.x = "QSB", by.y = "Community")
 plains.dat <- subset(clean.all.merge, Region == "Great Plains")
 
@@ -107,7 +107,7 @@ names(sub.df2) <- c("Community", "Region", "Urbanicity", "Openness")
 print(xtable(sub.df2, digits = 4, label = "tbl:open_table", caption = "Top Five Communities by the Openness Metric."), table.position = "H", include.rownames = FALSE)
 @
 
-<<west_one, echo=FALSE, fig.cap='Caption...', fig.pos='H'>>=
+<<west_one, echo=FALSE, fig.cap='Caption...', fig.pos='H', fig.height=6>>=
 west.dat <- subset(clean.all.merge, Urbanicity == "Very high urbanicity-medium population")
 west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Akron, OH", "Bradenton, FL", "Long Beach, CA", "Gary, IN"))
 
@@ -126,7 +126,7 @@ Exploring trends in the Deep South communities of Macon, GA, Milledgeville, GA, 
 
 As it turns out, Biloxi also had the highest overall Community Attachment rating in the Deep South. Figure \ref{fig:ds_one} displays the average rating from 2008 to 2010 in terms of Safety, Social Offerings, and Community Attachment. Biloxi is highlighted in red, the other Deep South communities are highlighted in blue, and the rest of the communities in gray. The stark difference in Biloxi compared with the rest of the Deep South is readily apparent, and helps to explain why Community Attachment is quite high in Biloxi.
 
-<<ds_one, echo=FALSE, fig.cap='Responses across the three years for Safety, Social Offerings, and Community Attachment.', fig.pos='H', fig.width=7, fig.height=4.5>>=
+<<ds_one, echo=FALSE, fig.cap='Responses across the three years for Safety, Social Offerings, and Community Attachment.', fig.pos='H', fig.width=7, fig.height=4>>=
 south.dat <- cbind(subset(all.years.city, year != "Aggregate"), Community = with(subset(all.years.city, year != "Aggregate"), ifelse(QSB == "Biloxi, MS", "Biloxi, MS", ifelse(Region == "Deep South", "Deep South", "Other"))))
 south.dat$Community <- factor(south.dat$Community, levels=c("Biloxi, MS", "Deep South", "Other"))
 south.dat.melt <- melt(south.dat[, c("year", "QSB", "Community", "SAFETY", 'SOCIAL_O', "CCE")], id.vars=c("year", "QSB", "Community"))
@@ -155,13 +155,14 @@ ggplot() +
     scale_colour_manual(name = "Community",
                         values = c("#FF3300","#000066","darkgrey"),
                         breaks = c("Biloxi, MS", "Deep South", "Other"),
-                        labels = c("Biloxi, MS", "Deep South", "Other"))
+                        labels = c("Biloxi, MS", "Deep South", "Other")) +
+    theme(legend.position = "bottom")
 @
 
 \subsection*{Southeast}
 In the Deep South, we saw some evidence suggesting Biloxi's high rating for Social Offerings may be contributing to a strong sense of attachment in that community. Nowhere is this phenomenon more prominent than in the Southeast region, where Myrtle Beach, SC resides. Myrtle Beach is the 5th most attached community amongst all communities in the dataset. However, Myrtle Beach does no better than 13th in all other metrics with the exception of Social Offerings, where it is ranked 1st. In other words, residents of Myrtle Beach felt the Social Offerings in their community were very strong, while most other metrics, including Aesthetics, Openness, Safety, and Education were poor. Figure \ref{fig:southeast_one} illstruates this phenomenon with a parallel coordinate plot. The mean value for all metrics is displayed for each of the communities, with Myrtle Beach highlighted in green, and other Southeast communities highlighted in blue. The metrics are sorted from high to low by the average value for each metric amongst all the communities. Notice that Myrtle Beach fairly closely tracks the rest of the communities in all metrics except for Social Offerings, where a sizable ``jump'' can be observed.
 
-<<southeast_one, echo=FALSE, fig.cap='Mean value of metric for each community. Myrtle Beach is highlighted in green, and the other communities in the Southeast are highlighted in blue.', fig.pos='H'>>=
+<<southeast_one, echo=FALSE, fig.cap='Mean value of metric for each community. Myrtle Beach is highlighted in green, and the other communities in the Southeast are highlighted in blue.', fig.pos='H', fig.height=5>>=
 myrtle.dat <- cbind(subset(all.melt, year == "Aggregate"), Community = with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "Myrtle Beach, SC", "Myrtle Beach, SC", ifelse(Region == "Southeast", "Southeast", "Other"))))
 myrtle.dat$disp_name <- factor(myrtle.dat$disp_name, levels=unique(as.character(myrtle.dat$disp_name)))
 myrtle.dat$Community.f <- factor(myrtle.dat$Community, levels=c("Myrtle Beach, SC", "Southeast", "Other"))
@@ -197,7 +198,7 @@ ggplot() +
 The question remains of how Myrtle Beach has such highly attached citizens when only Social Offerings appears to be a positive metric for the community. The reason is that Social Offerings is the single most highly correlated metric with Community Attachment in 23 out of the 26 communities, including Myrtle Beach.
 
 \subsection*{Rust Belt}
-As the data covers the period from 2008 to 2010, we hoped to find some stories relating to the economic collapse, or the Great Recession, which began in 2008. We focused on the Economy metric in the Rust Belt communities, and noted a largely negative view of economic conditions in this region, particularly in its economic center, Detroit, MI. Table \ref{tbl:econ} displays the average response on a 1-3 scale for Economy in the Rust Belt communities across each of the three years. It can be seen that although all Rust Belt communities experienced a drop in attitudes about the economy between 2008 and 2009, Detroit's was noticeably smaller. By 2010, attitudes about the economy began to improve. This can also be seen by examining Figure \ref{rb_one}, a density plot of values for Economy in each of the communities in the three years.
+As the data covers the period from 2008 to 2010, we hoped to find some stories relating to the economic collapse, or the Great Recession, which began in 2008. We focused on the Economy metric in the Rust Belt communities, and noted a largely negative view of economic conditions in this region, particularly in its economic center, Detroit, MI. Table \ref{tbl:econ} displays the average response on a 1-3 scale for Economy in the Rust Belt communities across each of the three years. It can be seen that although all Rust Belt communities experienced a drop in attitudes about the economy between 2008 and 2009, Detroit's was noticeably smaller. By 2010, attitudes about the economy began to improve. This can also be seen by examining Figure \ref{fig:rb_one}, a density plot of values for Economy in each of the communities in the three years.
 
 <<econ, echo=FALSE, results='asis'>>=
 tbl <- subset(all.melt, Region == "Rust Belt" & variable == "ECONOMY" & year != "Aggregate")[,c(3, 1, 5)]
@@ -206,7 +207,8 @@ tbl$Economy <- as.numeric(tbl$Economy)
 
 tbl <- tbl[with(tbl, order(Community)), ]
 
-print(xtable(tbl, digits = c(4, 0, 0, 4), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities"), table.position = "H", include.rownames = FALSE)
+new.tbl <- dcast(tbl, Community ~ Year, value.var = "Economy")
+print(xtable(new.tbl, digits = c(4, 0, 4, 4, 4), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities in each of the three years."), table.position = "H", include.rownames = FALSE)
 @
 
 <<rb_one, echo=FALSE, fig.cap='Caption...', fig.pos='H', warning=FALSE>>=

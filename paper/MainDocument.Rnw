@@ -70,7 +70,7 @@ clean.2008.city.merge <- merge(clean.2008.city, comm.facts, by.x = "QSB", by.y =
 clean.2009.city.merge <- merge(clean.2009.city, comm.facts, by.x = "QSB", by.y = "Community")
 clean.2010.city.merge <- merge(clean.2010.city, comm.facts, by.x = "QSB", by.y = "Community")
 
-#Sandbox
+#Sandbox    
 all.years.city <- rbind(cbind(year=rep(2008, nrow(clean.2008.city.merge)), clean.2008.city.merge),
                         cbind(year=rep(2009, nrow(clean.2009.city.merge)), clean.2009.city.merge),
                         cbind(year=rep(2010, nrow(clean.2010.city.merge)), clean.2010.city.merge),
@@ -90,6 +90,12 @@ all.melt$disp_name <- factor(all.melt$disp_name, levels=unique(as.character(all.
 
 \maketitle
 
+\begin{abstract}
+In this paper, we explore the relationships that individuals have with their communities. This work was prepared as part of the ASA Data Expo ’13 sponsored by the Graphics Section and the Computing Section, using data provided by the Knight Foundation Soul of the Community survey. The Knight Foundation in cooperation with Gallup surveyed 43,000 people over three years in 26 communities across the United States with the intention of understanding the association between community attributes and the degree of attachment people feel towards their community. These include the different facets of both urban and rural communities, the impact of quality education, and the trend in the perceived economic conditions of a community over time. We begin by focusing on the choices made in producing the visualizations and technical aspects of how they were created. We will explain the development and use of web-based interactive graphics, including an overview of the R package shiny and the JavaScript library D3. Then we describe the stories about community attachment that unfolded from our analysis.
+\end{abstract}
+
+\clearpage
+
 \setcounter{page}{1}
 \section*{Introduction}
 <<introduction, child='Introduction.Rnw'>>=
@@ -106,6 +112,8 @@ all.melt$disp_name <- factor(all.melt$disp_name, levels=unique(as.character(all.
 \section*{Conclusion}
 <<conclusion, child='Conclusion.Rnw'>>=
 @
+
+\clearpage
 
 \printbibliography
 \end{document}
