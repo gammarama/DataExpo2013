@@ -1,0 +1,65 @@
+In order to explore the dataset, we first created an interactive tool to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
+
+\subsection*{Description and Design}
+The interactive tool is comprised of three pieces, \begin{inparaenum}[(1)]
+\item Side panel, 
+\item Map Panel, and
+\item Plot panel,
+\end{inparaenum}
+as seen in Figure~\ref{fig:tool}.
+As the user interacts with each piece, the remaining portions of the interface update to reflect the interaction. In this way we have built an interactive graphic, rather than an animation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/tool.png}
+\caption{\label{fig:tool} The components that make up the interactive web interface, (1) Side panel, (2) Map panel, and (3) Plot panel.}
+\end{figure}
+
+\paragraph{Side panel} The side panel houses two features. The first is the ability to look at the data for individual years versus aggregated across all three years. In this way we are able to explore attitude changes across the three years surveyed as well as overarching trends in the regions and urbanicities. The second is a colorblind friendly option that uses blue on the map rather than green to accomodate more users.
+
+\paragraph{Map panel} The map panel is the central piece of the application. A bubble chart of the 26 communities surveyed are plotted geographically on a map of the United States. The size of each dot represents how many surveys were received for the time period selected and the color of each dot corresponds to the average value for each community in the time period selected for the metric selected. There is a right panel that allows for the user to change which metric is displayed. Additionally, each community is clickable. On click, basic information about that community is displayed below the map panel and the plot panel is updated to refect the community that is clicked. It is our goal for a community planner to be able to start with the map panel and find a community that was surveyed that corresponds to the community they are interested about, or one that is nearby, as a means to delve into the driving factors of community attachment.
+
+\paragraph{Plot panel} The plot panel is a set of three linked plots that detail three aspects of the dataset. The first plot is a bar graph showing the average value of the metric selected for the year range selected for the community selected as well as for its region and its urbanicity. For example, if Detroit, MI is the community selected, then the region would be Rust Belt and the urbanicity ``Very high urbanicity-very large population''. There is also a 4th bar in the chart that represents the aggregation of all the communities serves as a reference. While the bar chart is a plot that shows surface information, its true purpose is to control the information displayed in the other two plots. As the user clicks on the bars, the second two plots will display information pertaining to the level selected (either region, urbanicity, or the whole dataset). The middle plot is an ordered dot plot displaying the average value for the metric selected for all communities with the level selected in the bar chart highlighted. See Figure~\ref{fig:dots} for an example of the dfferent highlighting available. Finally, the third plot is a plot of correlations between each metric and community attachment for the level of aggregation (year and community/region/urbanicity) selected. There is a reference level in the background that displays the correlation for every survey aggregated to ease comparison for the user. The three plots are linked in such a way that selection through clicking in one plot will affect all three plots and potentially the map panel. In this manner, the user can truly drive their experience and take ownership of their analysis.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/dots.png}
+\caption{\label{fig:dots} Examples of the different types of highlighting available in the ordered dot plot from the plot panel. The highlighting corresponds to (1) community selection, (2) region selection, (3) urbanicity selection, and (4) all community selection. In this example, Detroit, MI has been selected to display the values of community attachment for all three years, 2008-2010.}
+\end{figure}
+
+\subsection*{The Shoulders of Giants}
+We were able to incorporate several pioneering technologies in the creation of our application that allowed us to find insights in the dataset.
+
+\paragraph{Shiny}
+Shiny \cite{rs-shiny} is an {\tt R} package created by RStudio that enables {\tt R} users to create an interactive web application that utilizes {\tt R} as the background engine. Through default methods to build user interface elements in HTML and a handle to the server side code, Shiny is a simple way to turn {\tt R} code into a website. 
+
+In our interactive tool, Shiny is used as the framework upon which the application sits. Shiny allows us to manipulate the underlying dataset using {\tt R} on the server before passing it to the client side and used in displaying the plots.
+
+\paragraph{D3}
+D3 \cite{mb-d3} stands for ``Data Driven Documents" and is a JavaScript library developed and maintained by Mike Bostock with the  purpose of visualizing and interacting with data in a web-based interface. It is freely available from \url{http://www.d3js.org}. The library facilitates manipulation of HTML elements, SVG (scalable vector graphics), and CSS (cascading style sheets) with the end goal of rendering animations and providing user interactions that are tied to the underlying data. The key idea behind the library is that Document Object Model elements are completely determined by the data. The Document Object Model (DOM) is a convention for representing and interacting with objects in HTML, XHTML and XML. So, rather than adding elements to a web page to be viewed by users, D3 allows users to see and interact with graphical representations of their data in a web framework. 
+
+We used D3 and JavaScript to create the visualizations as well as control all the user interaction with the application. The graphics and user interface are all stored entirely on the client side, allowing for seemless transitions of the graphics. See Figure~\ref{fig:D3shiny} for a diagram of the ways Shiny and D3 are used in the application.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/D3shiny.png}
+\caption{\label{fig:D3shiny} Diagram of the uses of D3 and Shiny in our interactive application, specifically focusing on client versus server utilization.}
+\end{figure}
+
+\paragraph{Other Packages}
+We also leveraged other {\tt R} packages to help with data manipulation. We used plyr \cite{plyr}, reshape2 \cite{reshape2}, and rjson \cite{rjson} to split and aggregagate metric values according to the levels selectable by the user before passing the data to the client side in the JSON format. 
+
+For subsequent analysis after using the tool we used the {\tt R} packages ggplot2 \cite{ggplot2} and maps \cite{maps} to dive deeper into the interesting findings from the application.
+
+
+\subsection*{Why?}
+During the creation of our interactive tool, we found it useful to stop and ask, ``Why?'' This process enabled the type of introspection necessary to help ensure usability and relevance in a project of this type.
+
+\paragraph{Interactive}
+Why interactive? In order to discover what the data has to tell the world. In the words of John Tukey, "Exploratory data analysis is detective work - numerical detective work - or counting detective work - or \emph{graphical detective work}." \cite{tukey77} Dynamic, interactive visualizations can empower people to explore the data for themselves as well as encourage engagement with the data in a way that static visualizations cannot.
+
+\paragraph{Linked Plots}
+Why linked plots? Linking multiple visualizations shows different aspects of a complex data set and helps highlight relationships. By allowing actions in one plot to affect elements in other plots, comparisons are made easy for the user without requiring much memorization. This aids in pattern finding by avoiding taxation of the user's brain through memorization.
+
+\paragraph{Web-based}
+Why web-based? A web-based application is platform-independent and allows the user to employ the tool without any software to download. Additionally, by building an application that works on all modern browsers and operating systems, there are no limitations on who can use the tool. Finally, automatic feature additions and bug fixes can be completed transparently to the user.

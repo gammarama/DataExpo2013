@@ -9,7 +9,7 @@ svg.map {
 }
 
 #states {
-  fill: #aaa;
+  fill: #d4d4d4;
 }
 
 #states .active {
@@ -28,4 +28,20 @@ svg.map {
 circle {
     cursor:pointer    
 }
+
+.key {
+  font: 8px sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.caption {
+  font-weight: bold;
+}
+
+.key path {
+  display: none;
+}
+
 </style>

@@ -159,7 +159,8 @@ clean.all <- read.csv("data/sotc.csv")
 corr.dat <- read.csv("data/CEcor.csv")
 comm.facts <- read.csv("data/CommunityFacts.csv")
 
-metrics <- c("CCE", "SAFETY", "EDUCATIO", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "SOCIAL_C", "BASIC_SE", "INVOLVEM", "OPENNESS")
+#metrics <- c("CCE", "SAFETY", "EDUCATIO", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "SOCIAL_C", "BASIC_SE", "INVOLVEM", "OPENNESS")
+metrics <- c("CCE", "SOCIAL_O", "OPENNESS", "AESTHETI", "EDUCATIO", "BASIC_SE", "LEADERSH", "ECONOMY", "SAFETY", "SOCIAL_C", "INVOLVEM")
 getMax <- function(data, met) {return(max(data[,met], na.rm = TRUE))}
 
 getRegion <- function(city) {
