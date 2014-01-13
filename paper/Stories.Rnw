@@ -84,7 +84,8 @@ ggplot(data = ugh) +
                       values=c(1,2,3,6),
                       labels=c("2008","2009","2010","Aggregate")) +
     ylab("Community Attachment") + xlab("Education") +
-    theme(axis.text.y = element_blank(), legend.position = "bottom")
+    theme(axis.text.y = element_blank(), legend.position = "bottom") +
+    guides(colour = guide_legend(nrow = 2))
 @
 
 
@@ -107,7 +108,7 @@ names(sub.df2) <- c("Community", "Region", "Urbanicity", "Openness")
 print(xtable(sub.df2, digits = 4, label = "tbl:open_table", caption = "Top Five Communities by the Openness Metric."), table.position = "H", include.rownames = FALSE)
 @
 
-<<west_one, echo=FALSE, fig.cap='Caption...', fig.pos='H', fig.height=6>>=
+<<west_one, echo=FALSE, fig.cap='Binned density plot of responses for Openness and Community Attachment among the five communities with Very high urbanicity-medium population designations.', fig.pos='H', fig.height=6>>=
 west.dat <- subset(clean.all.merge, Urbanicity == "Very high urbanicity-medium population")
 west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Akron, OH", "Bradenton, FL", "Long Beach, CA", "Gary, IN"))
 
@@ -211,7 +212,7 @@ new.tbl <- dcast(tbl, Community ~ Year, value.var = "Economy")
 print(xtable(new.tbl, digits = c(4, 0, 4, 4, 4), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities in each of the three years."), table.position = "H", include.rownames = FALSE)
 @
 
-<<rb_one, echo=FALSE, fig.cap='Caption...', fig.pos='H', warning=FALSE>>=
+<<rb_one, echo=FALSE, fig.cap='Density of responses in Rust Belt communities over each of the three years.', fig.pos='H', warning=FALSE>>=
 rust.dat <- subset(clean.all.merge, Region == "Rust Belt")
 rust.dat$detroit_f <- rust.dat$QSB == "Detroit, MI"
 rust.dat$year <- with(rust.dat, ifelse(source == "sotc08", 2008, ifelse(source == "sotc09", 2009, 2010)))

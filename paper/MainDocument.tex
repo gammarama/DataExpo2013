@@ -69,10 +69,10 @@ The goal of our work is to facilitate understanding of why people feel attachmen
 
 \section*{Technology}
 
-In order to explore the dataset, we first created an interactive tool to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
+In order to explore the dataset, we first created an interactive tool called {\it CommuniD3} (available at \url{http://glimmer.rstudio.com/andeek/DataExpo2013}) to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
 
 \subsection*{Description and Design}
-The interactive tool is comprised of three pieces, \begin{inparaenum}[(1)]
+CommuniD3 is comprised of three pieces, \begin{inparaenum}[(1)]
 \item Side panel, 
 \item Map Panel, and
 \item Plot panel,
@@ -83,7 +83,7 @@ As the user interacts with each piece, the remaining portions of the interface u
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{images/tool.png}
-\caption{\label{fig:tool} The components that make up the interactive web interface, (1) Side panel, (2) Map panel, and (3) Plot panel.}
+\caption{\label{fig:tool} The components that make up CommuniD3, (1) Side panel, (2) Map panel, and (3) Plot panel.}
 \end{figure}
 
 \paragraph{Side panel} The side panel houses two features. The first is the ability to look at the data for individual years versus aggregated across all three years. In this way we are able to explore attitude changes across the three years surveyed as well as overarching trends in the regions and urbanicities. The second is a colorblind friendly option that uses blue on the map rather than green to accomodate more users.
@@ -104,27 +104,27 @@ We were able to incorporate several pioneering technologies in the creation of o
 \paragraph{Shiny}
 Shiny \cite{rs-shiny} is an {\tt R} package created by RStudio that enables {\tt R} users to create an interactive web application that utilizes {\tt R} as the background engine. Through default methods to build user interface elements in HTML and a handle to the server side code, Shiny is a simple way to turn {\tt R} code into a website. 
 
-In our interactive tool, Shiny is used as the framework upon which the application sits. Shiny allows us to manipulate the underlying dataset using {\tt R} on the server before passing it to the client side and used in displaying the plots.
+In CommuniD3, Shiny is used as the framework upon which the application sits. Shiny allows us to manipulate the underlying dataset using {\tt R} on the server before passing it to the client side and used in displaying the plots.
 
 \paragraph{D3}
 D3 \cite{mb-d3} stands for ``Data Driven Documents" and is a JavaScript library developed and maintained by Mike Bostock with the  purpose of visualizing and interacting with data in a web-based interface. It is freely available from \url{http://www.d3js.org}. The library facilitates manipulation of HTML elements, SVG (scalable vector graphics), and CSS (cascading style sheets) with the end goal of rendering animations and providing user interactions that are tied to the underlying data. The key idea behind the library is that Document Object Model elements are completely determined by the data. The Document Object Model (DOM) is a convention for representing and interacting with objects in HTML, XHTML and XML. So, rather than adding elements to a web page to be viewed by users, D3 allows users to see and interact with graphical representations of their data in a web framework. 
 
-We used D3 and JavaScript to create the visualizations as well as control all the user interaction with the application. The graphics and user interface are all stored entirely on the client side, allowing for seemless transitions of the graphics. See Figure~\ref{fig:D3shiny} for a diagram of the ways Shiny and D3 are used in the application.
+We used D3 and JavaScript to create the visualizations as well as control all the user interaction with the application. The graphics and user interface are all stored entirely on the client side, allowing for seemless transitions of the graphics. See Figure~\ref{fig:D3shiny} for a diagram of the ways Shiny and D3 are used in CommuniD3.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{images/D3shiny.png}
-\caption{\label{fig:D3shiny} Diagram of the uses of D3 and Shiny in our interactive application, specifically focusing on client versus server utilization.}
+\caption{\label{fig:D3shiny} Diagram of the uses of D3 and Shiny in CommuniD3, specifically focusing on client versus server utilization.}
 \end{figure}
 
 \paragraph{Other Packages}
 We also leveraged other {\tt R} packages to help with data manipulation. We used plyr \cite{plyr}, reshape2 \cite{reshape2}, and rjson \cite{rjson} to split and aggregagate metric values according to the levels selectable by the user before passing the data to the client side in the JSON format. 
 
-For subsequent analysis after using the tool we used the {\tt R} packages ggplot2 \cite{ggplot2} and maps \cite{maps} to dive deeper into the interesting findings from the application.
+For subsequent analysis after using CommuniD3 we used the {\tt R} packages ggplot2 \cite{ggplot2} and maps \cite{maps} to dive deeper into the interesting findings from the application.
 
 
 \subsection*{Why?}
-During the creation of our interactive tool, we found it useful to stop and ask, ``Why?'' This process enabled the type of introspection necessary to help ensure usability and relevance in a project of this type.
+During the creation of CommuniD3, we found it useful to stop and ask, ``Why?'' This process enabled the type of introspection necessary to help ensure usability and relevance in a project of this type.
 
 \paragraph{Interactive}
 Why interactive? In order to discover what the data has to tell the world. In the words of John Tukey, "Exploratory data analysis is detective work - numerical detective work - or counting detective work - or \emph{graphical detective work}." \cite{tukey77} Dynamic, interactive visualizations can empower people to explore the data for themselves as well as encourage engagement with the data in a way that static visualizations cannot.
@@ -159,7 +159,7 @@ We elected to divide our analysis using two primary factors. The first is the ge
 The five communities comprising the Great Plains are Grand Forks, ND, Duluth, MN, Aberdeen, SD, Saint Paul, MN, and Wichita, KS. Through use of the interactive tool, we quickly discovered that the individuals in this region tended to rate the quality of education in the community more highly. In Table \ref{tbl:edu_table}, the top eight communities by the Education Metric are displayed. It can be seen that the Great Plains region includes three of the top four, and four of the top eight communities in terms of Education. Grand Forks, ND in particular has the highest average response for this metric amongst all communities. This is perhaps not too surprising given the presence of the University of North Dakota in this community.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Mon Jan 13 16:52:42 2014
+% Mon Jan 13 17:10:56 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{llr}
@@ -202,7 +202,7 @@ We can visualize the distribution of the Education metric values for each of the
 What might be more surprising is illustrated in Table \ref{tbl:cce_table}; the Great Plains region itself has the largest overall Community Attachment among the five regions. As it turns out, the correlation of the Education metric to the Community Attachment metric in the Great Plains is 0.49. This compares to a correlation of 0.46 in the communities outside the Great Plains. This correlation is illustrated in Figure \ref{fig:gp_two}. The mean response for Community Attachment is plotted versus the mean response for Education in each of the Great Plains communities, and all other communities aggregated. The big dots represent the data aggregated over all years, while the smaller dots represent 2008, 2009, and 2010. A pretty strong relationship between Education and Community Attachment can be observed, but with one notable exception: Saint Paul, MN. Saint Paul has a much higher Community Attachment given its value for Education than what would be expected by observing the other communities. This is likely due Saint Paul's size and cultural presence, which may contribute to other factors which lead to a high sense of Community Attachment.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Mon Jan 13 16:52:48 2014
+% Mon Jan 13 17:11:03 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lr}
@@ -244,7 +244,7 @@ We also focused our analysis on the Urbanicity designations of the communities. 
 Table \ref{tbl:open_table} displays the top five communities by the Openness Metric. First, it can be seen that the three communities comprising the West Region are each in the top five for Openness. Second, Boulder and Long Beach each have the urbanicity of "Very high urbanicity-medium population". These communities consist of a relatively modest population, but where most of whom live in the urban core of the city. Figure \ref{fig:west_one} displays a two-dimensional bin plot of Community Attachment versus Openness, displaying only the communities with the designation "Very high urbanicity-medium population". Areas of darker red have a higher frequency of responses than those that are white. Notice that both Boulder and Long Beach tend to have more respondents indicating a high Community Attachment and a high Openness. By comparison, Akron, OH, and Gary, IN, two communities in the Rust Belt region with the same urbanicity, have much lower ratings on both of these scales. Bradenton, FL has many citizens highly attached to the community, but somewhat lower ratings for Openness compared to Boulder and Long Beach. Ultimately, it would seem that communities in the West region with this urbanicity designation place a higher value on the Openness of their community than do other communities of similar size in the rest of the country.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Mon Jan 13 16:52:49 2014
+% Mon Jan 13 17:11:03 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lllr}
@@ -272,7 +272,7 @@ Long Beach, CA & West & Very high urbanicity-medium population & 1.9496 \\
 
 }
 
-\caption[Caption]{Caption...\label{fig:west_one}}
+\caption[Binned density plot of responses for Openness and Community Attachment among the five communities with Very high urbanicity-medium population designations]{Binned density plot of responses for Openness and Community Attachment among the five communities with Very high urbanicity-medium population designations.\label{fig:west_one}}
 \end{figure}
 
 
@@ -323,7 +323,7 @@ The question remains of how Myrtle Beach has such highly attached citizens when 
 As the data covers the period from 2008 to 2010, we hoped to find some stories relating to the economic collapse, or the Great Recession, which began in 2008. We focused on the Economy metric in the Rust Belt communities, and noted a largely negative view of economic conditions in this region, particularly in its economic center, Detroit, MI. Table \ref{tbl:econ} displays the average response on a 1-3 scale for Economy in the Rust Belt communities across each of the three years. It can be seen that although all Rust Belt communities experienced a drop in attitudes about the economy between 2008 and 2009, Detroit's was noticeably smaller. By 2010, attitudes about the economy began to improve. This can also be seen by examining Figure \ref{fig:rb_one}, a density plot of values for Economy in each of the communities in the three years.
 
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
-% Mon Jan 13 16:52:53 2014
+% Mon Jan 13 17:11:08 2014
 \begin{table}[ht]
 \centering
 \begin{tabular}{lrrr}
@@ -353,7 +353,7 @@ Akron, OH & 1.4135 & 1.3192 & 1.4139 \\
 
 }
 
-\caption[Caption]{Caption...\label{fig:rb_one}}
+\caption[Density of responses in Rust Belt communities over each of the three years]{Density of responses in Rust Belt communities over each of the three years.\label{fig:rb_one}}
 \end{figure}
 
 

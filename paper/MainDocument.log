@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 JAN 2014 16:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 JAN 2014 17:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -929,30 +929,30 @@ eady used, duplicate ignored
 l.82 
       [1
 
-] <images/tool.png, id=24, 724.6272pt x 471.2004pt>
+] <images/tool.png, id=27, 724.6272pt x 471.2004pt>
 File: images/tool.png Graphic file (type png)
 
 <use images/tool.png>
 Package pdftex.def Info: images/tool.png used on input line 85.
 (pdftex.def)             Requested size: 469.75502pt x 305.46416pt.
  [2 <./images/tool.png>]
-<images/dots.png, id=39, 718.8456pt x 196.0926pt>
+<images/dots.png, id=42, 718.8456pt x 196.0926pt>
 File: images/dots.png Graphic file (type png)
  <use images/dots.png>
 Package pdftex.def Info: images/dots.png used on input line 97.
 (pdftex.def)             Requested size: 469.75502pt x 128.14088pt.
 
-[3 <./images/dots.png>] <images/D3shiny.png, id=52, 619.5948pt x 261.1356pt>
+[3 <./images/dots.png>] <images/D3shiny.png, id=55, 622.0038pt x 209.1012pt>
 File: images/D3shiny.png Graphic file (type png)
 
 <use images/D3shiny.png>
 Package pdftex.def Info: images/D3shiny.png used on input line 116.
-(pdftex.def)             Requested size: 469.75502pt x 197.99094pt.
+(pdftex.def)             Requested size: 469.75502pt x 157.91669pt.
  [4 <./images/D3shiny.png>]
 
 Package xcolor Warning: Incompatible color definition on input line 144.
 
-<figure/region_map.pdf, id=75, 650.43pt x 433.62pt>
+<figure/region_map.pdf, id=79, 650.43pt x 433.62pt>
 File: figure/region_map.pdf Graphic file (type pdf)
 
 <use figure/region_map.pdf>
@@ -962,7 +962,7 @@ Package pdftex.def Info: figure/region_map.pdf used on input line 147.
 
 Package xcolor Warning: Incompatible color definition on input line 188.
 
-<figure/gp_one.pdf, id=92, 361.35pt x 216.81pt>
+<figure/gp_one.pdf, id=93, 361.35pt x 216.81pt>
 File: figure/gp_one.pdf Graphic file (type pdf)
  <use figure/gp_one.pdf>
 Package pdftex.def Info: figure/gp_one.pdf used on input line 191.
@@ -972,7 +972,7 @@ Package pdftex.def Info: figure/gp_one.pdf used on input line 191.
 
 Package xcolor Warning: Incompatible color definition on input line 226.
 
-<figure/gp_two.pdf, id=109, 397.485pt x 325.215pt>
+<figure/gp_two.pdf, id=110, 397.485pt x 325.215pt>
 File: figure/gp_two.pdf Graphic file (type pdf)
  <use figure/gp_two.pdf>
 Package pdftex.def Info: figure/gp_two.pdf used on input line 229.
@@ -982,7 +982,7 @@ Package pdftex.def Info: figure/gp_two.pdf used on input line 229.
 
 Package xcolor Warning: Incompatible color definition on input line 268.
 
-<figure/west_one.pdf, id=140, 505.89pt x 433.62pt>
+<figure/west_one.pdf, id=141, 505.89pt x 433.62pt>
 File: figure/west_one.pdf Graphic file (type pdf)
  <use figure/west_one.pdf>
 Package pdftex.def Info: figure/west_one.pdf used on input line 271.
@@ -992,7 +992,7 @@ Package pdftex.def Info: figure/west_one.pdf used on input line 271.
 
 Package xcolor Warning: Incompatible color definition on input line 288.
 
-<figure/ds_one.pdf, id=161, 505.89pt x 289.08pt>
+<figure/ds_one.pdf, id=162, 505.89pt x 289.08pt>
 File: figure/ds_one.pdf Graphic file (type pdf)
  <use figure/ds_one.pdf>
 Package pdftex.def Info: figure/ds_one.pdf used on input line 291.
@@ -1001,7 +1001,7 @@ Package pdftex.def Info: figure/ds_one.pdf used on input line 291.
 
 Package xcolor Warning: Incompatible color definition on input line 306.
 
-<figure/southeast_one.pdf, id=163, 505.89pt x 361.35pt>
+<figure/southeast_one.pdf, id=164, 505.89pt x 361.35pt>
 File: figure/southeast_one.pdf Graphic file (type pdf)
 
 <use figure/southeast_one.pdf>
@@ -1011,7 +1011,7 @@ Package pdftex.def Info: figure/southeast_one.pdf used on input line 309.
 
 Package xcolor Warning: Incompatible color definition on input line 349.
 
-<figure/rb_one.pdf, id=179, 505.89pt x 505.89pt>
+<figure/rb_one.pdf, id=180, 505.89pt x 505.89pt>
 File: figure/rb_one.pdf Graphic file (type pdf)
  <use figure/rb_one.pdf>
 Package pdftex.def Info: figure/rb_one.pdf used on input line 352.
@@ -1053,10 +1053,10 @@ usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
 r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
 local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/l
 ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on MainDocument.pdf (16 pages, 977560 bytes).
+Output written on MainDocument.pdf (16 pages, 974545 bytes).
 PDF statistics:
- 269 PDF objects out of 1000 (max. 8388607)
- 219 compressed objects within 3 object streams
+ 270 PDF objects out of 1000 (max. 8388607)
+ 220 compressed objects within 3 object streams
  66 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
