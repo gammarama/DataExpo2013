@@ -97,19 +97,19 @@ In this paper, we explore the relationships that individuals have with their com
 \clearpage
 
 \setcounter{page}{1}
-\section*{Introduction}
+\section{Introduction}
 <<introduction, child='Introduction.Rnw'>>=
 @
 
-\section*{Technology}
+\section{Technology}
 <<technology, child='Technology.Rnw'>>=
 @
 
-\section*{Stories}
+\section{Stories}
 <<stories, child='Stories.Rnw'>>=
 @
 
-\section*{Conclusion}
+\section{Conclusion}
 <<conclusion, child='Conclusion.Rnw'>>=
 @
 

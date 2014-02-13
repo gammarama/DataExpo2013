@@ -1,6 +1,6 @@
 In order to explore the dataset, we first created an interactive tool called {\it CommuniD3} (available at \url{http://glimmer.rstudio.com/andeek/DataExpo2013}) to facilitate the emergence of interesting or descriptive patterns. The construction and design of this tool are detailed in the following sections.
 
-\subsection*{Description and Design}
+\subsection{Description and Design}
 CommuniD3 is comprised of three pieces, \begin{inparaenum}[(1)]
 \item Side panel, 
 \item Map Panel, and
@@ -27,7 +27,7 @@ As the user interacts with each piece, the remaining portions of the interface u
 \caption{\label{fig:dots} Examples of the different types of highlighting available in the ordered dot plot from the plot panel. The highlighting corresponds to (1) community selection, (2) region selection, (3) urbanicity selection, and (4) all community selection. In this example, Detroit, MI has been selected to display the values of community attachment for all three years, 2008-2010.}
 \end{figure}
 
-\subsection*{The Shoulders of Giants}
+\subsection{The Shoulders of Giants}
 We were able to incorporate several pioneering technologies in the creation of our application that allowed us to find insights in the dataset.
 
 \paragraph{Shiny}
@@ -52,7 +52,7 @@ We also leveraged other {\tt R} packages to help with data manipulation. We used
 For subsequent analysis after using CommuniD3 we used the {\tt R} packages ggplot2 \cite{ggplot2} and maps \cite{maps} to dive deeper into the interesting findings from the application.
 
 
-\subsection*{Why?}
+\subsection{Why?}
 During the creation of CommuniD3, we found it useful to stop and ask, ``Why?'' This process enabled the type of introspection necessary to help ensure usability and relevance in a project of this type.
 
 \paragraph{Interactive}

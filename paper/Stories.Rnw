@@ -26,7 +26,7 @@ qplot(long, lat, data = states, group = group, geom = "polygon", fill = I("grey"
           panel.grid.minor=element_blank())
 @
 
-\subsection*{Great Plains}
+\subsection{Great Plains}
 The five communities comprising the Great Plains are Grand Forks, ND, Duluth, MN, Aberdeen, SD, Saint Paul, MN, and Wichita, KS. Through use of the interactive tool, we quickly discovered that the individuals in this region tended to rate the quality of education in the community more highly. In Table \ref{tbl:edu_table}, the top eight communities by the Education Metric are displayed. It can be seen that the Great Plains region includes three of the top four, and four of the top eight communities in terms of Education. Grand Forks, ND in particular has the highest average response for this metric amongst all communities. This is perhaps not too surprising given the presence of the University of North Dakota in this community.
 
 <<edu_table, echo=FALSE, results='asis'>>=
@@ -42,7 +42,7 @@ print(xtable(sub.df[1:8, ], digits = c(4, 0, 0, 4), label = "tbl:edu_table", cap
 
 We can visualize the distribution of the Education metric values for each of the Great Plains communities compared to all other communities. Histograms of these values are displayed in Figure \ref{fig:gp_one}. With the exception of Wichita, KS, the Great Plains communities have more responses in the higher values when compared with communities in other regions. This is most visible in both Grand Forks, ND and Aberdeen, SD.
 
-<<gp_one, echo=FALSE, fig.cap='Histograms of responses to Education for the five Great Plain communities, and all other communities aggregated.', fig.pos='H', fig.height=3, fig.width=5>>=
+<<gp_one, echo=FALSE, fig.cap='Histograms of responses to Education for the five Great Plains communities, and all other communities aggregated.', fig.pos='H', fig.height=3, fig.width=5>>=
 clean.all.merge <- merge(clean.all, comm.facts, by.x = "QSB", by.y = "Community")
 plains.dat <- subset(clean.all.merge, Region == "Great Plains")
 
@@ -89,7 +89,7 @@ ggplot(data = ugh) +
 @
 
 
-\subsection*{West}
+\subsection{West}
 We also focused our analysis on the Urbanicity designations of the communities. We were interested in seeing if some different metrics may contribute to a sense of community attachment depending on the community's urbanicity. In the West region, which comprises Boulder, CO, San Jose, CA, and Long Beach, CA, we found some evidence of an urbanicity-specific metric correlated with attachment.
 
 Table \ref{tbl:open_table} displays the top five communities by the Openness Metric. First, it can be seen that the three communities comprising the West Region are each in the top five for Openness. Second, Boulder and Long Beach each have the urbanicity of "Very high urbanicity-medium population". These communities consist of a relatively modest population, but where most of whom live in the urban core of the city. Figure \ref{fig:west_one} displays a two-dimensional bin plot of Community Attachment versus Openness, displaying only the communities with the designation "Very high urbanicity-medium population". Areas of darker red have a higher frequency of responses than those that are white. Notice that both Boulder and Long Beach tend to have more respondents indicating a high Community Attachment and a high Openness. By comparison, Akron, OH, and Gary, IN, two communities in the Rust Belt region with the same urbanicity, have much lower ratings on both of these scales. Bradenton, FL has many citizens highly attached to the community, but somewhat lower ratings for Openness compared to Boulder and Long Beach. Ultimately, it would seem that communities in the West region with this urbanicity designation place a higher value on the Openness of their community than do other communities of similar size in the rest of the country.
@@ -122,7 +122,7 @@ ggplot(data=new.df) +
     ylab("Community Attachment") + xlab("Openness") + ggtitle("Very high urbanicity-medium population Communities")
 @
 
-\subsection*{Deep South}
+\subsection{Deep South}
 Exploring trends in the Deep South communities of Macon, GA, Milledgeville, GA, Columbus, GA, Tallahassee, FL, and Biloxi, MS quickly suggested that residents of these communities were displeased with the Safety of the community. In 2008, Macon and Columbus ranked 3rd and 4th worst respectively among all 26 communities in terms of Safety. By 2010, the situation degraded further, as Macon declined to the overall worst Safety rating, while Milledgeville ranked 3rd worst, and Columbus remained the 4th worst. Biloxi was a notable exception, however, ranking 8th best in 2010. Biloxi also exceeded its fellow Deep South communities in terms of Social Offerings, ranking 2nd best amongst all communities in each of the three years the survey was conducted, and by far the best amongst the communities in the Deep South.
 
 As it turns out, Biloxi also had the highest overall Community Attachment rating in the Deep South. Figure \ref{fig:ds_one} displays the average rating from 2008 to 2010 in terms of Safety, Social Offerings, and Community Attachment. Biloxi is highlighted in red, the other Deep South communities are highlighted in blue, and the rest of the communities in gray. The stark difference in Biloxi compared with the rest of the Deep South is readily apparent, and helps to explain why Community Attachment is quite high in Biloxi.
@@ -160,7 +160,7 @@ ggplot() +
     theme(legend.position = "bottom")
 @
 
-\subsection*{Southeast}
+\subsection{Southeast}
 In the Deep South, we saw some evidence suggesting Biloxi's high rating for Social Offerings may be contributing to a strong sense of attachment in that community. Nowhere is this phenomenon more prominent than in the Southeast region, where Myrtle Beach, SC resides. Myrtle Beach is the 5th most attached community amongst all communities in the dataset. However, Myrtle Beach does no better than 13th in all other metrics with the exception of Social Offerings, where it is ranked 1st. In other words, residents of Myrtle Beach felt the Social Offerings in their community were very strong, while most other metrics, including Aesthetics, Openness, Safety, and Education were poor. Figure \ref{fig:southeast_one} illstruates this phenomenon with a parallel coordinate plot. The mean value for all metrics is displayed for each of the communities, with Myrtle Beach highlighted in green, and other Southeast communities highlighted in blue. The metrics are sorted from high to low by the average value for each metric amongst all the communities. Notice that Myrtle Beach fairly closely tracks the rest of the communities in all metrics except for Social Offerings, where a sizable ``jump'' can be observed.
 
 <<southeast_one, echo=FALSE, fig.cap='Mean value of metric for each community. Myrtle Beach is highlighted in green, and the other communities in the Southeast are highlighted in blue.', fig.pos='H', fig.height=5>>=
@@ -198,7 +198,7 @@ ggplot() +
 
 The question remains of how Myrtle Beach has such highly attached citizens when only Social Offerings appears to be a positive metric for the community. The reason is that Social Offerings is the single most highly correlated metric with Community Attachment in 23 out of the 26 communities, including Myrtle Beach.
 
-\subsection*{Rust Belt}
+\subsection{Rust Belt}
 As the data covers the period from 2008 to 2010, we hoped to find some stories relating to the economic collapse, or the Great Recession, which began in 2008. We focused on the Economy metric in the Rust Belt communities, and noted a largely negative view of economic conditions in this region, particularly in its economic center, Detroit, MI. Table \ref{tbl:econ} displays the average response on a 1-3 scale for Economy in the Rust Belt communities across each of the three years. It can be seen that although all Rust Belt communities experienced a drop in attitudes about the economy between 2008 and 2009, Detroit's was noticeably smaller. By 2010, attitudes about the economy began to improve. This can also be seen by examining Figure \ref{fig:rb_one}, a density plot of values for Economy in each of the communities in the three years.
 
 <<econ, echo=FALSE, results='asis'>>=
