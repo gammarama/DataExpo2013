@@ -29,6 +29,12 @@ qplot(long, lat, data = states, group = group, geom = "polygon", fill = I("grey"
 \subsection{Great Plains}
 The five communities comprising the Great Plains are Grand Forks, ND, Duluth, MN, Aberdeen, SD, Saint Paul, MN, and Wichita, KS. Through use of the interactive tool, we quickly discovered that the individuals in this region tended to rate the quality of education in the community more highly. In Table \ref{tbl:edu_table}, the top eight communities by the Education Metric are displayed. It can be seen that the Great Plains region includes three of the top four, and four of the top eight communities in terms of Education. Grand Forks, ND in particular has the highest average response for this metric amongst all communities. This is perhaps not too surprising given the presence of the University of North Dakota in this community.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/greatplains.png}
+\caption{\label{fig:greatplains} Caption.}
+\end{figure}
+
 <<edu_table, echo=FALSE, results='asis'>>=
 sub.df <- subset(all.melt, year == "Aggregate" & variable == "EDUCATIO")[,-c(1, 4, 6)]
 names(sub.df) <- c("Region", "Community", "Education")
