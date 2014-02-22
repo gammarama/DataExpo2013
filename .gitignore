@@ -1,5 +1,17 @@
+.DS_Store
+
+*.pdf
+*.tex
+*.bbl
+*.log
+*.xml
+*.gz
+MainDocument-blx.bib
+*.sty
 .Rproj.user
 .Rhistory
 .RData
+*.Rproj
+Thumbs.db
 
-.DS_Store
+paper/cache
