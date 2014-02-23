@@ -101,7 +101,7 @@ In this paper, we explore the relationships that individuals have with their com
 <<introduction, child='Introduction.Rnw'>>=
 @
 
-\section{Technology}
+\section{A Graphical User Interface}
 <<technology, child='Technology.Rnw'>>=
 @
 
