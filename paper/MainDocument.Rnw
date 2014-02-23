@@ -26,6 +26,7 @@ library(RColorBrewer)
 library(reshape2)
 library(xtable)
 library(maps)
+library(dplyr)
 @
 
 <<readdata, echo=FALSE, cache=TRUE>>=
@@ -82,6 +83,94 @@ all.melt$disp_name <- apply(all.melt, 1, function(a) {metrics$disp_name[metrics$
 all.melt$disp_name <- factor(all.melt$disp_name, levels=unique(as.character(all.melt$disp_name)))
 @
 
+<<new_plots, echo=FALSE, eval=FALSE>>=
+clean.all.urban <- ddply(clean.all.city, .(URBAN_GR), summarise, CCE = mean(CCE), EDUCATIO = mean(EDUCATIO))
+names(clean.all.urban)[1] <- "QSB"
+
+clean.all.city$REGION <- comm.facts$Region
+clean.all.region <- ddply(clean.all.city, .(REGION), summarise, CCE = mean(CCE), EDUCATIO = mean(EDUCATIO))
+names(clean.all.region)[1] <- "QSB"
+
+clean.all.all <- data.frame(QSB = "All Cities", CCE = mean(clean.all.city$CCE), EDUCATIO = mean(clean.all.city$EDUCATIO))
+
+clean.all.comb <- rbind(clean.all.city[,c(1, 3, 7)], clean.all.urban, clean.all.region, clean.all.all)
+
+clean.all.city$ispaul <- (clean.all.city$QSB == "St. Paul, MN")
+clean.all.city$isgp <-  ifelse(clean.all.city$QSB %in% c("Grand Forks, ND", "Aberdeen, SD", "St. Paul, MN", "Duluth, MN", "Wichita, KS"), "gp", "none")
+clean.all.city$isgp[clean.all.city$QSB == "St. Paul, MN"] <- "sp"
+
+cols <- c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf")
+
+clean.all.comb$ispaul <- (clean.all.comb$QSB == "St. Paul, MN")
+clean.all.comb$isgp <- (clean.all.comb$QSB == "Great Plains")
+
+plot2 <- qplot(QSB, CCE, stat = "identity", geom = "bar", data = subset(clean.all.comb, QSB %in% c("St. Paul, MN", "Very high urbanicity-large population", "Great Plains", "All Cities")), fill = QSB, alpha = ispaul) +
+    coord_cartesian(ylim=c(1,5)) +
+    scale_y_continuous(breaks = seq(1, 5, by = 0.5)) +
+    scale_alpha_manual(values = c(0.5, 1)) +
+    xlab("") +
+    ylab("Community Attachment") +
+    scale_fill_manual(values = cols[1:4]) +
+    theme_bw() +
+    theme(legend.position = "off", axis.text.x = element_text(angle = -45, vjust = 0.9, hjust = 0.1), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), aspect.ratio = 1)
+
+corr.dat.agg <- subset(corr.dat, Year == "Aggregate")
+corr.melt <- melt(corr.dat.agg, id.vars = c("Year", "City"))
+corr.melt$variable <- as.character(corr.melt$variable)
+sapply(metrics$var_name, function(met){
+    corr.melt$variable[corr.melt$variable == met] <<- as.character(metrics$disp_name[metrics$var_name == met])
+})
+corr.melt$variable <- factor(corr.melt$variable, levels = c("Social Offerings", "Openness", "Aesthetics", "Education", "Basic Services", "Leadership", "Economy", "Safety", "Social Capital", "Civic Involvement"))
+
+plot3 <- ggplot() +
+    geom_point(data = subset(corr.melt, City == "All Cities"), aes(x = variable, y = value), inherit.aes = FALSE, colour = "grey") +
+    geom_point(aes(x = variable, y = value, colour = variable), size = I(3), data = subset(corr.melt, City == "St. Paul, MN")) +
+    scale_colour_manual(values = cols) +
+    scale_y_continuous(limits = c(-1, 1), breaks = seq(-1, 1, by = 0.2)) +
+    xlab("") +
+    ylab("Correlation with Community Attachment") +
+    theme_bw() +
+    theme(legend.position = "off", axis.text.x = element_text(angle = -45, vjust = 0.9, hjust = 0.1), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+clean.all.city$QSB <- factor(clean.all.city$QSB, levels = arrange(clean.all.city, EDUCATIO)$QSB)
+plot4 <- qplot(QSB, EDUCATIO, geom = "point", colour = ispaul, data = clean.all.city, size = ispaul) +
+    scale_colour_manual(values = c("Grey", cols[1])) +
+    scale_size_manual(values = c(2, 3)) +
+    coord_flip() +
+    scale_y_continuous(limits = c(1, 3), breaks = seq(1, 3, by = 0.2)) +
+    xlab("") +
+    ylab("Education") +
+    theme_bw() +
+    theme(legend.position = "off", panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+plot5 <- qplot(QSB, EDUCATIO, stat = "identity", geom = "bar", data = subset(clean.all.comb, QSB %in% c("St. Paul, MN", "Very high urbanicity-large population", "Great Plains", "All Cities")), fill = QSB, alpha = isgp) +
+    coord_cartesian(ylim=c(1,3)) +
+    scale_alpha_manual(values = c(0.5, 1)) +
+    scale_y_continuous(breaks = seq(1, 3, by = 0.2)) +
+    xlab("") +
+    ylab("Education") +
+    scale_fill_manual(values = cols[1:4]) +
+    theme_bw() +
+    theme(legend.position = "off", axis.text.x = element_text(angle = -45, vjust = 0.9, hjust = 0.1), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), aspect.ratio = 1)
+
+plot6 <- qplot(QSB, EDUCATIO, geom = "point", colour = isgp, data = clean.all.city, size = isgp) +
+    scale_colour_manual(values = c(cols[3], "Grey", cols[1])) +
+    scale_size_manual(values = c(3, 2, 3)) +
+    coord_flip() +
+    scale_y_continuous(limits = c(1, 3), breaks = seq(1, 3, by = 0.2)) +
+    xlab("") +
+    ylab("Education") +
+    theme_bw() +
+    theme(legend.position = "off", panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+ggsave(filename = "plot2.pdf", plot = plot2, width=3.61, height=3.74, scale = 2)
+ggsave(filename = "plot3.pdf", plot = plot3, width=3.61, height=3.74, scale = 2)
+ggsave(filename = "plot4.pdf", plot = plot4, width=3.61, height=3.74, scale = 2)
+ggsave(filename = "plot5.pdf", plot = plot5, width=3.61, height=3.74, scale = 2)
+ggsave(filename = "plot6.pdf", plot = plot6, width=3.61, height=3.74, scale = 2)
+@
+
+
 \setlength{\parskip}{3ex}
 \setlength{\parindent}{0pt}
 
@@ -101,7 +190,7 @@ In this paper, we explore the relationships that individuals have with their com
 <<introduction, child='Introduction.Rnw'>>=
 @
 
-\section{Technology}
+\section{A Graphical User Interface}
 <<technology, child='Technology.Rnw'>>=
 @
 
