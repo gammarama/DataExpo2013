@@ -15,11 +15,12 @@
 
 \begin{document}
 <<concordance, echo=FALSE>>=
+library(knitr)
 opts_chunk$set(concordance=TRUE, fig.align = "center")
 opts_knit$set(self.contained=FALSE)
 @
 
-<<libraries, cache=FALSE, echo=FALSE>>=
+<<libraries, cache=FALSE, echo=FALSE, message=FALSE, warning=FALSE>>=
 library(plyr)
 library(ggplot2)
 library(RColorBrewer)
