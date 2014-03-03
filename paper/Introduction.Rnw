@@ -1,4 +1,5 @@
-This work was part of the American Statistical Association's Data Exposition 2013. The dataset comes from the Knight Foundation's `Soul of the Community' project. For this project, the Knight Foundation in conjunction with Gallup collected surveys from 43,000 people over three years in 26 U.S. communities.
+This work was part of the American Statistical Association's Data Exposition 2013. The dataset comes from the Knight Foundation's `Soul of the Community' project \cite{SOTC}. For this project, the Knight Foundation in conjunction with Gallup collected surveys from 43,000 people over three years in 26 U.S. communities.
+
 A map of the 26 communities and the geographical regions to which we assigned them is displayed in Figure \ref{fig:region_map}.
 
 <<region_map, echo=FALSE, fig.cap='Map of the five regions to which we assigned the communities.', fig.pos='H', fig.width=1.5*6, fig.height=6, out.width='\\textwidth'>>=
@@ -12,8 +13,8 @@ states <- map_data("state")
 
 qplot(long, lat, data = states, group = group, geom = "polygon", fill = I("grey")) + 
     geom_path(colour = I("white")) +
-    geom_point(data = data.frame(lats, lons, regions), inherit.aes = FALSE, size = I(7), aes(x = lons, y = lats, colour = regions, shape = regions)) +
-    scale_shape_manual(values = c(15:18, 8)) +
+    geom_point(data = data.frame(lats, lons, regions), inherit.aes = FALSE, size = I(7), aes(x = lons, y = lats, colour = regions, shape = regions, fill=regions)) +
+    scale_shape_manual(values = c(15:18, 25)) +
     theme_bw() +
     theme(aspect.ratio=1/1.75, legend.position = "bottom") +
     theme(axis.ticks = element_blank(),
