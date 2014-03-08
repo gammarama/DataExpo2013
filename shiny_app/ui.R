@@ -33,7 +33,8 @@ shinyUI(pageWithSidebar(
                             format="####")
             ),
             checkboxInput("colorblind", "Colorblind safe", FALSE)
-        )
+        ),
+        helpText(HTML("<p>Data source: <a href='http://www.soulofthecommunity.org/' target='_blank'>Knight Foundation</a>, collected by Gallup.</p>"))
     ),
     
     mainPanel(
