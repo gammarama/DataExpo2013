@@ -146,10 +146,11 @@ myrtle.dat$disp_name <- factor(myrtle.dat$disp_name, levels=unique(as.character(
 myrtle.dat$Community.f <- factor(myrtle.dat$Community, levels=c("Myrtle Beach, SC", "Southeast", "Other"))
 myrtle.dat$order <- with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "Myrtle Beach, SC", 2, ifelse(Region == "Southeast", 1, 0)))
 
-labels <- list("Aesthetics"=myrtle.dat[which.min(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Aesthetics",]$value)),c("Region", "value")],
-               "Education"=myrtle.dat[which.max(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Education",]$value)),c("Region", "value")],
-               "Social Offerings"=myrtle.dat[which.min(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Social Offerings",]$value)),c("Region", "value")],
-               "Safety"=myrtle.dat[which.max(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Safety",]$value)),c("Region", "value")])
+labels <- list("Aesthetics"=subset(myrtle.dat, disp_name=="Aesthetics")[which.min(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Aesthetics",]$value)),c("QSB", "value")],
+               "Education"=subset(myrtle.dat, disp_name=="Education")[which.max(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Education",]$value)),c("QSB", "value")],
+               "Social Offerings"=subset(myrtle.dat, disp_name=="Social Offerings")[which.min(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Social Offerings",]$value)),c("QSB", "value")],
+               "Safety"=subset(myrtle.dat, disp_name=="Safety")[which.max(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Safety",]$value)),c("QSB", "value")],
+               "Economy"=subset(myrtle.dat, disp_name=="Economy")[which.min(as.numeric(myrtle.dat[myrtle.dat$disp_name=="Economy",]$value)),c("QSB", "value")])
 
 ggplot() + 
     geom_line(data = subset(myrtle.dat, Community == "Other"), 
@@ -170,9 +171,11 @@ ggplot() +
     geom_point(data = subset(myrtle.dat, Community == "Myrtle Beach, SC"),
                aes(x=disp_name, y=as.numeric(value), 
                colour = Community.f, shape = Community.f), size = I(4), inherit.aes = FALSE) +
-    geom_text(data=labels[["Aesthetics"]], aes(x="Aesthetics", y=value - .1, label=Region), colour="darkgrey", size=3.5) +
-  geom_text(data=labels[["Education"]], aes(x="Education", y=value + .1, label=Region), colour="darkgrey", size=3.5) +
-  geom_text(data=labels[["Social Offerings"]], aes(x="Aesthetics", y=value - .1, label=Region), colour="darkgrey", size=3.5) +
+    geom_text(data=labels[["Aesthetics"]], aes(x="Aesthetics", y=as.numeric(value) - .1, label=QSB), colour="darkgrey", size=3.5) +
+  geom_text(data=labels[["Education"]], aes(x="Education", y=as.numeric(value) + .1, label=QSB), colour="darkgrey", size=3.5) +
+  geom_text(data=labels[["Social Offerings"]], aes(x="Social Offerings", y=as.numeric(value) - .1, label=QSB), colour="darkgrey", size=3.5) +
+    geom_text(data=labels[["Safety"]], aes(x="Safety", y=as.numeric(value) + .1, label=QSB), colour="darkgrey", size=3.5) +
+    geom_text(data=labels[["Economy"]], aes(x="Economy", y=as.numeric(value) - .1, label=QSB), colour="darkgrey", size=3.5) +
     xlab("") + ylab("Metric Value - Aggregated Years") +
     scale_colour_manual(name = "Community",
                         values = c("#0cae3a","darkgrey","#0066cc"),
