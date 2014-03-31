@@ -103,22 +103,26 @@ ggplot() +
               size = 1) + 
     geom_point(data = subset(south.dat.melt, Community == "Other"),
                aes(x=year, y=as.numeric(value), 
-                   colour = Community), size = 2, shape = 15, inherit.aes = FALSE) +
+                   colour = Community, shape = Community), size = 2, inherit.aes = FALSE) +
     geom_line(data = subset(south.dat.melt, Community == "Deep South"),
               aes(x=year, y=as.numeric(value), group = QSB, 
                   colour = Community), inherit.aes = FALSE, size = 1) + 
     geom_point(data = subset(south.dat.melt, Community == "Deep South"),
                aes(x=year, y=as.numeric(value), 
-                   colour = Community), size = I(2), shape = 17, inherit.aes = FALSE) +
+                   colour = Community, shape = Community), size = I(2), inherit.aes = FALSE) +
     geom_line(data = subset(south.dat.melt, Community == "Biloxi, MS"),
               aes(x=year, y=as.numeric(value), group = QSB, 
                   colour = Community), inherit.aes = FALSE, size = 1.5) + 
     geom_point(data = subset(south.dat.melt, Community == "Biloxi, MS"),
                aes(x=year, y=as.numeric(value), 
-                   colour = Community), size = I(4), shape = 16, inherit.aes = FALSE) + facet_wrap(~disp_name, scales="free_y") + 
+                   colour = Community, shape = Community), size = I(4), inherit.aes = FALSE) + facet_wrap(~disp_name, scales="free_y") + 
     xlab("") + ylab("") + 
     scale_colour_manual(name = "Community",
                         values = c("#FF3300","#000066","darkgrey"),
+                        breaks = c("Biloxi, MS", "Deep South", "Other"),
+                        labels = c("Biloxi, MS", "Deep South", "Other")) +
+    scale_shape_manual(name = "Community",
+                        values = c(16, 15, 17),
                         breaks = c("Biloxi, MS", "Deep South", "Other"),
                         labels = c("Biloxi, MS", "Deep South", "Other")) +
     theme_bw() +
@@ -140,24 +144,28 @@ ggplot() +
                   size = I(1)) + 
     geom_point(data = subset(myrtle.dat, Community == "Other"),
                aes(x=disp_name, y=as.numeric(value), 
-               colour = Community.f), size = I(2), shape = 15, inherit.aes = FALSE) +
+               colour = Community.f, shape = Community.f), size = I(2), inherit.aes = FALSE) +
     geom_line(data = subset(myrtle.dat, Community == "Southeast"),
               aes(x=disp_name, y=as.numeric(value), group = QSB, 
               colour = Community.f), inherit.aes = FALSE, size = 1) + 
     geom_point(data = subset(myrtle.dat, Community == "Southeast"),
               aes(x=disp_name, y=as.numeric(value), 
-               colour = Community.f), size = I(2), shape = 17, inherit.aes = FALSE) +
+               colour = Community.f, shape = Community.f), size = I(2), inherit.aes = FALSE) +
     geom_line(data = subset(myrtle.dat, Community == "Myrtle Beach, SC"),
               aes(x=disp_name, y=as.numeric(value), group = QSB, 
               colour = Community.f), inherit.aes = FALSE, size = 1.5) + 
     geom_point(data = subset(myrtle.dat, Community == "Myrtle Beach, SC"),
                aes(x=disp_name, y=as.numeric(value), 
-               colour = Community.f), size = I(4), shape = 16, inherit.aes = FALSE) +
+               colour = Community.f, shape = Community.f), size = I(4), inherit.aes = FALSE) +
     xlab("") + ylab("Metric Value - Aggregated Years") +
     scale_colour_manual(name = "Community",
                         values = c("#0cae3a","darkgrey","#0066cc"),
                         breaks = c("Myrtle Beach, SC", "Southeast", "Other"),
-                        labels = c("Myrtle Beach, SC", "Southeast", "Other")) + 
+                        labels = c("Myrtle Beach, SC", "Southeast", "Other")) +
+    scale_shape_manual(name = "Community",
+                        values = c(16, 17, 15),
+                        breaks = c("Myrtle Beach, SC", "Southeast", "Other"),
+                        labels = c("Myrtle Beach, SC", "Southeast", "Other")) +
     theme_bw() +
     theme(axis.text.x = element_text(angle = 65, hjust = 1), legend.position = "bottom")
 @
