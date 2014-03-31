@@ -91,12 +91,13 @@ Exploring trends in the Deep South communities of Macon, GA, Milledgeville, GA, 
 
 As it turns out, Biloxi also had the highest overall Community Attachment rating in the Deep South. Figure \ref{fig:ds_one} displays the average rating from 2008 to 2010 in terms of Safety, Social Offerings, and Community Attachment. Biloxi is highlighted in red, the other Deep South communities are highlighted in blue, and the rest of the communities are highlighted in gray. The stark difference between Biloxi and the rest of the Deep South is readily apparent, and helps to explain why Community Attachment is quite high in Biloxi.
 
-<<ds_one, echo=FALSE, fig.cap='Responses across the three years for Safety, Social Offerings, and Community Attachment.', fig.pos='H', fig.width=7, fig.height=4>>=
+<<ds_one, echo=FALSE, fig.cap='Responses across the three years for Safety, Social Offerings, and Community Attachment.', fig.pos='H', fig.width=7, fig.height=5>>=
 south.dat <- cbind(subset(all.years.city, year != "Aggregate"), Community = with(subset(all.years.city, year != "Aggregate"), ifelse(QSB == "Biloxi, MS", "Biloxi, MS", ifelse(Region == "Deep South", "Deep South", "Other"))))
 south.dat$Community <- factor(south.dat$Community, levels=c("Biloxi, MS", "Deep South", "Other"))
 south.dat.melt <- melt(south.dat[, c("year", "QSB", "Community", "SAFETY", 'SOCIAL_O', "CCE")], id.vars=c("year", "QSB", "Community"))
 south.dat.melt$disp_name <- apply(south.dat.melt, 1, function(x) ifelse(x["variable"] == "CCE", "Community Attachment", ifelse(x["variable"] == "SOCIAL_O", "Social Offerings", "Safety")))
 south.dat.melt$disp_name <- factor(south.dat.melt$disp_name, levels=c("Safety", "Social Offerings", "Community Attachment"))
+south.dat.melt$year <- as.numeric(south.dat.melt$year)
 ggplot() + 
     geom_line(data = subset(south.dat.melt, Community == "Other"), 
               aes(x = year, y = as.numeric(value), group = QSB, colour=Community), 
@@ -110,12 +111,18 @@ ggplot() +
     geom_point(data = subset(south.dat.melt, Community == "Deep South"),
                aes(x=year, y=as.numeric(value), 
                    colour = Community, shape = Community), size = I(2), inherit.aes = FALSE) +
+    geom_text(data = subset(south.dat.melt, Community == "Deep South" & year == 2008),
+              aes(x=rep(I(2006.5), nrow(subset(south.dat.melt, Community == "Deep South" & year == 2008))), y=as.numeric(value), label=QSB,
+                  colour = Community), hjust=0, vjust=0, size=2.5, inherit.aes = FALSE) +
     geom_line(data = subset(south.dat.melt, Community == "Biloxi, MS"),
               aes(x=year, y=as.numeric(value), group = QSB, 
                   colour = Community), inherit.aes = FALSE, size = 1.5) + 
     geom_point(data = subset(south.dat.melt, Community == "Biloxi, MS"),
                aes(x=year, y=as.numeric(value), 
                    colour = Community, shape = Community), size = I(4), inherit.aes = FALSE) + facet_wrap(~disp_name, scales="free_y") + 
+  geom_text(data = subset(south.dat.melt, Community == "Biloxi, MS" & year == 2008),
+              aes(x=rep(I(2006.5), nrow(subset(south.dat.melt, Community == "Biloxi, MS" & year == 2008))), y=as.numeric(value), label=QSB,
+                  colour = Community), hjust=0, vjust=0, size=2.5, inherit.aes = FALSE) +
     xlab("") + ylab("") + 
     scale_colour_manual(name = "Community",
                         values = c("#FF3300","#000066","darkgrey"),
@@ -126,7 +133,8 @@ ggplot() +
                         breaks = c("Biloxi, MS", "Deep South", "Other"),
                         labels = c("Biloxi, MS", "Deep South", "Other")) +
     theme_bw() +
-    theme(legend.position = "bottom")
+    theme(legend.position = "bottom") +
+    scale_x_continuous(breaks=2008:2010)
 @
 
 \subsection{Southeast - Social Offerings in Myrtle Beach}
