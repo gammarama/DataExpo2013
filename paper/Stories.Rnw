@@ -27,7 +27,7 @@ First, we click on Saint Paul, as shown in panel (1). We examine the bar charts 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{images/greatplains_1.png}
-\caption{\label{fig:greatplains_1} Depiction of the first two steps taken in CommuniD3 with regards to the Great Plains region.}
+\caption{\label{fig:greatplains_1} (1) Select Saint Paul  (2) Focus on the comparison of Community Attachment in Saint Paul with other cities that have geographical or cultural similarities. Conclude that Saint Paul is more attached than most of its counterparts.}
 \end{figure}
 
 We then look at the plot of correlations of panel (3), demonstrating that the Great Plains communities have an overall larger correlation between Education and Community Attachment than the average of all communities. This leads to switching the metric of interest in CommuniD3 to Education, and an examination of the ordered dot plot of panel (4).  This plot makes clear that while Saint Paul is strong in education (ranking fourth of all communities), three other communities particularly stood out.
@@ -35,7 +35,7 @@ We then look at the plot of correlations of panel (3), demonstrating that the Gr
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{images/greatplains_2.png}
-\caption{\label{fig:greatplains_2} The third and fourth steps taken in the exploration of the Great Plains region using CommuniD3.}
+\caption{\label{fig:greatplains_2} (3) Focus on the correlation between Community Attachment and the other metrics in Saint Paul to identify Education as particularly important.  (4) Compare the mean value for education in Saint Paul with the other cities.}
 \end{figure}
 
 At this point, the story of the Education metric in the Great Plains becomes clear. Panel (5) illustrates the bar chart that was first shown in panel (2), but this time with regards to Education. Saint Paul, despite ranking fourth overall, actually had a slightly lower value for this metric than did the Great Plains communities aggregated. This is explained by the fact that the Great Plains communities stood above the rest, averaging 2.2 out of 3 in Education compared to about 2.0 for the average of all cities. Our final step was to click on the Great Plains bar, which immediately highlighted the Great Plains communities in the ordered dot plot as shown in panel (6).
@@ -43,7 +43,7 @@ At this point, the story of the Education metric in the Great Plains becomes cle
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{images/greatplains_3.png}
-\caption{\label{fig:greatplains_3} The final steps taken in CommuniD3 with regards to the Great Plains region. These steps led to the discovery of Education as a particular driver of Community Attachment in these communities.}
+\caption{\label{fig:greatplains_3} (5) Focus on how the mean value for Education is larger than the mean value for all communities aggregated.  (6) Examine the comparison of all cities to observe that three of the top four communities in Education are located in the Great Plains.}
 \end{figure}
 
 It was quickly evident that Grand Forks, Aberdeen, and Saint Paul comprised three of the top four communities in the Education metric, helping to explain the fact that the Great Plains had the overall largest Community Attachment among the regions we considered.
@@ -51,7 +51,7 @@ It was quickly evident that Grand Forks, Aberdeen, and Saint Paul comprised thre
 A similar approach was taken for the other four regions, leading to the conclusions presented in this paper. Henceforth, we illustrate the findings in static graphics and tables for ease of presentation, all of which were motivated and discovered through use of CommuniD3.
 
 \subsection{West - Urbanicity and Openness}
-Another focus of our analysis is the influence of the Urbanicity designations of the communities. We were interested in seeing if some different metrics may contribute to a sense of community attachment depending on the community's urbanicity. In the West region, which comprises Boulder, CO, San Jose, CA, and Long Beach, CA, we found some evidence of an urbanicity-specific metric correlated with attachment.
+Another focus of our analysis is the influence of the Urbanicity designations of the communities. In the West region, which comprises Boulder, CO, San Jose, CA, and Long Beach, CA, we found some evidence of an urbanicity-specific metric correlated with attachment.
 
 Table \ref{tbl:open_table} displays the top five communities by the Openness Metric. First, it can be seen that the three communities comprising the West Region are all in the top five for Openness. Second, Boulder and Long Beach each have the urbanicity of "Very high urbanicity-medium population". These communities consist of a relatively modest population, but where most of whom live in the urban core of the city. Figure \ref{fig:west_one} displays a two-dimensional bin plot of Community Attachment versus Openness, displaying only the communities with the designation "Very high urbanicity-medium population". Areas of darker red have a higher frequency of responses than those that are white. Notice that both Boulder and Long Beach tend to have more respondents indicating a high Community Attachment and a high Openness. By comparison, Akron, OH, and Gary, IN, two communities in the Rust Belt region with the same urbanicity, have much lower ratings on both of these scales. Bradenton, FL has many citizens highly attached to the community, but somewhat lower ratings for Openness compared to Boulder and Long Beach. Ultimately, it would seem that communities in the West region with this urbanicity designation place a higher value on the Openness of their community than do other communities of similar size in the rest of the country.
 
@@ -66,7 +66,7 @@ urban <- c("Very high urbanicity-medium population", "Very high urbanicity-large
 sub.df2 <- data.frame(comms, regions, urban, sub.test)
 names(sub.df2) <- c("Community", "Region", "Urbanicity", "Openness")
 
-print(xtable(sub.df2, digits = 4, label = "tbl:open_table", caption = "Top Five Communities by the Openness Metric."), table.position = "H", include.rownames = FALSE)
+print(xtable(sub.df2, digits = 2, label = "tbl:open_table", caption = "Top Five Communities by the Openness Metric."), table.position = "H", include.rownames = FALSE)
 @
 
 <<west_one, echo=FALSE, fig.cap='Binned density plot of responses for Openness and Community Attachment among the five communities with Very high urbanicity-medium population designations.', fig.pos='H', fig.height=6>>=
@@ -75,13 +75,15 @@ west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Akron, OH", "Brade
 
 numsamp <- min(ddply(west.dat, .(QSB), summarise, num = length(plainsQSB))$num)
 new.df <- ldply(c("Boulder, CO", "Akron, OH", "Bradenton, FL", "Long Beach, CA", "Gary, IN"), function(x){subset(west.dat, QSB == x)[sample(1:nrow(subset(west.dat, QSB == x)), size = numsamp), ]})
+new.df$Region <- "West"
+new.df$Region[new.df$QSB %in% c("Akron, OH", "Bradenton, FL", "Gary, IN")] <- "Other"
 
 ggplot(data=new.df) +
     #geom_jitter(aes(x = OPENNESS, y= CCE, colour=Region)) + facet_wrap(~QSB, nrow=3) +
     geom_bin2d(binwidth = c(0.15, 0.15), aes(x = OPENNESS, y = CCE)) + facet_wrap(~QSB, nrow = 2) +
     scale_fill_gradient(low = I("white"), high = I("red")) +
     ylab("Community Attachment") + xlab("Openness") +
-    theme_bw()
+    theme_bw() + coord_fixed()
 @
 
 \subsection{Deep South - The Safety Angle}
