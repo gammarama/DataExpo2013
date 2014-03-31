@@ -89,7 +89,7 @@ ggplot(data=new.df) +
 \subsection{Deep South - The Safety Angle}
 Exploring trends in the Deep South communities of Macon, GA, Milledgeville, GA, Columbus, GA, Tallahassee, FL, and Biloxi, MS quickly suggested that residents of these communities were displeased with the Safety of the community. In 2008, Macon and Columbus ranked 3rd and 4th worst respectively among all 26 communities in terms of Safety. By 2010, the situation degraded further, as Macon declined to the overall worst Safety rating, while Milledgeville ranked 3rd worst, and Columbus remained the 4th worst. Biloxi was a notable exception, however, ranking 8th best in 2010. Biloxi also exceeded its fellow Deep South communities in terms of Social Offerings, ranking 2nd best amongst all communities in each of the three years the survey was conducted, and by far the best amongst the communities in the Deep South.
 
-As it turns out, Biloxi also had the highest overall Community Attachment rating in the Deep South. Figure \ref{fig:ds_one} displays the average rating from 2008 to 2010 in terms of Safety, Social Offerings, and Community Attachment. Biloxi is highlighted in red, the other Deep South communities are highlighted in blue, and the rest of the communities in gray. The stark difference in Biloxi compared with the rest of the Deep South is readily apparent, and helps to explain why Community Attachment is quite high in Biloxi.
+As it turns out, Biloxi also had the highest overall Community Attachment rating in the Deep South. Figure \ref{fig:ds_one} displays the average rating from 2008 to 2010 in terms of Safety, Social Offerings, and Community Attachment. Biloxi is highlighted in red, the other Deep South communities are highlighted in blue, and the rest of the communities are highlighted in gray. The stark difference between Biloxi and the rest of the Deep South is readily apparent, and helps to explain why Community Attachment is quite high in Biloxi.
 
 <<ds_one, echo=FALSE, fig.cap='Responses across the three years for Safety, Social Offerings, and Community Attachment.', fig.pos='H', fig.width=7, fig.height=4>>=
 south.dat <- cbind(subset(all.years.city, year != "Aggregate"), Community = with(subset(all.years.city, year != "Aggregate"), ifelse(QSB == "Biloxi, MS", "Biloxi, MS", ifelse(Region == "Deep South", "Deep South", "Other"))))
@@ -99,7 +99,7 @@ south.dat.melt$disp_name <- apply(south.dat.melt, 1, function(x) ifelse(x["varia
 south.dat.melt$disp_name <- factor(south.dat.melt$disp_name, levels=c("Safety", "Social Offerings", "Community Attachment"))
 ggplot() + 
     geom_line(data = subset(south.dat.melt, Community == "Other"), 
-              aes(x = year, y = as.numeric(value), group = QSB, colour=Community), 
+              aes(x = year, y = as.numeric(value), group = QSB, colour=Community, shape=Community), 
               size = 1) + 
     geom_point(data = subset(south.dat.melt, Community == "Other"),
                aes(x=year, y=as.numeric(value), 
@@ -126,7 +126,7 @@ ggplot() +
 @
 
 \subsection{Southeast - Social Offerings in Myrtle Beach}
-In the Deep South, we saw some evidence suggesting Biloxi's high rating for Social Offerings may be contributing to a strong sense of attachment in that community. Nowhere is this phenomenon more prominent than in the Southeast region, where Myrtle Beach, SC resides. Myrtle Beach is the 5th most attached community amongst all communities in the dataset. However, Myrtle Beach does no better than 13th in all other metrics with the exception of Social Offerings, where it is ranked 1st. In other words, residents of Myrtle Beach felt the Social Offerings in their community were very strong, while most other metrics, including Aesthetics, Openness, Safety, and Education were poor. Figure \ref{fig:southeast_one} illstruates this phenomenon with a parallel coordinate plot. The mean value for all metrics is displayed for each of the communities, with Myrtle Beach highlighted in green, and other Southeast communities highlighted in blue. The metrics are sorted from high to low by the average value for each metric amongst all the communities. Notice that Myrtle Beach fairly closely tracks the rest of the communities in all metrics except for Social Offerings, where a sizable ``jump'' can be observed.
+In the Deep South, we saw some evidence suggesting Biloxi's high rating for Social Offerings may be contributing to a strong sense of attachment in that community. Nowhere is this phenomenon more prominent than in the Southeast region, where Myrtle Beach, SC is located. Myrtle Beach is the 5th most attached community amongst all communities in the dataset. However, Myrtle Beach does no better than 13th in all other metrics with the exception of Social Offerings, where it is ranked 1st. In other words, residents of Myrtle Beach felt the Social Offerings in their community were very strong, while most other metrics, including Aesthetics, Openness, Safety, and Education were poor. Figure \ref{fig:southeast_one} illustrates this phenomenon with a parallel coordinate plot. The mean value for all metrics is displayed for each of the communities, with Myrtle Beach highlighted in green, and other Southeast communities highlighted in blue. The metrics are sorted from high to low by the average value for each metric amongst all the communities. Notice that Myrtle Beach fairly closely tracks the rest of the communities in all metrics except for Social Offerings, where a sizable ``jump'' can be observed.
 
 <<southeast_one, echo=FALSE, fig.cap='Mean value of metric for each community. Myrtle Beach is highlighted in green, and the other communities in the Southeast are highlighted in blue.', fig.pos='H', fig.height=5>>=
 myrtle.dat <- cbind(subset(all.melt, year == "Aggregate"), Community = with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "Myrtle Beach, SC", "Myrtle Beach, SC", ifelse(Region == "Southeast", "Southeast", "Other"))))
@@ -136,7 +136,7 @@ myrtle.dat$order <- with(subset(all.melt, year == "Aggregate"), ifelse(QSB == "M
 
 ggplot() + 
     geom_line(data = subset(myrtle.dat, Community == "Other"), 
-              aes(x = disp_name, y = as.numeric(value), group = QSB, colour = Community.f), 
+              aes(x = disp_name, y = as.numeric(value), group = QSB, colour = Community.f, shape = Community.f), 
                   size = I(1)) + 
     geom_point(data = subset(myrtle.dat, Community == "Other"),
                aes(x=disp_name, y=as.numeric(value), 
@@ -159,23 +159,25 @@ ggplot() +
                         breaks = c("Myrtle Beach, SC", "Southeast", "Other"),
                         labels = c("Myrtle Beach, SC", "Southeast", "Other")) + 
     theme_bw() +
-    theme(axis.text.x = element_text(angle = 65, hjust = 1))
+    theme(axis.text.x = element_text(angle = 65, hjust = 1), legend.position = "bottom")
 @
 
 The question remains of how Myrtle Beach has such highly attached citizens when only Social Offerings appears to be a positive metric for the community. The reason is that Social Offerings is the single most highly correlated metric with Community Attachment in 23 out of the 26 communities, including Myrtle Beach.
 
 \subsection{Rust Belt - The Economic Collapse}
-As the data covers the period from 2008 to 2010, we hoped to find some stories relating to the economic collapse, or the Great Recession, which began in 2008. We focused on the Economy metric in the Rust Belt communities, and noted a largely negative view of economic conditions in this region, particularly in its economic center, Detroit, MI. Table \ref{tbl:econ} displays the average response on a 1-3 scale for Economy in the Rust Belt communities across each of the three years. It can be seen that although all Rust Belt communities experienced a drop in attitudes about the economy between 2008 and 2009, Detroit's was noticeably smaller. By 2010, attitudes about the economy began to improve. This can also be seen by examining Figure \ref{fig:rb_one}, a density plot of values for Economy in each of the communities in the three years.
+As the data covers the period from 2008 to 2010, we hoped to find some stories relating to the economic collapse, or the Great Recession, which began in 2008. We focused on the Economy metric in the Rust Belt communities, and noted a largely negative view of economic conditions in this region, particularly in its economic center, Detroit, MI. Table \ref{tbl:econ} displays the average response on a 1-3 scale for Economy in the Rust Belt communities across each of the three years. It can be seen that although all Rust Belt communities experienced a drop in attitude about the economy between 2008 and 2009, Detroit's was noticeably smaller. By 2010, attitudes about the economy began to improve. This can also be seen by examining Figure \ref{fig:rb_one}, a density plot of values for Economy in each of the communities in the three years.
 
 <<econ, echo=FALSE, results='asis'>>=
 tbl <- subset(all.melt, Region == "Rust Belt" & variable == "ECONOMY" & year != "Aggregate")[,c(3, 1, 5)]
 names(tbl) <- c("Community", "Year", "Economy")
 tbl$Economy <- as.numeric(tbl$Economy)
 
-tbl <- tbl[with(tbl, order(Community)), ]
-
 new.tbl <- dcast(tbl, Community ~ Year, value.var = "Economy")
-print(xtable(new.tbl, digits = c(4, 0, 4, 4, 4), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities in each of the three years."), table.position = "H", include.rownames = FALSE)
+names(new.tbl)[3] <- "Ugh"
+new.tbl <- arrange(new.tbl, Ugh)
+names(new.tbl)[3] <- "2009"
+
+print(xtable(new.tbl, digits = c(4, 0, 4, 4, 4), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities in each of the three years, sorted by the aggregated mean value for all three years."), table.position = "H", include.rownames = FALSE)
 @
 
 <<rb_one, echo=FALSE, fig.cap='Density of responses in Rust Belt communities over each of the three years.', fig.pos='H', warning=FALSE>>=
