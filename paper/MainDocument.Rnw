@@ -1,19 +1,19 @@
-\documentclass[11pt]{article}
+\documentclass{svjour3}
 
 %AMS-TeX packages
-\usepackage{amssymb,amsmath,amsthm} 
+%\usepackage{amssymb,amsmath,amsthm} 
 %geometry (sets margin) and other useful packages
-\usepackage[margin=1in]{geometry}
 \usepackage{graphicx, ctable, booktabs}
 \usepackage{color}
 \usepackage{listings}
 \usepackage{ltablex, calc, enumerate, multirow, float, soul, paralist}
 \usepackage{hyperref}
 \usepackage{longtable, pdflscape, textcase}
-\usepackage[backend=bibtex, natbib=true]{biblatex}
+\usepackage[backend=bibtex, natbib=true, style=authoryear]{biblatex}
 \addbibresource{references/refs.bib}
 
 \begin{document}
+
 <<concordance, echo=FALSE>>=
 library(knitr)
 opts_chunk$set(concordance=TRUE, fig.align = "center")
@@ -176,7 +176,27 @@ ggsave(filename = "plot6.png", plot = plot6, width=3.61, height=3.74, scale = 2)
 \setlength{\parindent}{0pt}
 
 \title{Putting Down Roots: A Graphical Exploration of Community Attachment}
-\author{Andee Kaplan, Eric Hare}
+\author{Andee Kaplan \and Eric Hare}
+
+
+\institute{A. Kaplan \at
+              1121 Snedecor Hall \\
+              Department of Statistics \\
+              Iowa State University \\
+              Ames, IA 50011-1210 \\
+              Tel.: +1-832-526-7947\\
+              \email{ajkaplan@iastate.edu}
+           \and
+           E. Hare \at
+              1121 Snedecor Hall \\
+              Department of Statistics \\
+              Iowa State University \\
+              Ames, IA 50011-1210 \\
+              Tel.: +1-425-405-0279\\
+              \email{erichare@iastate.edu}
+}
+
+\date{Received: XXX / Accepted: XXX}
 
 \maketitle
 
@@ -206,4 +226,5 @@ In this paper, we explore the relationships that individuals have with their com
 \clearpage
 
 \printbibliography
+%\bibliography{references/refs}
 \end{document}
