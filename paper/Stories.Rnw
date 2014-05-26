@@ -215,7 +215,7 @@ rust.dat$QSB <- factor(rust.dat$QSB, levels = new.tbl$Community)
 ggplot() +
     geom_density(data=rust.dat, aes(x=ECONOMY, group=factor(year), fill=factor(year), colour=factor(year)), position="dodge", alpha=I(0.4)) +
     facet_grid(QSB~year) + 
-    xlab("Economy") + ylab("Density of Responses") + scale_colour_discrete(name="year") + scale_fill_discrete(name="year") + theme_bw() + theme(legend.position = "off")
+    xlab("Economy") + ylab("Density of Responses") + scale_colour_discrete(name="year") + scale_fill_discrete(name="year") + theme_bw() + theme(legend.position = "off", strip.text.y = element_text(size = 7))
 @
 
 What this table and plot suggests is that although it is widely believed that Detroit was hit especially hard by the economic collapse, there was a bit of resillience in the 2009 and 2010 time frame. Attitudes in Detroit were low regarding the economy in 2008, but did not exhibit much worsening in 2009, and began to improve in 2010. Perhaps the automotive bailouts, which were passed and signed into law in 2009, may be a reasonable explanation for why this occurred in America's ``Motor City".
