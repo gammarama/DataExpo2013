@@ -69,7 +69,7 @@ names(sub.df2) <- c("Community", "Region", "Urbanicity", "Openness")
 print(xtable(sub.df2, digits = 2, label = "tbl:open_table", caption = "Top Five Communities by the Openness Metric."), table.position = "H", include.rownames = FALSE)
 @
 
-<<west_one, echo=FALSE, fig.cap='Binned density plot of responses for Openness and Community Attachment among the five communities with Very high urbanicity-medium population designations.', fig.pos='H', fig.height=6>>=
+<<west_one, echo=FALSE, fig.cap='2D binned plot of responses for Openness and Community Attachment among the five communities with Very high urbanicity-medium population designations.', fig.pos='H', fig.height=6>>=
 west.dat <- subset(clean.all.merge, Urbanicity == "Very high urbanicity-medium population")
 west.dat$QSB <- factor(west.dat$QSB, levels=c("Boulder, CO", "Akron, OH", "Bradenton, FL", "Long Beach, CA", "Gary, IN"))
 
