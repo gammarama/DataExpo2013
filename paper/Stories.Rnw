@@ -155,7 +155,7 @@ labels <- list("Aesthetics"=subset(myrtle.dat, disp_name=="Aesthetics")[which.mi
 ggplot() + 
     geom_line(data = subset(myrtle.dat, Community == "Other"), 
               aes(x = disp_name, y = as.numeric(value), group = QSB, colour = Community.f), 
-                  size = I(1)) + 
+                  size = I(1), alpha = 0.5) + 
     geom_point(data = subset(myrtle.dat, Community == "Other"),
                aes(x=disp_name, y=as.numeric(value), 
                colour = Community.f, shape = Community.f), size = I(2), inherit.aes = FALSE) +
@@ -207,7 +207,7 @@ names(new.tbl)[3] <- "2009"
 print(xtable(new.tbl, digits = c(2, 0, 2, 2, 2), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities in each of the three years, sorted by the aggregated mean value for all three years."), table.position = "H", include.rownames = FALSE)
 @
 
-<<rb_one, echo=FALSE, fig.cap='Density of responses in Rust Belt communities over each of the three years.', fig.pos='H', warning=FALSE>>=
+<<rb_one, echo=FALSE, fig.cap='Density of responses for Economy in Rust Belt communities over each of the three years.', fig.pos='H', warning=FALSE>>=
 rust.dat <- subset(clean.all.merge, Region == "Rust Belt")
 rust.dat$detroit_f <- rust.dat$QSB == "Detroit, MI"
 rust.dat$year <- with(rust.dat, ifelse(source == "sotc08", 2008, ifelse(source == "sotc09", 2009, 2010)))
