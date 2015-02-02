@@ -8,15 +8,25 @@ output: pdf_document
 Page #  | Reviewer # | Comments
 ------------ | -------- | --------
 0 | 1 | Added paper goal to the abstract.
+1 | 3 | We have added a brief discussion on the selection of the regions.
 1 | 3 | Expanded caption for Figure 1.
 2 | 1, 2, 3 | Removed repeated paragraph staring with "Each metric..."
 2 | 3 | Added citation for linked plots
-4 | 3 | Capitalization issue with "CommuniD3".
-5 | 3 | Refer to the color "shading" of dots on the map.
-11 | 3 | Removed references to "Binned density plot", changed to "2D binned plot."
-NA | 3 | Hovering on the map points displays the name of the community in a tooltip. We recommend using a modern browser (Google Chrome, Mozilla Firefox) to ensure that these tooltips appear. Though we agree adding more tooltips to the application would be a useful addition, it would involve a fairly extensive reworking of the application.
 2 | 3 | We agree that to perform statistical tests, the use of the survey weights is imperative. We have addressed this point in the introduction.
-1 | 3 | We have added a brief discussion on the selection of the regions.
+4 | 1 | The Graphical User Interface section was intended to help the user through navigating the interface on CommuniD3, rather than viewing the information directly from the paper. Hence, the readability of the plots in this section was not a particular concern to us.
+4 | 3 | Capitalization issue with "CommuniD3".
+5 | 1 | We do in fact explain that the color shading corresponds to the average metric value for each community.
+5 | 1 | We adjusted the order of region and urbanicity in the text to match CommuniD3.
+5 | 3 | Refer to the color "shading" of dots on the map.
+6 | 1 | We interchanged the caption for region and urbanicity to match the application.
+6 | 1 | We do in fact reference Mike Bostock in section 2.1.
+8 | 1 | These figures (5, 6, 7) help walk the user through the use of CommuniD3 to perform a specific data analysis task, and hence the readability was not a particular priority.
 8 | 3 | Section 3.1 was intentionally designed to guide the reader through the use of CommuniD3 by telling a story. We left some of the conclusions to the reader by displaying the graphics from CommuniD3.
+11 | 1 | As per the discussion in the paper, we found that communities with the Very high urbanicity-medium population designations in the West region tended to place a high value on Openness, not all the West region communities.
+11 | 3 | Removed references to "Binned density plot", changed to "2D binned plot."
+12 | 1 | The correlation between Safety and Community Attachment in the Deep South is about equal to the overall average among all communities.
+13 | 1 | We in fact intended to highlight that Myrtle Beach, the fifth most attached community, is no better than average in all metrics except for Social Offerings, which helps to highlight the relative importance of Social Offerings as it pertains to Community Attachment.
 13 | 3 | We added an alpha to the gray lines to draw further attention to Myrtle Beach and the other Southeast communities.
-14 | 3 | The density plot on the next page represents the same data as the table. We felt that the table could give more specific information for those who wanted it.
+14 | 1 | The correlation between Economy and Community Attachment was just under 0.4 for all communities, and slightly less for the Rust Belt. Nonetheless, certainly perception of economic conditions are positively correlated with Community Attachment and hence we felt it interesting to explore the economic collapse and recovery in this region.
+14 | 1, 3 | The density plot on the next page represents the same data as the table. We felt that the table could give more specific information for those who wanted it.
+NA | 3 | Hovering on the map points displays the name of the community in a tooltip. We recommend using a modern browser (Google Chrome, Mozilla Firefox) to ensure that these tooltips appear. Though we agree adding more tooltips to the application would be a useful addition, it would involve a fairly extensive reworking of the application.
