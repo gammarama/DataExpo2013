@@ -1,0 +1,14 @@
+---
+title: "Second Revisions to Manuscript"
+author: "Andee Kaplan and Eric Hare"
+date: "10/22/2018"
+output: pdf_document
+---
+
+1. Add paper files to  https://github.com/COSTDataExpo2013 and updated README
+1. Added reference to Hofmann et al. (2019) in Introduction
+1. Included full first names, middle initials, last names, affiliations, e-mail for all authors
+1. Added keywords
+1. Made outlook on the following sections in the introductions more clear.
+1. Table captions above the tables
+

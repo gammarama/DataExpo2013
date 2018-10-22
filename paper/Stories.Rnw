@@ -66,7 +66,7 @@ urban <- c("Very high urbanicity-medium population", "Very high urbanicity-large
 sub.df2 <- data.frame(comms, regions, urban, sub.test)
 names(sub.df2) <- c("Community", "Region", "Urbanicity", "Openness")
 
-print(xtable(sub.df2, digits = 2, label = "tbl:open_table", caption = "Top Five Communities by the Openness Metric. Note that three of the communities are from the West region"), table.position = "H", include.rownames = FALSE)
+print(xtable(sub.df2, digits = 2, label = "tbl:open_table", caption = "Top Five Communities by the Openness Metric. Note that three of the communities are from the West region"), table.position = "H", include.rownames = FALSE, caption.placement = "top")
 @
 
 <<west_one, echo=FALSE, fig.cap='2D binned plot of responses for Openness and Community Attachment among the five communities with Very high urbanicity-medium population designations. Communities in the West region with this urbanicity designation placed a higher value on the Openness of their community than do other communities of similar size in the rest of the country.', fig.pos='H', fig.height=6>>=
@@ -204,7 +204,7 @@ names(new.tbl)[3] <- "Ugh"
 new.tbl <- arrange(new.tbl, Ugh)
 names(new.tbl)[3] <- "2009"
 
-print(xtable(new.tbl, digits = c(2, 0, 2, 2, 2), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities in each of the three years, sorted by the aggregated mean value for all three years. Notice the large drop in economic outlook for all cities in the Rust Belt from 2008 to 2009. Detroit, however, dropped only 0.01 in average economic outlook in that timespan."), table.position = "H", include.rownames = FALSE)
+print(xtable(new.tbl, digits = c(2, 0, 2, 2, 2), label = "tbl:econ", caption = "The average value for the Economy metric in the five Rust Belt communities in each of the three years, sorted by the aggregated mean value for all three years. Notice the large drop in economic outlook for all cities in the Rust Belt from 2008 to 2009. Detroit, however, dropped only 0.01 in average economic outlook in that timespan."), table.position = "H", include.rownames = FALSE, caption.placement = "top")
 @
 
 <<rb_one, echo=FALSE, fig.cap='Density of responses for Economy in Rust Belt communities over each of the three years. It appears that Detroit experiences a modest recovery in terms of economic outlook from 2009 to 2010 that the other communities in the Rust Belt did not experience.', fig.pos='H', warning=FALSE>>=
