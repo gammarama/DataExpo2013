@@ -155,9 +155,12 @@ getCorMat <- function(full.data, year) {
     rbind(test, test2, test3, test4)
 }
 
-clean.all <- read.csv("data/sotc.csv")
-corr.dat <- read.csv("data/CEcor.csv")
-comm.facts <- read.csv("data/CommunityFacts.csv")
+clean.file <- file.path("data", "sotc.csv")
+corr.file <- file.path("data", "CEcor.csv")
+comm.file <- file.path("data", "CommunityFacts.csv")
+clean.all <- read.csv(clean.file)
+corr.dat <- read.csv(corr.file)
+comm.facts <- read.csv(comm.file)
 
 #metrics <- c("CCE", "SAFETY", "EDUCATIO", "LEADERSH", "AESTHETI", "ECONOMY", "SOCIAL_O", "SOCIAL_C", "BASIC_SE", "INVOLVEM", "OPENNESS")
 metrics <- c("CCE", "SOCIAL_O", "OPENNESS", "AESTHETI", "EDUCATIO", "BASIC_SE", "LEADERSH", "ECONOMY", "SAFETY", "SOCIAL_C", "INVOLVEM")
